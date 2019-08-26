@@ -2,27 +2,33 @@
 #include "SList.h"
 #include <algorithm>
 
-SList::SList() {
-	
+SList::iterator::iterator() : current_node(nullptr)
+{
 }
 
-SList::iterator::iterator() : current_node(nullptr){
-}
-
-SList::iterator::iterator(const iterator& other) {
+SList::iterator::iterator(const iterator& other)
+{
 	current_node = other.current_node;
 }
 
-SList::iterator::~iterator(){
+SList::iterator::iterator(node* const otherNode)
+{
+	current_node = otherNode;
+}
+
+SList::iterator::~iterator()
+{
 
 }
 
-SList::iterator& SList::iterator::operator=(const iterator& other){
+SList::iterator& SList::iterator::operator=(const iterator& other)
+{
 	current_node = other.current_node;
 	return *this;
 }
 
-SList::iterator& SList::iterator::operator++(){
+SList::iterator& SList::iterator::operator++()
+{
 	current_node = current_node->next;
 	return *this;
 }
@@ -57,4 +63,12 @@ bool operator==(const SList::iterator& lhs, const SList::iterator& rhs)
 bool operator!=(const SList::iterator& lhs, const SList::iterator& rhs)
 {
 	return !(lhs == rhs);
+}
+
+const SList::iterator SList::back = SList::iterator(nullptr);
+
+SList::SList()
+	: front()
+{
+
 }

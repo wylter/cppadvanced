@@ -19,6 +19,7 @@ public:
 	struct iterator /*: std::iterator<std::forward_iterator_tag, const value_type>*/{
 		iterator();
 		iterator(const iterator&);
+		iterator(node* const);
 		~iterator();
 		iterator& operator=(const iterator&);
 		iterator& operator++();
@@ -40,6 +41,7 @@ public:
 	SList();
 
 private:
-	node* front;
+	iterator front;
+	static const iterator back;
 
 };
