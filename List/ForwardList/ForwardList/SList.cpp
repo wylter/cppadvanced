@@ -3,7 +3,10 @@
 #include <algorithm>
 
 SList::SList() {
+	
+}
 
+SList::iterator::iterator() : current_node(nullptr){
 }
 
 SList::iterator::iterator(const iterator& other) {

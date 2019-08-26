@@ -1,4 +1,5 @@
 #pragma once
+#include <iterator>
 
 class SList {
 public:
@@ -14,7 +15,9 @@ public:
 		node* next;
 	};
 
-	struct iterator{
+	//TODO: Check if this works after inlinement
+	struct iterator /*: std::iterator<std::forward_iterator_tag, const value_type>*/{
+		iterator();
 		iterator(const iterator&);
 		~iterator();
 		iterator& operator=(const iterator&);
@@ -29,6 +32,8 @@ public:
 	private:
 		node* current_node;
 	};
+
+	typedef const iterator const_iterator;
 
 
 	//CTOR
