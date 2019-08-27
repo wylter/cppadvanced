@@ -15,8 +15,7 @@ public:
 		node* next;
 
 		node()
-			: value()
-			, next(nullptr)
+			: next(nullptr)
 		{}
 	};
 
@@ -88,8 +87,8 @@ public:
 	iterator insert_after(const_iterator pos, const int& value);
 	iterator insert_after(const_iterator pos, int&& value);
 	iterator insert_after(const_iterator pos, size_type count, const int& value);
-	template< class InputIt >
-	iterator insert_after(const_iterator pos, InputIt first, InputIt last);
+// 	template< class InputIt >
+// 	iterator insert_after(const_iterator pos, InputIt first, InputIt last);
 
 	iterator erase_after(const_iterator pos);
 	iterator erase_after(const_iterator first, const_iterator last);
@@ -115,13 +114,24 @@ public:
 	void unique();
 
 	void sort();
-	template< class Compare >
-	void sort(Compare comp);
+// 	template< class Compare >
+// 	void sort(Compare comp);
 
 	
 
 private:
 	iterator head; //Front iterator of the SList
 	static const iterator back; //End iterator of the SList
-	size_type count;
+	size_type elements_count;
 };
+
+
+template<class InputIt>
+SList::SList(InputIt first, InputIt last) : SList()
+{
+	for (; first != last; first++)
+	{
+		push_front(*first);
+	}
+}
+
