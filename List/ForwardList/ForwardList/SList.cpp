@@ -65,10 +65,34 @@ bool operator!=(const SList::iterator& lhs, const SList::iterator& rhs)
 	return !(lhs == rhs);
 }
 
-const SList::iterator SList::back = SList::iterator(nullptr);
+//back iterator is set to nullptr. As the "end()" method will return the iterator that represents the element after the last one, the last element will always point to nullptr.
+const SList::iterator SList::back = SList::iterator(nullptr); 
 
 SList::SList()
-	: front()
+	: head()
+	, count(0)
 {
 
+}
+
+void SList::push_front(const int& value)
+{
+	node* newHead = new node();
+	newHead->value = value;
+	newHead->next = head.current_node;
+
+	head.current_node = newHead;
+
+	count++;
+}
+
+void SList::push_front(int&& value)
+{
+	node* newHead = new node();
+	newHead->value = std::move(value);
+	newHead->next = head.current_node;
+
+	head.current_node = newHead;
+
+	count++;
 }

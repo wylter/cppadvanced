@@ -13,10 +13,19 @@ public:
 	struct node {
 		value_type value;
 		node* next;
+
+		node()
+			: value()
+			, next(nullptr)
+		{}
 	};
 
 	//TODO: Check if this works after inlinement
-	struct iterator /*: std::iterator<std::forward_iterator_tag, const value_type>*/{
+	class iterator /*: std::iterator<std::forward_iterator_tag, const value_type>*/{
+
+		friend class SList;
+
+	public:
 		iterator();
 		iterator(const iterator&);
 		iterator(node* const);
@@ -30,7 +39,7 @@ public:
 		friend bool operator==(const iterator&, const iterator&);
 		friend bool operator!=(const iterator&, const iterator&);
 
-	private:
+	protected:
 		node* current_node;
 	};
 
@@ -39,9 +48,80 @@ public:
 
 	//CTOR
 	SList();
+	SList(size_type count, const int& value);
+	explicit SList(size_type count);
+
+	template<class InputIt>
+	SList(InputIt first, InputIt last);
+
+	SList(const SList& other); //Copy constructor
+	SList(SList&& other); //Move constructor
+
+	//DTOR
+	~SList();
+
+	//MEMBER FUNCTIONS
+	SList& operator=(const SList& other); //Copy operator
+	SList& operator=(SList&& other); //Move Operator
+
+	//ELEMENT ACCESS
+	reference front();
+	const_reference front() const;
+
+	//ITERATORS
+	iterator begin() noexcept;
+	const_iterator begin() const noexcept;
+	const_iterator cbegin() const noexcept;
+
+	iterator end() noexcept;
+	const_iterator end() const noexcept;
+	const_iterator cend() const noexcept;
+
+	//CAPACITY
+	bool empty() const noexcept;
+
+	size_type max_size() const noexcept;
+
+	//MODIFIERS
+	void clear() noexcept;
+
+	iterator insert_after(const_iterator pos, const int& value);
+	iterator insert_after(const_iterator pos, int&& value);
+	iterator insert_after(const_iterator pos, size_type count, const int& value);
+	template< class InputIt >
+	iterator insert_after(const_iterator pos, InputIt first, InputIt last);
+
+	iterator erase_after(const_iterator pos);
+	iterator erase_after(const_iterator first, const_iterator last);
+
+	void push_front(const int& value);
+	void push_front(int&& value);
+
+	void pop_front();
+
+	void resize(size_type count);
+	void resize(size_type count, const value_type& value);
+
+	void swap(SList& other);
+
+	//OPERATIONS
+	void merge(SList& other);
+	void merge(SList&& other);
+
+	void remove(const int& value);
+
+	void reverse() noexcept;
+
+	void unique();
+
+	void sort();
+	template< class Compare >
+	void sort(Compare comp);
+
+	
 
 private:
-	iterator front;
-	static const iterator back;
-
+	iterator head; //Front iterator of the SList
+	static const iterator back; //End iterator of the SList
+	size_type count;
 };
