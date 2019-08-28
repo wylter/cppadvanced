@@ -20,14 +20,14 @@ public:
 	};
 
 	//TODO: Check if this works after inlinement
-	class iterator /*: std::iterator<std::forward_iterator_tag, const value_type>*/{
+	class iterator : std::iterator<std::forward_iterator_tag, const value_type>{
 
 		friend class SList;
 
 	public:
 		iterator();
 		iterator(const iterator&);
-		iterator(node* const);
+		explicit iterator(node* const);
 		~iterator();
 		iterator& operator=(const iterator&);
 		iterator& operator++();
@@ -87,8 +87,8 @@ public:
 	iterator insert_after(const_iterator pos, const int& value);
 	iterator insert_after(const_iterator pos, int&& value);
 	iterator insert_after(const_iterator pos, size_type count, const int& value);
-// 	template< class InputIt >
-// 	iterator insert_after(const_iterator pos, InputIt first, InputIt last);
+ 	template< class InputIt >
+ 	iterator insert_after(const_iterator pos, InputIt first, InputIt last);
 
 	iterator erase_after(const_iterator pos);
 	iterator erase_after(const_iterator first, const_iterator last);
@@ -133,5 +133,41 @@ SList::SList(InputIt first, InputIt last) : SList()
 	{
 		push_front(*first);
 	}
+}
+
+template< class InputIt >
+SList::iterator SList::insert_after(const_iterator pos, InputIt first, InputIt last)
+{
+	iterator it = head;
+	size_type count = 0;
+
+	while (it != pos)
+	{
+		it++;
+	}
+
+	if (it == back)
+	{
+		return back;
+	}
+
+	iterator last_prepos = it;
+	const iterator postpos = ++it;
+
+	for (; first != last; first++, last_prepos++)
+	{
+		node* newNode = new node();
+		newNode->value = *first;
+
+		last_prepos.current_node->next = newNode;
+
+		count++;
+	}
+
+	last_prepos.current_node->next = postpos.current_node;
+
+	elements_count += count;
+
+	return last_prepos;
 }
 
