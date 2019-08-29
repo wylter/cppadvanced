@@ -19,7 +19,6 @@ public:
 		{}
 	};
 
-	//TODO: Check if this works after inlinement
 	class iterator : public std::iterator < std::forward_iterator_tag, value_type, std::ptrdiff_t, pointer, reference >
 	{
 
@@ -125,7 +124,6 @@ public:
 private:
 	iterator head; //Front iterator of the SList
 	static const iterator back; //End iterator of the SList
-	size_type elements_count;
 };
 
 
@@ -142,7 +140,6 @@ template< class InputIt >
 SList::iterator SList::insert_after(const_iterator pos, InputIt first, InputIt last)
 {
 	iterator it = head;
-	size_type count = 0;
 
 	while (it != pos)
 	{
@@ -158,13 +155,10 @@ SList::iterator SList::insert_after(const_iterator pos, InputIt first, InputIt l
 		newNode->value = *first;
 
 		last_prepos.current_node->next = newNode;
-
-		count++;
 	}
 
 	last_prepos.current_node->next = postpos.current_node;
 
-	elements_count += count;
 
 	return last_prepos;
 }

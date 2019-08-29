@@ -70,7 +70,6 @@ const SList::iterator SList::back = SList::iterator(nullptr);
 
 SList::SList()
 	: head()
-	, elements_count(0)
 {}
 
 SList::SList(size_type count, const int& value) : SList()
@@ -96,7 +95,7 @@ SList::SList(size_type count) : SList()
 
 SList::SList(const SList& other) : SList()
 {
-	if (other.elements_count == 0)
+	if (other.head == other.back)
 	{
 		return;
 	}
@@ -106,9 +105,8 @@ SList::SList(const SList& other) : SList()
 	head.current_node = newHead;
 
 	iterator it = head;
-	iterator otherIt = other.head;
+	iterator otherIt = std::next(other.head);
 
-	otherIt++;
 	for (; otherIt != other.back; it++, otherIt++)
 	{
 		node* newNode = new node();
@@ -116,17 +114,13 @@ SList::SList(const SList& other) : SList()
 
 		it.current_node->next = newNode;
 	}
-
-	elements_count = other.elements_count;
 }
 
 SList::SList(SList&& other)
 {
 	head = other.head;
-	elements_count = other.elements_count;
 
 	other.head.current_node = nullptr;
-	other.elements_count = 0;
 }
 
 SList::~SList()
@@ -141,21 +135,25 @@ SList::~SList()
 
 SList& SList::operator=(const SList& other)
 {
-	const size_type min_elements_count = elements_count < other.elements_count ? elements_count : other.elements_count;
-
 	iterator it = head;
 	iterator otherIt = other.head;
 
-	for (size_t i = 0; i < min_elements_count - 1; i++, it++, otherIt++)
+	iterator preIt;
+
+	while (it != back && otherIt != other.back)
 	{
 		*it = *otherIt;
+
+		preIt = it;
+
+		it++;
+		otherIt++;
 	}
 
-	*it = *otherIt;
-
-	if (elements_count < other.elements_count)
+	if (it == back) //if this has less elements than other
 	{
-		otherIt++;
+		it = preIt;
+
 		for (; otherIt != other.back; it++, otherIt++)
 		{
 			node* newNode = new node();
@@ -164,9 +162,8 @@ SList& SList::operator=(const SList& other)
 			it.current_node->next = newNode;
 		}
 	}
-	else if (elements_count > other.elements_count)
+	else //if other has less elements than this
 	{
-		it++;
 		while (it != back)
 		{
 			const iterator current_pos = it;
@@ -175,8 +172,6 @@ SList& SList::operator=(const SList& other)
 		}
 	}
 
-	elements_count = other.elements_count;
-
 	return *this;
 }
 
@@ -184,7 +179,6 @@ SList& SList::operator=(SList&& other)
 {
 	//TODO: maybe changed this with the swap method once it has been implemented
 	std::swap(head, other.head);
-	std::swap(elements_count, other.elements_count);
 
 	return *this;
 }
@@ -247,8 +241,6 @@ void SList::clear() noexcept
 		head++;
 		delete it.current_node;
 	}
-
-	elements_count = 0;
 }
 
 SList::iterator SList::insert_after(const_iterator pos, const int& value)
@@ -268,8 +260,6 @@ SList::iterator SList::insert_after(const_iterator pos, const int& value)
 
 	prepos.current_node->next = newNode;
 	newNode->next = postpos.current_node;
-
-	elements_count++;
 
 	const iterator posResult(newNode);
 	return posResult;
@@ -292,8 +282,6 @@ SList::iterator SList::insert_after(const_iterator pos, int&& value)
 
 	prepos.current_node->next = newNode;
 	newNode->next = postpos.current_node;
-
-	elements_count++;
 
 	const iterator posResult(newNode);
 	return posResult;
@@ -321,8 +309,6 @@ SList::iterator SList::insert_after(const_iterator pos, size_type count, const i
 
 	last_prepos.current_node->next = postpos.current_node;
 
-	elements_count += count;
-
 	return last_prepos;
 }
 
@@ -336,8 +322,6 @@ SList::iterator SList::erase_after(const_iterator pos)
 
 	pos.current_node->next = postpos.current_node;
 
-	elements_count--;
-
 	return postpos;
 }
 
@@ -345,17 +329,12 @@ SList::iterator SList::erase_after(const_iterator first, const_iterator last)
 {
 	iterator it = std::next(first);
 
-	int count = 0;
-
 	for (; it != last; it++)
 	{
 		delete it.current_node;
-		count++;
 	}
 
 	first.current_node->next = last.current_node;
-
-	elements_count -= count;
 
 	return last;
 }
@@ -367,8 +346,6 @@ void SList::push_front(const int& value)
 	newHead->next = head.current_node;
 
 	head.current_node = newHead;
-
-	elements_count++;
 }
 
 void SList::push_front(int&& value)
@@ -378,8 +355,6 @@ void SList::push_front(int&& value)
 	newHead->next = head.current_node;
 
 	head.current_node = newHead;
-
-	elements_count++;
 }
 
 void SList::pop_front()
@@ -392,8 +367,6 @@ void SList::pop_front()
 
 void SList::resize(size_type count)
 {
-	int element_count = 0;
-
 	iterator it = head;
 	iterator precedentIt;
 
