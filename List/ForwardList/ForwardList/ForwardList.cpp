@@ -3,10 +3,18 @@
 
 #include "pch.h"
 #include <iostream>
+#include <forward_list>
 
 int main()
 {
     std::cout << "Hello World!\n"; 
+
+	std::forward_list<int> list;
+
+	list.push_front(1);
+	list.push_front(2);
+
+	list.erase_after(list.begin());
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

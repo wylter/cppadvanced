@@ -33,7 +33,7 @@ SList::iterator& SList::iterator::operator++()
 	return *this;
 }
 
-SList::reference SList::iterator::operator*() const
+SList::iterator::it_reference SList::iterator::operator*() const
 {
 	return current_node->value;
 }
@@ -50,7 +50,7 @@ SList::iterator SList::iterator::operator++(int a)
 	return result;
 }
 
-SList::pointer SList::iterator::operator->() const
+SList::iterator::it_pointer SList::iterator::operator->() const
 {
 	return &current_node->value;
 }
@@ -260,11 +260,6 @@ SList::iterator SList::insert_after(const_iterator pos, const int& value)
 		it++;
 	}
 
-	if (it == back)
-	{
-		return back;
-	}
-
 	const iterator prepos = it;
 	const iterator postpos = ++it;
 
@@ -287,11 +282,6 @@ SList::iterator SList::insert_after(const_iterator pos, int&& value)
 	while (it != pos)
 	{
 		it++;
-	}
-
-	if (it == back)
-	{
-		return back;
 	}
 
 	const iterator prepos = it;
@@ -318,11 +308,6 @@ SList::iterator SList::insert_after(const_iterator pos, size_type count, const i
 		it++;
 	}
 
-	if (it == back)
-	{
-		return back;
-	}
-
 	iterator last_prepos = it;
 	const iterator postpos = ++it;
 
@@ -343,14 +328,9 @@ SList::iterator SList::insert_after(const_iterator pos, size_type count, const i
 
 SList::iterator SList::erase_after(const_iterator pos)
 {
-	const iterator erasepos = std::next(pos, 1);
+	const iterator erasepos = std::next(pos);
 
-	if (erasepos == back)
-	{
-		return back;
-	}
-
-	const iterator postpos = std::next(erasepos, 1);
+	const iterator postpos = std::next(erasepos);
 
 	delete erasepos.current_node;
 
@@ -363,36 +343,21 @@ SList::iterator SList::erase_after(const_iterator pos)
 
 SList::iterator SList::erase_after(const_iterator first, const_iterator last)
 {
-	iterator it = head;
-	iterator prepos;
+	iterator it = std::next(it);
 
-	while (it != first)
-	{
-		prepos = it;
-		it++;
-	}
+	int count = 0;
 
-	if (it == back)
+	for (; it != last; it++)
 	{
-		return back;
-	}
-
-	while (head != back)
-	{
-		const iterator it = head;
-		head++;
 		delete it.current_node;
+		count++;
 	}
 
-	const iterator postpos = ++it;
+	first.current_node->next = last.current_node;
 
-	delete it.current_node;
+	elements_count -= count;
 
-	prepos.current_node->next = postpos.current_node;
-
-	elements_count--;
-
-	return postpos;
+	return last;
 }
 
 void SList::push_front(const int& value)
@@ -415,4 +380,26 @@ void SList::push_front(int&& value)
 	head.current_node = newHead;
 
 	elements_count++;
+}
+
+void SList::pop_front()
+{
+	const iterator toEraseIterator = head;
+	head++;
+
+	delete toEraseIterator.current_node;
+}
+
+void SList::resize(size_type count)
+{
+	int element_count = 0;
+
+	iterator it = head;
+	iterator precedentIt;
+
+	while (it != back)
+	{
+		precedentIt = it;
+		it++;
+	}
 }

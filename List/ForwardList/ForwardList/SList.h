@@ -23,6 +23,8 @@ public:
 	class iterator : std::iterator<std::forward_iterator_tag, const value_type>{
 
 		friend class SList;
+		typedef int& it_reference;
+		typedef int* it_pointer;
 
 	public:
 		iterator();
@@ -31,10 +33,10 @@ public:
 		~iterator();
 		iterator& operator=(const iterator&);
 		iterator& operator++();
-		reference operator*() const;
+		it_reference operator*() const;
 		friend void swap(iterator& lhs, iterator& rhs);
 		iterator operator++(int); //postfix increment
-		pointer operator->() const;
+		it_pointer operator->() const;
 		friend bool operator==(const iterator&, const iterator&);
 		friend bool operator!=(const iterator&, const iterator&);
 
@@ -144,11 +146,6 @@ SList::iterator SList::insert_after(const_iterator pos, InputIt first, InputIt l
 	while (it != pos)
 	{
 		it++;
-	}
-
-	if (it == back)
-	{
-		return back;
 	}
 
 	iterator last_prepos = it;
