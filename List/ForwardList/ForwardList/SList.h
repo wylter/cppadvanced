@@ -20,7 +20,8 @@ public:
 	};
 
 	//TODO: Check if this works after inlinement
-	class iterator : std::iterator<std::forward_iterator_tag, const value_type>{
+	class iterator : public std::iterator < std::forward_iterator_tag, value_type, std::ptrdiff_t, pointer, reference >
+	{
 
 		friend class SList;
 		typedef int& it_reference;

@@ -343,7 +343,7 @@ SList::iterator SList::erase_after(const_iterator pos)
 
 SList::iterator SList::erase_after(const_iterator first, const_iterator last)
 {
-	iterator it = std::next(it);
+	iterator it = std::next(first);
 
 	int count = 0;
 
