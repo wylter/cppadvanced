@@ -71,8 +71,10 @@ bool operator!=(const SList::iterator& lhs, const SList::iterator& rhs)
 const SList::iterator SList::back = SList::iterator(nullptr); 
 
 SList::SList()
-	: head()
-{}
+	: before_head()
+{
+	before_head.current_node = new node_base();
+}
 
 SList::SList(size_type count, const int& value) : SList()
 {
@@ -97,17 +99,8 @@ SList::SList(size_type count) : SList()
 
 SList::SList(const SList& other) : SList()
 {
-	if (other.head == other.back)
-	{
-		return;
-	}
-
-	node* newHead = new node();
-	newHead->value = *other.head;
-	head.current_node = newHead;
-
-	iterator it = head;
-	iterator otherIt = std::next(other.head);
+	iterator it = before_head;
+	iterator otherIt = std::next(other.before_head);
 
 	for (; otherIt != other.back; it++, otherIt++)
 	{
@@ -120,25 +113,28 @@ SList::SList(const SList& other) : SList()
 
 SList::SList(SList&& other)
 {
-	head = other.head;
+	before_head = other.before_head;
 
-	other.head.current_node = nullptr;
+	other.before_head.current_node->next = nullptr;
 }
 
 SList::~SList()
 {
-	while(head != back)
+	iterator it = std::next(before_head);
+	while(it != back)
 	{
-		const iterator it = head;
-		head++;
-		delete it.current_node;
+		const iterator current_node = it;
+		it++;
+		delete current_node.current_node;
 	}
+
+	delete before_head.current_node;
 }
 
 SList& SList::operator=(const SList& other)
 {
-	iterator it = head;
-	iterator otherIt = other.head;
+	iterator it = std::next(before_head);
+	iterator otherIt = std::next(other.before_head);
 
 	iterator preIt;
 
@@ -179,35 +175,34 @@ SList& SList::operator=(const SList& other)
 
 SList& SList::operator=(SList&& other)
 {
-	//TODO: maybe changed this with the swap method once it has been implemented
-	std::swap(head, other.head);
+	std::swap(before_head, other.before_head);
 
 	return *this;
 }
 
 SList::reference SList::front()
 {
-	return *head;
+	return *std::next(before_head);
 }
 
 SList::const_reference SList::front() const
 {
-	return *head;
+	return *std::next(before_head);
 }
 
 SList::iterator SList::begin() noexcept
 {
-	return head;
+	return std::next(before_head);
 }
 
 SList::const_iterator SList::begin() const noexcept
 {
-	return head;
+	return std::next(before_head);
 }
 
 SList::const_iterator SList::cbegin() const noexcept
 {
-	return head;
+	return std::next(before_head);
 }
 
 SList::iterator SList::end() noexcept
@@ -227,7 +222,7 @@ SList::const_iterator SList::cend() const noexcept
 
 bool SList::empty() const noexcept
 {
-	return head == back;
+	return std::next(before_head) == back;
 }
 
 SList::size_type SList::max_size() const noexcept
@@ -237,25 +232,21 @@ SList::size_type SList::max_size() const noexcept
 
 void SList::clear() noexcept
 {
-	while (head != back)
+	iterator it = std::next(before_head);
+	while (it != back)
 	{
-		const iterator it = head;
-		head++;
-		delete it.current_node;
+		const iterator current_node = it;
+		it++;
+		delete current_node.current_node;
 	}
+
+	before_head.current_node->next = nullptr;
 }
 
 SList::iterator SList::insert_after(const_iterator pos, const int& value)
 {
-	iterator it = head;
-
-	while (it != pos)
-	{
-		it++;
-	}
-
-	const iterator prepos = it;
-	const iterator postpos = ++it;
+	const iterator prepos = pos;
+	const iterator postpos = std::next(pos);
 
 	node* newNode = new node();
 	newNode->value = value;
@@ -269,15 +260,8 @@ SList::iterator SList::insert_after(const_iterator pos, const int& value)
 
 SList::iterator SList::insert_after(const_iterator pos, int&& value)
 {
-	iterator it = head;
-
-	while (it != pos)
-	{
-		it++;
-	}
-
-	const iterator prepos = it;
-	const iterator postpos = ++it;
+	const iterator prepos = pos;
+	const iterator postpos = std::next(pos);
 
 	node* newNode = new node();
 	newNode->value = std::move(value);
@@ -291,15 +275,8 @@ SList::iterator SList::insert_after(const_iterator pos, int&& value)
 
 SList::iterator SList::insert_after(const_iterator pos, size_type count, const int& value)
 {
-	iterator it = head;
-
-	while (it != pos)
-	{
-		it++;
-	}
-
-	iterator last_prepos = it;
-	const iterator postpos = ++it;
+	iterator last_prepos = pos;
+	const iterator postpos = std::next(pos);
 
 	for (int i = 0; i < count; i++, last_prepos++)
 	{
@@ -333,7 +310,9 @@ SList::iterator SList::erase_after(const_iterator first, const_iterator last)
 
 	for (; it != last; it++)
 	{
-		delete it.current_node;
+		const iterator current_node = it;
+		it++;
+		delete current_node.current_node;
 	}
 
 	first.current_node->next = last.current_node;
@@ -343,33 +322,38 @@ SList::iterator SList::erase_after(const_iterator first, const_iterator last)
 
 void SList::push_front(const int& value)
 {
+	const iterator head = std::next(before_head);
+
 	node* newHead = new node();
 	newHead->value = value;
 	newHead->next = head.current_node;
 
-	head.current_node = newHead;
+	before_head.current_node->next = newHead;
 }
 
 void SList::push_front(int&& value)
 {
+	const iterator head = std::next(before_head);
+
 	node* newHead = new node();
 	newHead->value = std::move(value);
 	newHead->next = head.current_node;
 
-	head.current_node = newHead;
+	before_head.current_node->next = newHead;
 }
 
 void SList::pop_front()
 {
-	const iterator toEraseIterator = head;
-	head++;
+	const iterator toEraseIterator = std::next(before_head);
+
+	before_head.current_node->next = toEraseIterator.current_node->next;
 
 	delete toEraseIterator.current_node;
 }
 
 void SList::resize(size_type count)
 {
-	iterator it = head;
+	iterator it = before_head;
 	iterator precedentIt;
 
 	while (it != back)

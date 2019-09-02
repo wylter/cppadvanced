@@ -126,7 +126,7 @@ public:
 	
 
 private:
-	iterator head; //Front iterator of the SList
+	iterator before_head; //Front iterator of the SList
 	static const iterator back; //End iterator of the SList
 };
 
@@ -134,6 +134,7 @@ private:
 template<class InputIt>
 SList::SList(InputIt first, InputIt last) : SList()
 {
+	//TODO: Check the insert order
 	for (; first != last; first++)
 	{
 		push_front(*first);
@@ -143,15 +144,8 @@ SList::SList(InputIt first, InputIt last) : SList()
 template< class InputIt >
 SList::iterator SList::insert_after(const_iterator pos, InputIt first, InputIt last)
 {
-	iterator it = head;
-
-	while (it != pos)
-	{
-		it++;
-	}
-
-	iterator last_prepos = it;
-	const iterator postpos = ++it;
+	iterator last_prepos = pos;
+	const iterator postpos = std::next(pos);
 
 	for (; first != last; first++, last_prepos++)
 	{
