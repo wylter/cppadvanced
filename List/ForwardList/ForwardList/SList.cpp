@@ -76,25 +76,13 @@ SList::SList()
 	before_head.current_node = new node_base();
 }
 
-SList::SList(size_type count, const int& value) : SList()
+SList::SList(size_type count, const value_type& value) : SList()
 {
 	for (size_t i = 0; i < count; i++)
 	{
 		push_front(value);
 	}
 }
-
-
-SList::SList(size_type count) : SList()
-{
-	const int default_object = {};
-
-	for (size_t i = 0; i < count; i++)
-	{
-		push_front(default_object);
-	}
-}
-
 
 
 SList::SList(const SList& other) : SList()
@@ -366,14 +354,38 @@ void SList::pop_front()
 	delete toEraseIterator.current_node;
 }
 
-void SList::resize(size_type count)
+void SList::resize(size_type count, const value_type& value)
 {
+	int elements_count = 0;
 	iterator it = before_head;
-	iterator precedentIt;
 
-	while (it != back)
+	while (std::next(it) != back && elements_count < count)
 	{
-		precedentIt = it;
 		it++;
+		elements_count++;
+	}
+
+	if (elements_count < count)
+	{
+		const int count_difference = count < elements_count;
+
+		for (int i = 0; i < count_difference; i++, it++)
+		{
+			node* newNode = new node();
+			newNode->value = value;
+
+			it.current_node->next = newNode;
+		}
+	}
+	else
+	{
+		it++;
+
+		while (it != back)
+		{
+			const iterator current_node = it;
+			it++;
+			delete current_node.current_node;
+		}
 	}
 }

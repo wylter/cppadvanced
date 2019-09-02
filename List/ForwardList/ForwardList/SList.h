@@ -53,8 +53,7 @@ public:
 
 	//CTOR
 	SList();
-	SList(size_type count, const int& value);
-	explicit SList(size_type count);
+	SList(size_type count, const value_type& value = value_type());
 
 	template<class InputIt>
 	SList(InputIt first, InputIt last);
@@ -108,8 +107,7 @@ public:
 
 	void pop_front();
 
-	void resize(size_type count);
-	void resize(size_type count, const value_type& value);
+	void resize(size_type count, const value_type& value = value_type());
 
 	void swap(SList& other);
 
