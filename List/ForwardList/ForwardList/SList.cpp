@@ -11,7 +11,7 @@ SList::iterator::iterator(const iterator& other)
 	current_node = other.current_node;
 }
 
-SList::iterator::iterator(node* const otherNode)
+SList::iterator::iterator(node_base* const otherNode)
 {
 	current_node = otherNode;
 }
@@ -35,7 +35,8 @@ SList::iterator& SList::iterator::operator++()
 
 SList::iterator::it_reference SList::iterator::operator*() const
 {
-	return current_node->value;
+	node* const current_typed_node = static_cast<node*>(current_node);
+	return current_typed_node->value;
 }
 
 void swap(SList::iterator& lhs, SList::iterator& rhs)
@@ -52,7 +53,8 @@ SList::iterator SList::iterator::operator++(int a)
 
 SList::iterator::it_pointer SList::iterator::operator->() const
 {
-	return &current_node->value;
+	node* const current_typed_node = static_cast<node*>(current_node);
+	return &current_typed_node->value;
 }
 
 bool operator==(const SList::iterator& lhs, const SList::iterator& rhs)

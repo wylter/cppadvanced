@@ -10,13 +10,17 @@ public:
  	typedef const pointer const_pointer;
 	typedef size_t size_type;
 
-	struct node {
-		value_type value;
-		node* next;
+	struct node_base
+	{
+		node_base* next;
 
-		node()
+		node_base()
 			: next(nullptr)
 		{}
+	};
+
+	struct node : node_base {
+		value_type value;
 	};
 
 	class iterator : public std::iterator < std::forward_iterator_tag, value_type, std::ptrdiff_t, pointer, reference >
@@ -29,7 +33,7 @@ public:
 	public:
 		iterator();
 		iterator(const iterator&);
-		explicit iterator(node* const);
+		explicit iterator(node_base* const);
 		~iterator();
 		iterator& operator=(const iterator&);
 		iterator& operator++();
@@ -41,7 +45,7 @@ public:
 		friend bool operator!=(const iterator&, const iterator&);
 
 	protected:
-		node* current_node;
+		node_base* current_node;
 	};
 
 	typedef const iterator const_iterator;
