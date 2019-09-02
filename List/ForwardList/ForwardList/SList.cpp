@@ -190,6 +190,21 @@ SList::const_reference SList::front() const
 	return *std::next(before_head);
 }
 
+SList::iterator SList::before_begin() noexcept
+{
+	return before_head;
+}
+
+SList::const_iterator SList::before_begin() const noexcept
+{
+	return before_head;
+}
+
+SList::const_iterator SList::cbefore_begin() const noexcept
+{
+	return before_head;
+}
+
 SList::iterator SList::begin() noexcept
 {
 	return std::next(before_head);

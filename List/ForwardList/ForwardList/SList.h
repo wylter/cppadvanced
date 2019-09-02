@@ -74,6 +74,10 @@ public:
 	const_reference front() const;
 
 	//ITERATORS
+	iterator before_begin() noexcept;
+	const_iterator before_begin() const noexcept;
+	const_iterator cbefore_begin() const noexcept;
+
 	iterator begin() noexcept;
 	const_iterator begin() const noexcept;
 	const_iterator cbegin() const noexcept;
