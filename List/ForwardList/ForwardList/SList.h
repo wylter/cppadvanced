@@ -126,8 +126,10 @@ public:
 
 private:
 	void split(iterator head, iterator& splittedHead1, iterator& splittedHead2);
-	iterator mergeList(iterator head1, iterator head2);
-	void mergeSort(iterator& head);
+	template< class Compare >
+	iterator mergeList(iterator head1, iterator head2, Compare comp);
+	template< class Compare >
+	void mergeSort(iterator& head, Compare comp);
 
 	iterator before_head; //Front iterator of the SList
 	static const iterator back; //End iterator of the SList
@@ -169,8 +171,68 @@ void SList::sort(Compare comp)
 {
 	iterator head = std::next(before_head);
 
-	mergeSort(head);
+	mergeSort(head, comp);
 
 	before_head.current_node->next = head.current_node;
+}
+
+template< class Compare >
+SList::iterator SList::mergeList(iterator head1, iterator head2, Compare comp)
+{
+	node_base before_head_node;
+	before_head_node.next = nullptr;
+	iterator before_head_result(&before_head_node);
+
+	iterator it = before_head_result;
+
+	while (head1 != back && head2 != back)
+	{
+		if (comp(*head1, *head2))
+		{
+			it.current_node->next = head1.current_node;
+			it++;
+			head1++;
+		}
+		else
+		{
+			it.current_node->next = head2.current_node;
+			it++;
+			head2++;
+		}
+	}
+
+	if (head1 != back)
+	{
+		it.current_node->next = head1.current_node;
+	}
+	else //head2 != back
+	{
+		it.current_node->next = head2.current_node;
+	}
+
+
+	return std::next(before_head_result);
+}
+
+
+template< class Compare >
+void SList::mergeSort(iterator& head_reference, Compare comp)
+{
+	const iterator head = head_reference;
+
+	if (head == back || std::next(head) == back)
+	{
+		return;
+	}
+
+	iterator splittedHead1;
+	iterator splittedHead2;
+
+	split(head, splittedHead1, splittedHead2);
+
+	mergeSort(splittedHead1, comp);
+	mergeSort(splittedHead2, comp);
+
+	head_reference = mergeList(splittedHead1, splittedHead2, comp);
 }
 
