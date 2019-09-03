@@ -389,3 +389,80 @@ void SList::resize(size_type count, const value_type& value)
 		}
 	}
 }
+
+void SList::swap(SList& other)
+{
+	std::swap(before_head, other.before_head);
+}
+
+void SList::remove(const int& value)
+{
+	iterator it = std::next(before_head);
+
+	while (it != back)
+	{
+		if (*it == value)
+		{
+			const iterator current_node = it;
+			it++;
+			delete current_node.current_node;
+		}
+		else
+		{
+			it++;
+		}
+	}
+}
+
+void SList::reverse() noexcept
+{
+	const iterator head = std::next(before_head);
+
+	if (head == back)
+	{
+		return;
+	}
+
+	iterator it = std::next(head);
+
+	head.current_node->next = nullptr;
+
+	iterator last_head = head;
+
+	while (it != back)
+	{
+		const iterator current_iterator = it;
+		it++;
+
+		current_iterator.current_node->next = last_head.current_node;
+		last_head = current_iterator;
+	}
+
+	before_head.current_node->next = last_head.current_node;
+}
+
+void SList::unique()
+{
+	iterator it = std::next(before_head);
+
+	while (it != back)
+	{
+		const iterator next = std::next(it);
+		if (next != back && *it == *next)
+		{
+			const iterator current_iterator = it;
+			it++;
+			delete current_iterator.current_node;
+		}
+		else
+		{
+			it++;
+		}
+	}
+}
+
+void SList::sort()
+{
+	sort(std::less<int>());
+}
+

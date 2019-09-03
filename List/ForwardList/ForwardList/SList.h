@@ -112,9 +112,6 @@ public:
 	void swap(SList& other);
 
 	//OPERATIONS
-	void merge(SList& other);
-	void merge(SList&& other);
-
 	void remove(const int& value);
 
 	void reverse() noexcept;
@@ -122,8 +119,8 @@ public:
 	void unique();
 
 	void sort();
-// 	template< class Compare >
-// 	void sort(Compare comp);
+	template< class Compare >
+	void sort(Compare comp);
 
 	
 
@@ -161,5 +158,12 @@ SList::iterator SList::insert_after(const_iterator pos, InputIt first, InputIt l
 
 
 	return last_prepos;
+}
+
+template< class Compare >
+void SList::sort(Compare comp)
+{
+	const iterator head = std::next(before_head);
+
 }
 
