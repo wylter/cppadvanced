@@ -25,7 +25,7 @@ int main()
 	list.push_front(10);
 	list.push_front(9);
 
-	list.sort();
+	list.sort(std::greater<int>());
 
 	print(list.begin(), list.end());
 }
