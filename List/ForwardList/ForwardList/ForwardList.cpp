@@ -4,18 +4,33 @@
 #include "pch.h"
 #include <iostream>
 #include <forward_list>
+#include "SList.h"
+
+void print(SList::iterator begin, SList::iterator end)
+{
+	while (begin != end)
+	{
+		std::cout << *begin++ << " ";
+	}
+}
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
-
-	std::forward_list<int> list;
+	SList list;
 
 	list.push_front(1);
+	list.push_front(3);
 	list.push_front(2);
+	list.push_front(5);
+	list.push_front(10);
+	list.push_front(9);
 
-	list.erase_after(list.begin());
+	list.sort();
+
+	print(list.begin(), list.end());
 }
+
+
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
 // Debug program: F5 or Debug > Start Debugging menu

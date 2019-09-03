@@ -125,6 +125,10 @@ public:
 	
 
 private:
+	void split(iterator head, iterator& splittedHead1, iterator& splittedHead2);
+	iterator mergeList(iterator head1, iterator head2);
+	void mergeSort(iterator& head);
+
 	iterator before_head; //Front iterator of the SList
 	static const iterator back; //End iterator of the SList
 };
@@ -163,7 +167,10 @@ SList::iterator SList::insert_after(const_iterator pos, InputIt first, InputIt l
 template< class Compare >
 void SList::sort(Compare comp)
 {
-	const iterator head = std::next(before_head);
+	iterator head = std::next(before_head);
 
+	mergeSort(head);
+
+	before_head.current_node->next = head.current_node;
 }
 

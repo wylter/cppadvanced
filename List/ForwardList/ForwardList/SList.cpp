@@ -461,6 +461,94 @@ void SList::unique()
 	}
 }
 
+// 	iterator newHead = {};
+// 	if (splittedHead1 == back)
+// 	{
+// 		return splittedHead2;
+// 	}
+
+void SList::split(iterator head, iterator& splittedHead1, iterator& splittedHead2)
+{
+	iterator slow = head;
+	iterator fast = std::next(head);
+
+	while (fast != back)
+	{
+		fast++;
+		if (fast != back)
+		{
+			fast++;
+			slow++;
+		}
+	}
+
+	splittedHead1 = head;
+	splittedHead2 = std::next(slow);
+
+	slow.current_node->next = nullptr; // splitting the two lists
+}
+
+SList::iterator SList::mergeList(iterator head1, iterator head2)
+{
+	node_base before_head_node;
+	before_head_node.next = nullptr;
+	iterator before_head_result(&before_head_node);
+	
+	iterator it = before_head_result;
+
+	while (head1 != back && head2 != back)
+	{
+		if (*head1 < *head2)
+		{
+			it.current_node->next = head1.current_node;
+			it++;
+			head1++;
+		}
+		else
+		{
+			it.current_node->next = head2.current_node;
+			it++;
+			head2++;
+		}
+	}
+
+	if (head1 != back)
+	{
+		it.current_node->next = head1.current_node;
+	}
+	else //head2 != back
+	{
+		it.current_node->next = head2.current_node;
+	}
+
+
+	return std::next(before_head_result);
+}
+
+#include <iostream>
+
+void SList::mergeSort(iterator& head_reference)
+{
+	const iterator head = head_reference;
+
+	if (head == back || std::next(head) == back)
+	{
+		return;
+	}
+
+	iterator splittedHead1;
+	iterator splittedHead2;
+
+	split(head, splittedHead1, splittedHead2);
+
+	mergeSort(splittedHead1);
+	mergeSort(splittedHead2);
+
+	head_reference = mergeList(splittedHead1, splittedHead2);
+}
+
+
+
 void SList::sort()
 {
 	sort(std::less<int>());
