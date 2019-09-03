@@ -16,18 +16,24 @@ void print(SList::iterator begin, SList::iterator end)
 
 int main()
 {
-	SList list;
+	//Count constructor
+	{
+		std::cout << "\n***\nCount constructor\n***\n";
+		SList list(10);
 
-	list.push_front(1);
-	list.push_front(3);
-	list.push_front(2);
-	list.push_front(5);
-	list.push_front(10);
-	list.push_front(9);
+		std::cout << "Result:" << std::endl;
 
-	list.sort(std::greater<int>());
+		print(list.begin(), list.end());
+		std::cout << std::endl;
+		
+		std::cout << "Attended Result:" << std::endl;
 
-	print(list.begin(), list.end());
+		for (int i = 0; i < 10; i++)
+		{
+			std::cout << 0 << " ";
+		}
+		std::cout << std::endl;
+	}
 }
 
 
