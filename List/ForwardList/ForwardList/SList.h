@@ -53,7 +53,7 @@ public:
 
 	//CTOR
 	SList();
-	SList(size_type count, const value_type& value = value_type());
+	SList(size_type count);
 
 	template<class InputIt>
 	SList(InputIt first, InputIt last);
@@ -139,10 +139,14 @@ private:
 template<class InputIt>
 SList::SList(InputIt first, InputIt last) : SList()
 {
-	//TODO: Check the insert order
-	for (; first != last; first++)
+	iterator it = before_head;
+	
+	for (; first != last; first++, it++)
 	{
-		push_front(*first);
+		node* newNode = new node();
+		newNode->value = *first;
+
+		it.current_node->next = newNode;
 	}
 }
 

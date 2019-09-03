@@ -16,7 +16,23 @@ void print(SList::iterator begin, SList::iterator end)
 
 int main()
 {
-	//Count constructor
+	//Default Constructor
+	{
+		std::cout << "\n***\nDefault Constructor\n***\n";
+		SList list = {};
+
+		std::cout << "Result:" << std::endl;
+
+		print(list.begin(), list.end());
+		std::cout << std::endl;
+
+		std::cout << "Attended Result:" << std::endl;
+
+		std::cout << std::endl;
+		std::cout << std::endl;
+	}
+
+	//Count Insertion of Default Values constructor
 	{
 		std::cout << "\n***\nCount constructor\n***\n";
 		SList list(10);
@@ -31,6 +47,28 @@ int main()
 		for (int i = 0; i < 10; i++)
 		{
 			std::cout << 0 << " ";
+		}
+		std::cout << std::endl;
+	}
+
+	//Iterator constructor
+	{
+		std::cout << "\n***\nIterator constructor\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
+
+		SList list(vect, vect+10);
+
+		std::cout << "Result:" << std::endl;
+
+		print(list.begin(), list.end());
+		std::cout << std::endl;
+
+		std::cout << "Attended Result:" << std::endl;
+
+		for (int i = 0; i < 10; i++)
+		{
+			std::cout << vect[i] << " ";
 		}
 		std::cout << std::endl;
 	}

@@ -76,11 +76,12 @@ SList::SList()
 	before_head.current_node = new node_base();
 }
 
-SList::SList(size_type count, const value_type& value) : SList()
+SList::SList(size_type count) : SList()
 {
+	value_type default_value = {};
 	for (size_t i = 0; i < count; i++)
 	{
-		push_front(value);
+		push_front(default_value);
 	}
 }
 
