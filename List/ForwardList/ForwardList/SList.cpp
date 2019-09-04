@@ -365,7 +365,7 @@ void SList::resize(size_type count, const value_type& value)
 
 	if (elements_count < count)
 	{
-		const int count_difference = count < elements_count;
+		const int count_difference = count - elements_count;
 
 		for (int i = 0; i < count_difference; i++, it++)
 		{
@@ -377,6 +377,7 @@ void SList::resize(size_type count, const value_type& value)
 	}
 	else
 	{
+		iterator tail = it;
 		it++;
 
 		while (it != back)
@@ -385,6 +386,8 @@ void SList::resize(size_type count, const value_type& value)
 			it++;
 			delete current_node.current_node;
 		}
+
+		tail.current_node->next = nullptr;
 	}
 }
 

@@ -393,6 +393,40 @@ int main()
 		}
 		std::cout << std::endl;
 	}
+
+	//resize()
+	{
+		std::cout << "\n***\nFunction resize()\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
+		List list1(vect, vect + 10);
+		List list2(vect, vect + 10);
+
+		list1.resize(5);
+		list2.resize(15, 20);
+		list2.resize(15);
+
+		std::cout << "Result:" << std::endl;
+		print(list1.begin(), list1.end());
+		std::cout << std::endl;
+		print(list2.begin(), list2.end());
+		std::cout << std::endl;
+
+		int vect_result[15] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9, 20, 20, 20, 20, 20};
+		std::cout << "Attended Result:" << std::endl;
+		for (int i = 0; i < 5; i++)
+		{
+			std::cout << vect_result[i] << " ";
+		}
+		std::cout << std::endl;
+		for (int i = 0; i < 15; i++)
+		{
+			std::cout << vect_result[i] << " ";
+		}
+		std::cout << std::endl;
+	}
+
+
 }
 
 
