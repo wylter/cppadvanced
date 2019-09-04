@@ -347,6 +347,52 @@ int main()
 		}
 		std::cout << std::endl;
 	}
+
+	//push_front()
+	{
+		std::cout << "\n***\nFunction push_front()\n***\n";
+
+		List list = {};
+		int a = 10;
+
+		list.push_front(10);
+		list.push_front(2);
+		list.push_front(1);
+
+		std::cout << "Result:" << std::endl;
+		print(list.begin(), list.end());
+		std::cout << std::endl;
+
+		int vect_result[3] = { 1, 2, 10 };
+		std::cout << "Attended Result:" << std::endl;
+		for (int i = 0; i < 3; i++)
+		{
+			std::cout << vect_result[i] << " ";
+		}
+		std::cout << std::endl;
+	}
+
+	//pop_front()
+	{
+		std::cout << "\n***\nFunction pop_front()\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
+		List list(vect, vect + 10);
+
+		list.pop_front();
+
+		std::cout << "Result:" << std::endl;
+		print(list.begin(), list.end());
+		std::cout << std::endl;
+
+		int* vect_result = vect + 1;
+		std::cout << "Attended Result:" << std::endl;
+		for (int i = 0; i < 9; i++)
+		{
+			std::cout << vect_result[i] << " ";
+		}
+		std::cout << std::endl;
+	}
 }
 
 
