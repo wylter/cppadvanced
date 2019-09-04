@@ -303,6 +303,50 @@ int main()
 		}
 		std::cout << std::endl;
 	}
+
+	//erase_after()
+	{
+		std::cout << "\n***\nFunction erase_after() case 1\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
+		List list(vect, vect + 10);
+
+		list.erase_after(list.before_begin());
+
+		std::cout << "Result:" << std::endl;
+		print(list.begin(), list.end());
+		std::cout << std::endl;
+
+		int* vect_result = vect + 1;
+		std::cout << "Attended Result:" << std::endl;
+		for (int i = 0; i < 9; i++)
+		{
+			std::cout << vect_result[i] << " ";
+		}
+		std::cout << std::endl;
+	}
+
+	//erase_after()
+	{
+		std::cout << "\n***\nFunction insert_after() case 2\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
+		List list(vect, vect + 10);
+
+		list.erase_after(list.before_begin(), std::next(list.before_begin(), 4));
+
+		std::cout << "Result:" << std::endl;
+		print(list.begin(), list.end());
+		std::cout << std::endl;
+
+		int* vect_result = vect + 3;
+		std::cout << "Attended Result:" << std::endl;
+		for (int i = 0; i < 7; i++)
+		{
+			std::cout << vect_result[i] << " ";
+		}
+		std::cout << std::endl;
+	}
 }
 
 

@@ -309,7 +309,7 @@ SList::iterator SList::erase_after(const_iterator first, const_iterator last)
 {
 	iterator it = std::next(first);
 
-	for (; it != last; it++)
+	while (it != last)
 	{
 		const iterator current_node = it;
 		it++;
