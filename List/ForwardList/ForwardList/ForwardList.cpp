@@ -426,7 +426,57 @@ int main()
 		std::cout << std::endl;
 	}
 
+	//swap()
+	{
+		std::cout << "\n***\nFunction swap()\n***\n";
 
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
+		List list1(vect, vect + 5);
+		List list2(vect, vect + 10);
+
+		list1.swap(list2);
+
+		std::cout << "Result:" << std::endl;
+		print(list1.begin(), list1.end());
+		std::cout << std::endl;
+		print(list2.begin(), list2.end());
+		std::cout << std::endl;
+
+		int* vect_result = vect;
+		std::cout << "Attended Result:" << std::endl;
+		for (int i = 0; i < 10; i++)
+		{
+			std::cout << vect_result[i] << " ";
+		}
+		std::cout << std::endl;
+		for (int i = 0; i < 5; i++)
+		{
+			std::cout << vect_result[i] << " ";
+		}
+		std::cout << std::endl;
+	}
+
+	//remove()
+	{
+		std::cout << "\n***\nFunction remove()\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 2, 7, 8, 9 };
+		List list(vect, vect + 10);
+
+		list.remove(2);
+
+		std::cout << "Result:" << std::endl;
+		print(list.begin(), list.end());
+		std::cout << std::endl;
+
+		int vect_result[8] = { 0, 1, 3, 4 , 5, 7, 8, 9 };
+		std::cout << "Attended Result:" << std::endl;
+		for (int i = 0; i < 8; i++)
+		{
+			std::cout << vect_result[i] << " ";
+		}
+		std::cout << std::endl;
+	}
 }
 
 

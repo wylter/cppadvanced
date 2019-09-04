@@ -399,6 +399,7 @@ void SList::swap(SList& other)
 void SList::remove(const int& value)
 {
 	iterator it = std::next(before_head);
+	iterator prevIt = before_head;
 
 	while (it != back)
 	{
@@ -407,10 +408,13 @@ void SList::remove(const int& value)
 			const iterator current_node = it;
 			it++;
 			delete current_node.current_node;
+
+			prevIt.current_node->next = it.current_node;
 		}
 		else
 		{
 			it++;
+			prevIt++;
 		}
 	}
 }
