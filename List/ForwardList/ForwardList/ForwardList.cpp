@@ -121,6 +121,51 @@ int main()
 		}
 		std::cout << std::endl;
 	}
+
+	//Copy Operator
+	{
+		std::cout << "\n***\nCopy operator\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
+		List* list1pointer = new List(vect, vect + 10);
+		List list2;
+		list2 = *list1pointer;
+		delete list1pointer;
+
+		std::cout << "Result:" << std::endl;
+
+		print(list2.begin(), list2.end());
+		std::cout << std::endl;
+
+		std::cout << "Attended Result:" << std::endl;
+		for (int i = 0; i < 10; i++)
+		{
+			std::cout << vect[i] << " ";
+		}
+		std::cout << std::endl;
+	}
+
+	//Move operator
+	{
+		std::cout << "\n***\nMove operator\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
+		List* list1pointer = new List(vect, vect + 10);
+		List list2;
+		list2 = std::move(*list1pointer);
+		delete list1pointer;
+
+		std::cout << "Result:" << std::endl;
+		print(list2.begin(), list2.end());
+		std::cout << std::endl;
+
+		std::cout << "Attended Result:" << std::endl;
+		for (int i = 0; i < 10; i++)
+		{
+			std::cout << vect[i] << " ";
+		}
+		std::cout << std::endl;
+	}
 }
 
 

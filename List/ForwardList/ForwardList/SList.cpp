@@ -120,10 +120,9 @@ SList::~SList()
 
 SList& SList::operator=(const SList& other)
 {
+	iterator preIt = before_head;
 	iterator it = std::next(before_head);
 	iterator otherIt = std::next(other.before_head);
-
-	iterator preIt;
 
 	while (it != back && otherIt != other.back)
 	{
