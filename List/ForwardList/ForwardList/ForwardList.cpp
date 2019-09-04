@@ -166,6 +166,72 @@ int main()
 		}
 		std::cout << std::endl;
 	}
+
+	//front()
+	{
+		std::cout << "\n***\nFunction front()\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
+		List list(vect, vect + 10);
+
+		std::cout << "Result:" << std::endl;
+		std::cout << list.front();
+		std::cout << std::endl;
+
+		std::cout << "Attended Result:" << std::endl;
+		std::cout << vect[0];
+		std::cout << std::endl;
+	}
+
+	//empty()
+	{
+		std::cout << "\n***\nFunction empty()\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
+		List list1(vect, vect + 10);
+		List list2;
+
+		std::cout << "Result:" << std::endl;
+		std::cout << list1.empty() << std::endl;
+		std::cout << list2.empty();
+		std::cout << std::endl;
+
+		std::cout << "Attended Result:" << std::endl;
+		std::cout << 0 << std::endl;
+		std::cout << 1;
+		std::cout << std::endl;
+	}
+
+	//max_size()
+	{
+		std::cout << "\n***\nFunction max_size()\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
+		List list;
+
+		std::cout << "Result:" << std::endl;
+		std::cout << list.max_size();
+		std::cout << std::endl;
+	}
+
+	//clear()
+	{
+		std::cout << "\n***\nFunction clear()\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
+		List list(vect, vect + 10);
+
+		std::cout << "Result:" << std::endl;
+		std::cout << list.empty() << std::endl;
+		list.clear();
+		std::cout << list.empty();
+		std::cout << std::endl;
+
+		std::cout << "Attended Result:" << std::endl;
+		std::cout << 0 << std::endl;
+		std::cout << 1;
+		std::cout << std::endl;
+	}
 }
 
 
