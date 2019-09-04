@@ -232,6 +232,77 @@ int main()
 		std::cout << 1;
 		std::cout << std::endl;
 	}
+
+	//insert_after()
+	{
+		std::cout << "\n***\nFunction insert_after() case 1\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
+		List list(vect, vect + 10);
+
+		List::iterator it = std::next(list.begin(), 2); //3rd position
+		list.insert_after(it, 99);
+
+		std::cout << "Result:" << std::endl;
+		print(list.begin(), list.end());
+		std::cout << std::endl;
+
+		int vect_result[11] = { 0, 1, 2, 99, 3, 4 , 5, 6, 7, 8, 9 };
+		std::cout << "Attended Result:" << std::endl;
+		for (int i = 0; i < 11; i++)
+		{
+			std::cout << vect_result[i] << " ";
+		}
+		std::cout << std::endl;
+	}
+
+	//insert_after()
+	{
+		std::cout << "\n***\nFunction insert_after() case 2\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
+		List list(vect, vect + 10);
+
+		List::iterator it = std::next(list.begin(), 2); //3rd position
+		size_t size = 3;
+		list.insert_after(it, size, 99);
+
+		std::cout << "Result:" << std::endl;
+		print(list.begin(), list.end());
+		std::cout << std::endl;
+
+		int vect_result[13] = { 0, 1, 2, 99, 99, 99, 3, 4 , 5, 6, 7, 8, 9 };
+		std::cout << "Attended Result:" << std::endl;
+		for (int i = 0; i < 13; i++)
+		{
+			std::cout << vect_result[i] << " ";
+		}
+		std::cout << std::endl;
+	}
+
+	//insert_after()
+	{
+		std::cout << "\n***\nFunction insert_after() case 3\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
+		int vect2[3] = { 11, 12, 13};
+		List list(vect, vect + 10);
+
+		List::iterator it = std::next(list.begin(), 2); //3rd position
+		list.insert_after(it, vect2, vect2+3);
+
+		std::cout << "Result:" << std::endl;
+		print(list.begin(), list.end());
+		std::cout << std::endl;
+
+		int vect_result[13] = { 0, 1, 2, 11, 12, 13, 3, 4 , 5, 6, 7, 8, 9 };
+		std::cout << "Attended Result:" << std::endl;
+		for (int i = 0; i < 13; i++)
+		{
+			std::cout << vect_result[i] << " ";
+		}
+		std::cout << std::endl;
+	}
 }
 
 
