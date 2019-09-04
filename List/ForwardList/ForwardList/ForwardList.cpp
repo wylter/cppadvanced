@@ -477,6 +477,53 @@ int main()
 		}
 		std::cout << std::endl;
 	}
+
+	//reverse()
+	{
+		std::cout << "\n***\nFunction reverse()\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+		List list(vect, vect + 10);
+
+		list.reverse();
+
+		std::cout << "Result:" << std::endl;
+		print(list.begin(), list.end());
+		std::cout << std::endl;
+
+		int* vect_result = vect;
+		std::cout << "Attended Result:" << std::endl;
+		for (int i = 9; i >= 0; i--)
+		{
+			std::cout << vect_result[i] << " ";
+		}
+		std::cout << std::endl;
+	}
+
+	//unique()
+	{
+		std::cout << "\n***\nFunction unique()\n***\n";
+
+		int vect[10] = { 0, 1, 3, 3, 3, 5, 6, 6, 8, 0 };
+		List list(vect, vect + 10);
+
+		list.unique();
+
+		std::cout << "Result:" << std::endl;
+		print(list.begin(), list.end());
+		std::cout << std::endl;
+
+		int vect_result[7] = { 0, 1, 3, 5, 6, 8, 0 };
+		std::cout << "Attended Result:" << std::endl;
+		for (int i = 0; i < 7; i++)
+		{
+			std::cout << vect_result[i] << " ";
+		}
+		std::cout << std::endl;
+	}
+
+
+
 }
 
 

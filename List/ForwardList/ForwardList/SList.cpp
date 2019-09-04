@@ -455,9 +455,9 @@ void SList::unique()
 		const iterator next = std::next(it);
 		if (next != back && *it == *next)
 		{
-			const iterator current_iterator = it;
-			it++;
-			delete current_iterator.current_node;
+			it.current_node->next = next.current_node->next;
+
+			delete next.current_node;
 		}
 		else
 		{
