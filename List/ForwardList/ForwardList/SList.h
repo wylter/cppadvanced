@@ -19,16 +19,20 @@ public:
 		{}
 	};
 
-	struct node : node_base {
-		value_type value;
+	template < typename T >
+	struct SList_node : node_base {
+		T value;
 	};
 
+
+	template < typename T >
 	class SList_iterator : public std::iterator < std::forward_iterator_tag, value_type, std::ptrdiff_t, pointer, reference >
 	{
 
 		friend class SList;
-		typedef int& it_reference;
-		typedef int* it_pointer;
+		typedef T& it_reference;
+		typedef T* it_pointer;
+		typedef SList_node<T> it_node;
 
 	public:
 		SList_iterator();
@@ -48,7 +52,8 @@ public:
 		node_base* current_node;
 	};
 
-	typedef SList_iterator iterator;
+	typedef SList_node<int> node;
+	typedef SList_iterator<int> iterator;
 	typedef const iterator const_iterator;
 
 

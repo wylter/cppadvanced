@@ -2,67 +2,79 @@
 #include "SList.h"
 #include <algorithm>
 
-SList::SList_iterator::SList_iterator() : current_node(nullptr)
+template < typename T >
+SList::SList_iterator<T>::SList_iterator() : current_node(nullptr)
 {
 }
 
-SList::SList_iterator::SList_iterator(const SList_iterator& other)
+template < typename T >
+SList::SList_iterator<T>::SList_iterator(const SList_iterator& other)
 {
 	current_node = other.current_node;
 }
 
-SList::SList_iterator::SList_iterator(node_base* const otherNode)
+template < typename T >
+SList::SList_iterator<T>::SList_iterator(node_base* const otherNode)
 {
 	current_node = otherNode;
 }
 
-SList::SList_iterator::~SList_iterator()
+template < typename T >
+SList::SList_iterator<T>::~SList_iterator()
 {
 
 }
 
-SList::SList_iterator& SList::SList_iterator::operator=(const SList_iterator& other)
+template < typename T >
+SList::SList_iterator<T>& SList::SList_iterator<T>::operator=(const SList_iterator& other)
 {
 	current_node = other.current_node;
 	return *this;
 }
 
-SList::SList_iterator& SList::SList_iterator::operator++()
+template < typename T >
+SList::SList_iterator<T>& SList::SList_iterator<T>::operator++()
 {
 	current_node = current_node->next;
 	return *this;
 }
 
-SList::SList_iterator::it_reference SList::SList_iterator::operator*() const
+template < typename T >
+SList::SList_iterator<T>::it_reference SList::SList_iterator<T>::operator*() const
 {
-	node* const current_typed_node = static_cast<node*>(current_node);
+	it_node* const current_typed_node = static_cast<it_node*>(current_node);
 	return current_typed_node->value;
 }
 
-void swap(SList::SList_iterator& lhs, SList::SList_iterator& rhs)
+template < typename T >
+void swap(SList::SList_iterator<T>& lhs, SList::SList_iterator<T>& rhs)
 {
 	std::swap(lhs, rhs);
 }
 
-SList::SList_iterator SList::SList_iterator::operator++(int a)
+template < typename T >
+SList::SList_iterator<T> SList::SList_iterator<T>::operator++(int a)
 {
 	SList_iterator result(*this);
 	++(*this);
 	return result;
 }
 
-SList::SList_iterator::it_pointer SList::SList_iterator::operator->() const
+template < typename T >
+SList::SList_iterator<T>::it_pointer SList::SList_iterator<T>::operator->() const
 {
-	node* const current_typed_node = static_cast<node*>(current_node);
+	it_node* const current_typed_node = static_cast<it_node*>(current_node);
 	return &current_typed_node->value;
 }
 
-bool operator==(const SList::SList_iterator& lhs, const SList::SList_iterator& rhs)
+template < typename T >
+bool operator==(const SList::SList_iterator<T>& lhs, const SList::SList_iterator<T>& rhs)
 {
 	return lhs.current_node == rhs.current_node;
 }
 
-bool operator!=(const SList::SList_iterator& lhs, const SList::SList_iterator& rhs)
+template < typename T >
+bool operator!=(const SList::SList_iterator<T>& lhs, const SList::SList_iterator<T>& rhs)
 {
 	return !(lhs == rhs);
 }
