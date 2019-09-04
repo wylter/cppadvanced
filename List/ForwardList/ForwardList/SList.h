@@ -23,7 +23,7 @@ public:
 		value_type value;
 	};
 
-	class iterator : public std::iterator < std::forward_iterator_tag, value_type, std::ptrdiff_t, pointer, reference >
+	class SList_iterator : public std::iterator < std::forward_iterator_tag, value_type, std::ptrdiff_t, pointer, reference >
 	{
 
 		friend class SList;
@@ -31,23 +31,24 @@ public:
 		typedef int* it_pointer;
 
 	public:
-		iterator();
-		iterator(const iterator&);
-		explicit iterator(node_base* const);
-		~iterator();
-		iterator& operator=(const iterator&);
-		iterator& operator++();
+		SList_iterator();
+		SList_iterator(const SList_iterator&);
+		explicit SList_iterator(node_base* const);
+		~SList_iterator();
+		SList_iterator& operator=(const SList_iterator&);
+		SList_iterator& operator++();
 		it_reference operator*() const;
-		friend void swap(iterator& lhs, iterator& rhs);
-		iterator operator++(int); //postfix increment
+		friend void swap(SList_iterator& lhs, SList_iterator& rhs);
+		SList_iterator operator++(int); //postfix increment
 		it_pointer operator->() const;
-		friend bool operator==(const iterator&, const iterator&);
-		friend bool operator!=(const iterator&, const iterator&);
+		friend bool operator==(const SList_iterator&, const SList_iterator&);
+		friend bool operator!=(const SList_iterator&, const SList_iterator&);
 
 	protected:
 		node_base* current_node;
 	};
 
+	typedef SList_iterator iterator;
 	typedef const iterator const_iterator;
 
 

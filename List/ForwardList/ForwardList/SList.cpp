@@ -2,67 +2,67 @@
 #include "SList.h"
 #include <algorithm>
 
-SList::iterator::iterator() : current_node(nullptr)
+SList::SList_iterator::SList_iterator() : current_node(nullptr)
 {
 }
 
-SList::iterator::iterator(const iterator& other)
+SList::SList_iterator::SList_iterator(const SList_iterator& other)
 {
 	current_node = other.current_node;
 }
 
-SList::iterator::iterator(node_base* const otherNode)
+SList::SList_iterator::SList_iterator(node_base* const otherNode)
 {
 	current_node = otherNode;
 }
 
-SList::iterator::~iterator()
+SList::SList_iterator::~SList_iterator()
 {
 
 }
 
-SList::iterator& SList::iterator::operator=(const iterator& other)
+SList::SList_iterator& SList::SList_iterator::operator=(const SList_iterator& other)
 {
 	current_node = other.current_node;
 	return *this;
 }
 
-SList::iterator& SList::iterator::operator++()
+SList::SList_iterator& SList::SList_iterator::operator++()
 {
 	current_node = current_node->next;
 	return *this;
 }
 
-SList::iterator::it_reference SList::iterator::operator*() const
+SList::SList_iterator::it_reference SList::SList_iterator::operator*() const
 {
 	node* const current_typed_node = static_cast<node*>(current_node);
 	return current_typed_node->value;
 }
 
-void swap(SList::iterator& lhs, SList::iterator& rhs)
+void swap(SList::SList_iterator& lhs, SList::SList_iterator& rhs)
 {
 	std::swap(lhs, rhs);
 }
 
-SList::iterator SList::iterator::operator++(int a)
+SList::SList_iterator SList::SList_iterator::operator++(int a)
 {
-	iterator result(*this);
+	SList_iterator result(*this);
 	++(*this);
 	return result;
 }
 
-SList::iterator::it_pointer SList::iterator::operator->() const
+SList::SList_iterator::it_pointer SList::SList_iterator::operator->() const
 {
 	node* const current_typed_node = static_cast<node*>(current_node);
 	return &current_typed_node->value;
 }
 
-bool operator==(const SList::iterator& lhs, const SList::iterator& rhs)
+bool operator==(const SList::SList_iterator& lhs, const SList::SList_iterator& rhs)
 {
 	return lhs.current_node == rhs.current_node;
 }
 
-bool operator!=(const SList::iterator& lhs, const SList::iterator& rhs)
+bool operator!=(const SList::SList_iterator& lhs, const SList::SList_iterator& rhs)
 {
 	return !(lhs == rhs);
 }
