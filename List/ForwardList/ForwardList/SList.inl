@@ -8,7 +8,7 @@ SList::SList_iterator<T>::SList_iterator() : current_node(nullptr)
 }
 
 template < typename T >
-SList::SList_iterator<T>::SList_iterator(const SList_iterator& other)
+SList::SList_iterator<T>::SList_iterator(const SList_iterator<T>& other)
 {
 	current_node = other.current_node;
 }
@@ -26,7 +26,7 @@ SList::SList_iterator<T>::~SList_iterator()
 }
 
 template < typename T >
-SList::SList_iterator<T>& SList::SList_iterator<T>::operator=(const SList_iterator& other)
+SList::SList_iterator<T>& SList::SList_iterator<T>::operator=(const SList_iterator<T>& other)
 {
 	current_node = other.current_node;
 	return *this;
@@ -40,7 +40,7 @@ SList::SList_iterator<T>& SList::SList_iterator<T>::operator++()
 }
 
 template < typename T >
-SList::SList_iterator<T>::it_reference SList::SList_iterator<T>::operator*() const
+typename SList::SList_iterator<T>::it_reference SList::SList_iterator<T>::operator*() const
 {
 	it_node* const current_typed_node = static_cast<it_node*>(current_node);
 	return current_typed_node->value;
@@ -61,26 +61,26 @@ SList::SList_iterator<T> SList::SList_iterator<T>::operator++(int a)
 }
 
 template < typename T >
-SList::SList_iterator<T>::it_pointer SList::SList_iterator<T>::operator->() const
+typename SList::SList_iterator<T>::it_pointer SList::SList_iterator<T>::operator->() const
 {
 	it_node* const current_typed_node = static_cast<it_node*>(current_node);
 	return &current_typed_node->value;
 }
 
-template < typename T >
-bool operator==(const SList::SList_iterator<T>& lhs, const SList::SList_iterator<T>& rhs)
+template < typename U >
+bool operator==(const SList::SList_iterator<U>& lhs, const SList::SList_iterator<U>& rhs)
 {
 	return lhs.current_node == rhs.current_node;
 }
 
-template < typename T >
-bool operator!=(const SList::SList_iterator<T>& lhs, const SList::SList_iterator<T>& rhs)
+template < typename U >
+bool operator!=(const SList::SList_iterator<U>& lhs, const SList::SList_iterator<U>& rhs)
 {
 	return !(lhs == rhs);
 }
 
 //back iterator is set to nullptr. As the "end()" method will return the iterator that represents the element after the last one, the last element will always point to nullptr.
-const SList::iterator SList::back = SList::iterator(nullptr); 
+SList::const_iterator SList::back = SList::iterator(nullptr); 
 
 SList::SList()
 	: before_head()
