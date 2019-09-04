@@ -29,8 +29,10 @@
     <ClCompile Include="ForwardList.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="SList.cpp">
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="SList.inl">
       <Filter>Source Files</Filter>
-    </ClCompile>
+    </None>
   </ItemGroup>
 </Project>
