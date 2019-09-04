@@ -104,20 +104,18 @@ SList::SList(SList&& other)
 {
 	before_head = other.before_head;
 
-	other.before_head.current_node->next = nullptr;
+	other.before_head = back;
 }
 
 SList::~SList()
 {
-	iterator it = std::next(before_head);
+	iterator it = before_head;
 	while(it != back)
 	{
 		const iterator current_node = it;
 		it++;
 		delete current_node.current_node;
 	}
-
-	delete before_head.current_node;
 }
 
 SList& SList::operator=(const SList& other)

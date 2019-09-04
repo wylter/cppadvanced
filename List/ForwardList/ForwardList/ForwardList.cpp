@@ -6,7 +6,9 @@
 #include <forward_list>
 #include "SList.h"
 
-void print(SList::iterator begin, SList::iterator end)
+typedef SList List;
+
+void print(List::iterator begin, List::iterator end)
 {
 	while (begin != end)
 	{
@@ -16,10 +18,11 @@ void print(SList::iterator begin, SList::iterator end)
 
 int main()
 {
+	
 	//Default Constructor
 	{
 		std::cout << "\n***\nDefault Constructor\n***\n";
-		SList list = {};
+		List list = {};
 
 		std::cout << "Result:" << std::endl;
 
@@ -35,7 +38,7 @@ int main()
 	//Count Insertion of Default Values constructor
 	{
 		std::cout << "\n***\nCount constructor\n***\n";
-		SList list(10);
+		List list(10);
 
 		std::cout << "Result:" << std::endl;
 
@@ -57,7 +60,7 @@ int main()
 
 		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
 
-		SList list(vect, vect+10);
+		List list(vect, vect+10);
 
 		std::cout << "Result:" << std::endl;
 
@@ -66,6 +69,52 @@ int main()
 
 		std::cout << "Attended Result:" << std::endl;
 
+		for (int i = 0; i < 10; i++)
+		{
+			std::cout << vect[i] << " ";
+		}
+		std::cout << std::endl;
+	}
+
+	//Copy constructor
+	{
+		std::cout << "\n***\nCopy constructor\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
+		List* list1pointer = new List(vect, vect + 10);
+		List list2(*list1pointer);
+		delete list1pointer;
+
+		std::cout << "Result:" << std::endl;
+
+		print(list2.begin(), list2.end());
+		std::cout << std::endl;
+
+		std::cout << "Attended Result:" << std::endl;
+		for (int i = 0; i < 10; i++)
+		{
+			std::cout << vect[i] << " ";
+		}
+		std::cout << std::endl;
+	}
+
+	//Move constructor
+	{
+		std::cout << "\n***\nMove constructor\n***\n";
+
+		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
+		List list1(vect, vect + 10);
+		List list2(std::move(list1));
+
+		std::cout << "Result:" << std::endl;
+
+		std::cout << (list1.before_begin() == list1.end() ? "true" : "false");
+		std::cout << std::endl;
+		print(list2.begin(), list2.end());
+		std::cout << std::endl;
+
+		std::cout << "Attended Result:" << std::endl;
+		std::cout << "true" << std::endl;
 		for (int i = 0; i < 10; i++)
 		{
 			std::cout << vect[i] << " ";
