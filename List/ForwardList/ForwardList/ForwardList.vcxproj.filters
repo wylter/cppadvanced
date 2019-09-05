@@ -21,6 +21,12 @@
     <ClInclude Include="SList.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="SList_iterator.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SList_types.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -32,6 +38,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SList.inl">
+      <Filter>Source Files</Filter>
+    </None>
+    <None Include="SList_iterator.inl">
       <Filter>Source Files</Filter>
     </None>
   </ItemGroup>

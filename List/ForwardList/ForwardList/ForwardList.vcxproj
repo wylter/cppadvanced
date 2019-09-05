@@ -153,6 +153,8 @@
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="SList.h" />
+    <ClInclude Include="SList_iterator.h" />
+    <ClInclude Include="SList_types.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ForwardList.cpp" />
@@ -165,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="SList.inl" />
+    <None Include="SList_iterator.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -6,9 +6,34 @@
 #include <forward_list>
 #include "SList.h"
 
-typedef SList List;
+using namespace cppadvanced;
 
-void print(List::iterator begin, List::iterator end)
+class Integer
+{
+	int value;
+	static size_t allocated_count;
+
+	Integer()
+		: value()
+	{
+		allocated_count++;
+	}
+
+	Integer(int value) 
+		: value(value)
+	{
+		allocated_count++;
+	}
+
+	~Integer()
+	{
+		allocated_count--;
+	}
+};
+
+size_t Integer::allocated_count = 0;
+
+void print(SList::iterator begin, SList::iterator end)
 {
 	while (begin != end)
 	{
@@ -18,7 +43,8 @@ void print(List::iterator begin, List::iterator end)
 
 int main()
 {
-	
+	typedef SList List;
+
 	//Default Constructor
 	{
 		std::cout << "\n***\nDefault Constructor\n***\n";
