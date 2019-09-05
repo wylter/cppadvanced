@@ -6,15 +6,18 @@ namespace cppadvanced
 {
 
 	//back iterator is set to nullptr. As the "end()" method will return the iterator that represents the element after the last one, the last element will always point to nullptr.
-	SList::const_iterator SList::back = SList::iterator(nullptr);
+	template < typename T >
+	const typename SList<T>::iterator SList<T>::back = iterator(nullptr);
 
-	SList::SList()
+	template < typename T >
+	SList<T>::SList()
 		: before_head()
 	{
 		before_head.current_node = new node_base();
 	}
 
-	SList::SList(size_type count) : SList()
+	template < typename T >
+	SList<T>::SList(size_type count) : SList()
 	{
 		value_type default_value = {};
 		for (size_t i = 0; i < count; i++)
@@ -23,8 +26,8 @@ namespace cppadvanced
 		}
 	}
 
-
-	SList::SList(const SList& other) : SList()
+	template < typename T >
+	SList<T>::SList(const SList& other) : SList()
 	{
 		iterator it = before_head;
 		iterator otherIt = std::next(other.before_head);
@@ -38,15 +41,17 @@ namespace cppadvanced
 		}
 	}
 
-	SList::SList(SList&& other)
+	template < typename T >
+	SList<T>::SList(SList&& other)
 	{
 		before_head = other.before_head;
 
 		other.before_head = back;
 	}
 
+	template < typename T >
 	template<class InputIt>
-	SList::SList(InputIt first, InputIt last) : SList()
+	SList<T>::SList(InputIt first, InputIt last) : SList()
 	{
 		iterator it = before_head;
 
@@ -59,7 +64,8 @@ namespace cppadvanced
 		}
 	}
 
-	SList::~SList()
+	template < typename T >
+	SList<T>::~SList()
 	{
 		iterator it = before_head;
 		while (it != back)
@@ -70,7 +76,8 @@ namespace cppadvanced
 		}
 	}
 
-	SList& SList::operator=(const SList& other)
+	template < typename T >
+	typename SList<T>& SList<T>::operator=(const SList<T>& other)
 	{
 		iterator preIt = before_head;
 		iterator it = std::next(before_head);
@@ -111,79 +118,94 @@ namespace cppadvanced
 		return *this;
 	}
 
-	SList& SList::operator=(SList&& other)
+	template < typename T >
+	typename SList<T>& SList<T>::operator=(SList<T>&& other)
 	{
 		std::swap(before_head, other.before_head);
 
 		return *this;
 	}
 
-	SList::reference SList::front()
+	template < typename T >
+	typename SList<T>::reference SList<T>::front()
 	{
 		return *std::next(before_head);
 	}
 
-	SList::const_reference SList::front() const
+	template < typename T >
+	typename SList<T>::const_reference SList<T>::front() const
 	{
 		return *std::next(before_head);
 	}
 
-	SList::iterator SList::before_begin() noexcept
+	template < typename T >
+	typename SList<T>::iterator SList<T>::before_begin() noexcept
 	{
 		return before_head;
 	}
 
-	SList::const_iterator SList::before_begin() const noexcept
+	template < typename T >
+	const typename SList<T>::iterator SList<T>::before_begin() const noexcept
 	{
 		return before_head;
 	}
 
-	SList::const_iterator SList::cbefore_begin() const noexcept
+	template < typename T >
+	const typename SList<T>::iterator SList<T>::cbefore_begin() const noexcept
 	{
 		return before_head;
 	}
 
-	SList::iterator SList::begin() noexcept
+	template < typename T >
+	typename SList<T>::iterator SList<T>::begin() noexcept
 	{
 		return std::next(before_head);
 	}
 
-	SList::const_iterator SList::begin() const noexcept
+	template < typename T >
+	const typename SList<T>::iterator SList<T>::begin() const noexcept
 	{
 		return std::next(before_head);
 	}
 
-	SList::const_iterator SList::cbegin() const noexcept
+	template < typename T >
+	const typename SList<T>::iterator SList<T>::cbegin() const noexcept
 	{
 		return std::next(before_head);
 	}
 
-	SList::iterator SList::end() noexcept
+	template < typename T >
+	typename SList<T>::iterator SList<T>::end() noexcept
 	{
 		return back;
 	}
 
-	SList::const_iterator SList::end() const noexcept
+	template < typename T >
+	const typename SList<T>::iterator SList<T>::end() const noexcept
 	{
 		return back;
 	}
 
-	SList::const_iterator SList::cend() const noexcept
+	template < typename T >
+	const typename SList<T>::iterator SList<T>::cend() const noexcept
 	{
 		return back;
 	}
 
-	bool SList::empty() const noexcept
+	template < typename T >
+	bool SList<T>::empty() const noexcept
 	{
 		return std::next(before_head) == back;
 	}
 
-	SList::size_type SList::max_size() const noexcept
+	template < typename T >
+	typename SList<T>::size_type SList<T>::max_size() const noexcept
 	{
 		return std::numeric_limits<size_type>::max() / sizeof(value_type);
 	}
 
-	void SList::clear() noexcept
+	template < typename T >
+	void SList<T>::clear() noexcept
 	{
 		iterator it = std::next(before_head);
 		while (it != back)
@@ -196,7 +218,8 @@ namespace cppadvanced
 		before_head.current_node->next = nullptr;
 	}
 
-	SList::iterator SList::insert_after(const_iterator pos, const int& value)
+	template < typename T >
+	typename SList<T>::iterator SList<T>::insert_after(const_iterator pos, const T& value)
 	{
 		const iterator prepos = pos;
 		const iterator postpos = std::next(pos);
@@ -211,7 +234,8 @@ namespace cppadvanced
 		return posResult;
 	}
 
-	SList::iterator SList::insert_after(const_iterator pos, int&& value)
+	template < typename T >
+	typename SList<T>::iterator SList<T>::insert_after(const_iterator pos, T&& value)
 	{
 		const iterator prepos = pos;
 		const iterator postpos = std::next(pos);
@@ -226,7 +250,8 @@ namespace cppadvanced
 		return posResult;
 	}
 
-	SList::iterator SList::insert_after(const_iterator pos, size_type count, const int& value)
+	template < typename T >
+	typename SList<T>::iterator SList<T>::insert_after(const_iterator pos, size_type count, const T& value)
 	{
 		iterator last_prepos = pos;
 		const iterator postpos = std::next(pos);
@@ -244,8 +269,9 @@ namespace cppadvanced
 		return last_prepos;
 	}
 
+	template < typename T >
 	template< class InputIt >
-	SList::iterator SList::insert_after(const_iterator pos, InputIt first, InputIt last)
+	typename SList<T>::iterator SList<T>::insert_after(const_iterator pos, InputIt first, InputIt last)
 	{
 		iterator last_prepos = pos;
 		const iterator postpos = std::next(pos);
@@ -264,7 +290,8 @@ namespace cppadvanced
 		return last_prepos;
 	}
 
-	SList::iterator SList::erase_after(const_iterator pos)
+	template < typename T >
+	typename SList<T>::iterator SList<T>::erase_after(const_iterator pos)
 	{
 		const iterator erasepos = std::next(pos);
 
@@ -277,7 +304,8 @@ namespace cppadvanced
 		return postpos;
 	}
 
-	SList::iterator SList::erase_after(const_iterator first, const_iterator last)
+	template < typename T >
+	typename SList<T>::iterator SList<T>::erase_after(const_iterator first, const_iterator last)
 	{
 		iterator it = std::next(first);
 
@@ -293,7 +321,8 @@ namespace cppadvanced
 		return last;
 	}
 
-	void SList::push_front(const int& value)
+	template < typename T >
+	void SList<T>::push_front(const T& value)
 	{
 		const iterator head = std::next(before_head);
 
@@ -304,7 +333,8 @@ namespace cppadvanced
 		before_head.current_node->next = newHead;
 	}
 
-	void SList::push_front(int&& value)
+	template < typename T >
+	void SList<T>::push_front(T&& value)
 	{
 		const iterator head = std::next(before_head);
 
@@ -315,7 +345,8 @@ namespace cppadvanced
 		before_head.current_node->next = newHead;
 	}
 
-	void SList::pop_front()
+	template < typename T >
+	void SList<T>::pop_front()
 	{
 		const iterator toEraseIterator = std::next(before_head);
 
@@ -324,7 +355,8 @@ namespace cppadvanced
 		delete toEraseIterator.current_node;
 	}
 
-	void SList::resize(size_type count, const value_type& value)
+	template < typename T >
+	void SList<T>::resize(size_type count, const value_type& value)
 	{
 		int elements_count = 0;
 		iterator it = before_head;
@@ -363,12 +395,14 @@ namespace cppadvanced
 		}
 	}
 
-	void SList::swap(SList& other)
+	template < typename T >
+	void SList<T>::swap(SList& other)
 	{
 		std::swap(before_head, other.before_head);
 	}
 
-	void SList::remove(const int& value)
+	template < typename T >
+	void SList<T>::remove(const T& value)
 	{
 		iterator it = std::next(before_head);
 		iterator prevIt = before_head;
@@ -391,7 +425,8 @@ namespace cppadvanced
 		}
 	}
 
-	void SList::reverse() noexcept
+	template < typename T >
+	void SList<T>::reverse() noexcept
 	{
 		const iterator head = std::next(before_head);
 
@@ -418,7 +453,8 @@ namespace cppadvanced
 		before_head.current_node->next = last_head.current_node;
 	}
 
-	void SList::unique()
+	template < typename T >
+	void SList<T>::unique()
 	{
 		iterator it = std::next(before_head);
 
@@ -438,7 +474,8 @@ namespace cppadvanced
 		}
 	}
 
-	void SList::split(iterator head, iterator& splittedHead1, iterator& splittedHead2)
+	template < typename T >
+	void SList<T>::split(iterator head, iterator& splittedHead1, iterator& splittedHead2)
 	{
 		iterator slow = head;
 		iterator fast = std::next(head);
@@ -459,13 +496,15 @@ namespace cppadvanced
 		slow.current_node->next = nullptr; // splitting the two lists
 	}
 
-	void SList::sort()
+	template < typename T >
+	void SList<T>::sort()
 	{
 		sort(std::less<int>());
 	}
 
+	template < typename T >
 	template< class Compare >
-	void SList::sort(Compare comp)
+	void SList<T>::sort(Compare comp)
 	{
 		iterator head = std::next(before_head);
 
@@ -474,8 +513,9 @@ namespace cppadvanced
 		before_head.current_node->next = head.current_node;
 	}
 
+	template < typename T >
 	template< class Compare >
-	SList::iterator SList::mergeList(iterator head1, iterator head2, Compare comp)
+	typename SList<T>::iterator SList<T>::mergeList(iterator head1, iterator head2, Compare comp)
 	{
 		node_base before_head_node;
 		before_head_node.next = nullptr;
@@ -513,8 +553,9 @@ namespace cppadvanced
 	}
 
 
+	template < typename T >
 	template< class Compare >
-	void SList::mergeSort(iterator& head_reference, Compare comp)
+	void SList<T>::mergeSort(iterator& head_reference, Compare comp)
 	{
 		const iterator head = head_reference;
 

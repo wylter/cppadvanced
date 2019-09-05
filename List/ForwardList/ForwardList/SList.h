@@ -5,18 +5,19 @@
 
 namespace cppadvanced
 {
+	template < typename T >
 	class SList {
 	public:
 
-		typedef int value_type;
+		typedef T value_type;
 		typedef value_type& reference;
 		typedef const reference const_reference;
  		typedef value_type* pointer;
  		typedef const pointer const_pointer;
 		typedef size_t size_type;
 
-		typedef SList_node<int> node;
-		typedef SList_iterator<int> iterator;
+		typedef SList_node<T> node;
+		typedef SList_iterator<T> iterator;
 		typedef const iterator const_iterator;
 
 
@@ -27,15 +28,15 @@ namespace cppadvanced
 		template<class InputIt>
 		SList(InputIt first, InputIt last);
 
-		SList(const SList& other); //Copy constructor
-		SList(SList&& other); //Move constructor
+		SList(const SList<T>& other); //Copy constructor
+		SList(SList<T>&& other); //Move constructor
 
 		//DTOR
 		~SList();
 
 		//MEMBER FUNCTIONS
-		SList& operator=(const SList& other); //Copy operator
-		SList& operator=(SList&& other); //Move Operator
+		SList<T>& operator=(const SList<T>& other); //Copy operator
+		SList<T>& operator=(SList<T>&& other); //Move Operator
 
 		//ELEMENT ACCESS
 		reference front();
@@ -43,16 +44,16 @@ namespace cppadvanced
 
 		//ITERATORS
 		iterator before_begin() noexcept;
-		const_iterator before_begin() const noexcept;
-		const_iterator cbefore_begin() const noexcept;
+		const iterator before_begin() const noexcept;
+		const iterator cbefore_begin() const noexcept;
 
 		iterator begin() noexcept;
-		const_iterator begin() const noexcept;
-		const_iterator cbegin() const noexcept;
+		const iterator begin() const noexcept;
+		const iterator cbegin() const noexcept;
 
 		iterator end() noexcept;
-		const_iterator end() const noexcept;
-		const_iterator cend() const noexcept;
+		const iterator end() const noexcept;
+		const iterator cend() const noexcept;
 
 		//CAPACITY
 		bool empty() const noexcept;
@@ -62,26 +63,26 @@ namespace cppadvanced
 		//MODIFIERS
 		void clear() noexcept;
 
-		iterator insert_after(const_iterator pos, const int& value);
-		iterator insert_after(const_iterator pos, int&& value);
-		iterator insert_after(const_iterator pos, size_type count, const int& value);
+		iterator insert_after(const_iterator pos, const T& value);
+		iterator insert_after(const_iterator pos, T&& value);
+		iterator insert_after(const_iterator pos, size_type count, const T& value);
  		template< class InputIt >
  		iterator insert_after(const_iterator pos, InputIt first, InputIt last);
 
 		iterator erase_after(const_iterator pos);
 		iterator erase_after(const_iterator first, const_iterator last);
 
-		void push_front(const int& value);
-		void push_front(int&& value);
+		void push_front(const T& value);
+		void push_front(T&& value);
 
 		void pop_front();
 
 		void resize(size_type count, const value_type& value = value_type());
 
-		void swap(SList& other);
+		void swap(SList<T>& other);
 
 		//OPERATIONS
-		void remove(const int& value);
+		void remove(const T& value);
 
 		void reverse() noexcept;
 

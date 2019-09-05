@@ -33,7 +33,9 @@ class Integer
 
 size_t Integer::allocated_count = 0;
 
-void print(SList::iterator begin, SList::iterator end)
+typedef SList<int> List;
+
+void print(List::iterator begin, List::iterator end)
 {
 	while (begin != end)
 	{
@@ -43,7 +45,6 @@ void print(SList::iterator begin, SList::iterator end)
 
 int main()
 {
-	typedef SList List;
 
 	//Default Constructor
 	{
