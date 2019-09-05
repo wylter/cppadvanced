@@ -10,11 +10,18 @@ namespace cppadvanced
 			: next(nullptr)
 		{
 		}
+
+		virtual ~node_base() 
+		{}
 	};
 
 	template < typename T >
 	struct SList_node : node_base
 	{
 		T value;
+
+		virtual ~SList_node()
+		{
+		}
 	};
 }

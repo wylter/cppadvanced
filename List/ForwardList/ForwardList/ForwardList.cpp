@@ -10,7 +10,7 @@ using namespace cppadvanced;
 
 class Integer
 {
-	int value;
+public:
 	static size_t allocated_count;
 
 	Integer()
@@ -29,13 +29,51 @@ class Integer
 	{
 		allocated_count--;
 	}
+
+	operator int() const { 
+		return value; 
+	}
+
+	friend bool operator==(const Integer& lhs, const Integer&rhs)
+	{
+		return lhs.value == rhs.value;
+	}
+
+	friend bool operator!=(const Integer& lhs, const Integer&rhs)
+	{
+		return !(lhs == rhs);
+	}
+
+	friend bool operator<(const Integer& lhs, const Integer&rhs)
+	{
+		return lhs.value < rhs.value;
+	}
+
+	friend bool operator>(const Integer& lhs, const Integer&rhs)
+	{
+		return rhs < lhs;
+	}
+
+	friend bool operator<=(const Integer& lhs, const Integer&rhs)
+	{
+		return !(lhs > rhs);
+	}
+
+	friend bool operator>=(const Integer& lhs, const Integer&rhs)
+	{
+		return !(lhs < rhs);
+	}
+
+
+private:
+	int value;
+
 };
 
 size_t Integer::allocated_count = 0;
 
-typedef SList<int> List;
-
-void print(List::iterator begin, List::iterator end)
+template < typename ForwardIt >
+void print(ForwardIt begin, ForwardIt end)
 {
 	while (begin != end)
 	{
@@ -45,6 +83,7 @@ void print(List::iterator begin, List::iterator end)
 
 int main()
 {
+	typedef SList<Integer> List;
 
 	//Default Constructor
 	{
@@ -571,19 +610,10 @@ int main()
 		std::cout << std::endl;
 	}
 
+	std::cout << std::endl << std::endl;
+	std::cout << "Memory leaked: " << Integer::allocated_count * sizeof(Integer);
+
+
 
 
 }
-
-
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file
