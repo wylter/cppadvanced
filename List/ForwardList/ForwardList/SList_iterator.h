@@ -7,7 +7,7 @@ namespace cppadvanced
 	class SList_iterator : public std::iterator < std::forward_iterator_tag, T, std::ptrdiff_t, T*, T& >
 	{
 
-		//friend class SList<T>;
+		template<typename> friend class SList;
 		typedef T& it_reference;
 		typedef T* it_pointer;
 		typedef SList_node<T> it_node;
@@ -28,10 +28,8 @@ namespace cppadvanced
 		template < typename U >
 		friend bool operator!=(const SList_iterator<U>&, const SList_iterator<U>&);
 
-		node_base* current_node;
 	protected:
-		//TODO: Fix this
-		//node_base* current_node;
+ 		node_base* current_node;
 	};
 }
 
