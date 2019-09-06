@@ -10,12 +10,12 @@ namespace cppadvanced
 		template<typename> friend class SList;
 		typedef T& it_reference;
 		typedef T* it_pointer;
-		typedef SList_node<T> it_node;
+		typedef SListArray_node<T> it_node;
 
 	public:
 		SListArray_iterator<T>();
 		SListArray_iterator<T>(const SListArray_iterator<T>&);
-		explicit SListArray_iterator(node_base* const);
+		explicit SListArray_iterator(indexed_node_base* const);
 		~SListArray_iterator();
 		SListArray_iterator<T>& operator=(const SListArray_iterator<T>&);
 		SListArray_iterator<T>& operator++();
@@ -29,7 +29,7 @@ namespace cppadvanced
 		friend bool operator!=(const SListArray_iterator<U>&, const SListArray_iterator<U>&);
 
 	protected:
- 		node_base* current_node;
+		indexed_node_base* current_node;
 	};
 }
 
