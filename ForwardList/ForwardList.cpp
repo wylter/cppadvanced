@@ -86,6 +86,8 @@ int main()
 {
 	typedef SList<Integer> List;
 
+	SListArray_iterator<int> it;
+
 	//Default Constructor
 	{
 		std::cout << "\n***\nDefault Constructor\n***\n";

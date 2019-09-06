@@ -15,7 +15,7 @@ namespace cppadvanced
 	public:
 		SListArray_iterator<T>();
 		SListArray_iterator<T>(const SListArray_iterator<T>&);
-		explicit SListArray_iterator(indexed_node_base* const);
+		explicit SListArray_iterator(indexed_node_base* const, it_node* const);
 		~SListArray_iterator();
 		SListArray_iterator<T>& operator=(const SListArray_iterator<T>&);
 		SListArray_iterator<T>& operator++();
@@ -30,6 +30,7 @@ namespace cppadvanced
 
 	protected:
 		indexed_node_base* current_node;
+		it_node* storage_pointer;
 	};
 }
 

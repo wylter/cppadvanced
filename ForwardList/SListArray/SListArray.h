@@ -5,7 +5,7 @@
 
 namespace cppadvanced
 {
-	template < typename T >
+	template < typename T, size_t MAX >
 	class SListArray {
 	public:
 
@@ -16,7 +16,7 @@ namespace cppadvanced
  		typedef const pointer const_pointer;
 		typedef size_t size_type;
 
-		typedef SList_node<T> node;
+		typedef SListArray_node<T> node;
 		typedef SListArray_iterator<T> iterator;
 		typedef const iterator const_iterator;
 
@@ -103,6 +103,8 @@ namespace cppadvanced
 
 		iterator before_head; //Front iterator of the SList
 		static const iterator back; //End iterator of the SList
+
+		T[MAX] storage;
 	};
 
 }

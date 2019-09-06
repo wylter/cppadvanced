@@ -46,7 +46,7 @@ namespace cppadvanced
 	{
 		T value;
 
-		virtual ~SList_node()
+		virtual ~SListArray_node()
 		{
 		}
 	};
