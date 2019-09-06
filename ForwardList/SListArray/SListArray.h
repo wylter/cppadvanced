@@ -28,15 +28,15 @@ namespace cppadvanced
 		template<class InputIt>
 		SListArray(InputIt first, InputIt last);
 
-		SListArray(const SListArray<T>& other); //Copy constructor
-		SListArray(SListArray<T>&& other); //Move constructor
+		SListArray(const SListArray<T, MAX>& other); //Copy constructor
+		SListArray(SListArray<T, MAX>&& other); //Move constructor
 
 		//DTOR
 		~SListArray();
 
 		//MEMBER FUNCTIONS
-		SListArray<T>& operator=(const SListArray<T>& other); //Copy operator
-		SListArray<T>& operator=(SListArray<T>&& other); //Move Operator
+		SListArray<T, MAX>& operator=(const SListArray<T, MAX>& other); //Copy operator
+		SListArray<T, MAX>& operator=(SListArray<T, MAX>&& other); //Move Operator
 
 		//ELEMENT ACCESS
 		reference front();
@@ -101,10 +101,13 @@ namespace cppadvanced
 		template< class Compare >
 		void mergeSort(iterator& head, Compare comp);
 
-		iterator before_head; //Front iterator of the SList
-		static const iterator back; //End iterator of the SList
+		iterator before_used_head; //Front iterator of the SList
+		iterator before_free_head;
+		const iterator back; //End iterator of the SList
 
-		T[MAX] storage;
+		indexed_node_base before_used_node;
+		indexed_node_base before_free_node;
+		node[MAX] storage;
 	};
 
 }
