@@ -5,6 +5,7 @@
 #include <iostream>
 #include <forward_list>
 #include "SList/SList.h"
+#include "SListArray/SListArray.h"
 
 using namespace cppadvanced;
 

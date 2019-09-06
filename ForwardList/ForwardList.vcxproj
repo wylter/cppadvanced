@@ -153,6 +153,8 @@
   <ItemGroup>
     <ClInclude Include="pch.h" />
     <ClInclude Include="List_types.h" />
+    <ClInclude Include="SListArray\SListArray.h" />
+    <ClInclude Include="SListArray\SListArray_iterator.h" />
     <ClInclude Include="SList\SList.h" />
     <ClInclude Include="SList\SList_iterator.h" />
   </ItemGroup>
@@ -166,6 +168,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
+    <None Include="SListArray\SListArray.inl" />
+    <None Include="SListArray\SListArray_iterator.inl" />
     <None Include="SList\SList.inl" />
     <None Include="SList\SList_iterator.inl" />
   </ItemGroup>
