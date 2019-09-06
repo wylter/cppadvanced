@@ -13,19 +13,25 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\SList">
+      <UniqueIdentifier>{f511ec9d-464c-4805-b0fc-9b200838acf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\SList">
+      <UniqueIdentifier>{1e1c24cc-8faa-41cc-b44e-532e40293bc8}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SList.h">
+    <ClInclude Include="List_types.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="SList_iterator.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="SList\SList.h">
+      <Filter>Header Files\SList</Filter>
     </ClInclude>
-    <ClInclude Include="SList_types.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="SList\SList_iterator.h">
+      <Filter>Header Files\SList</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -37,11 +43,11 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SList.inl">
-      <Filter>Source Files</Filter>
+    <None Include="SList\SList.inl">
+      <Filter>Source Files\SList</Filter>
     </None>
-    <None Include="SList_iterator.inl">
-      <Filter>Source Files</Filter>
+    <None Include="SList\SList_iterator.inl">
+      <Filter>Source Files\SList</Filter>
     </None>
   </ItemGroup>
 </Project>

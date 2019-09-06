@@ -20,7 +20,7 @@
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>15.0</VCProjectVersion>
-    <ProjectGuid>{0BB4E301-31BF-4BF1-B230-9A930B2B6E99}</ProjectGuid>
+    <ProjectGuid>{0DCDEE74-380E-4394-9872-A2E2ED452503}</ProjectGuid>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>ForwardList</RootNamespace>
     <WindowsTargetPlatformVersion>10.0.16299.0</WindowsTargetPlatformVersion>
@@ -152,9 +152,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="pch.h" />
-    <ClInclude Include="SList.h" />
-    <ClInclude Include="SList_iterator.h" />
-    <ClInclude Include="SList_types.h" />
+    <ClInclude Include="List_types.h" />
+    <ClInclude Include="SList\SList.h" />
+    <ClInclude Include="SList\SList_iterator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ForwardList.cpp" />
@@ -166,8 +166,8 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <None Include="SList.inl" />
-    <None Include="SList_iterator.inl" />
+    <None Include="SList\SList.inl" />
+    <None Include="SList\SList_iterator.inl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,5 +1,5 @@
 #include "pch.h"
-#include "SList.h"
+#include "SList/SList.h"
 #include <algorithm>
 
 namespace cppadvanced

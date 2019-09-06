@@ -4,7 +4,7 @@
 #include "pch.h"
 #include <iostream>
 #include <forward_list>
-#include "SList.h"
+#include "SList/SList.h"
 
 using namespace cppadvanced;
 
