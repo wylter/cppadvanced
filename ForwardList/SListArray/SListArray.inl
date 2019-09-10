@@ -392,7 +392,7 @@ namespace cppadvanced
 		before_used_head.current_node->next = newPosition.current_node;
 	}
 
-	/*
+	
 	template < typename T, size_t MAX >
 	void SListArray<T, MAX>::pop_front()
 	{
@@ -400,8 +400,10 @@ namespace cppadvanced
 
 		before_head.current_node->next = toEraseIterator.current_node->next;
 
-		delete toEraseIterator.current_node;
+		pushFreeHead(toEraseIterator);
 	}
+
+	/*
 
 	template < typename T, size_t MAX >
 	void SListArray<T, MAX>::resize(size_type count, const value_type& value)
