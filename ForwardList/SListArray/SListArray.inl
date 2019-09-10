@@ -449,19 +449,20 @@ namespace cppadvanced
 		}
 	}
 
-	/*
-
 	template < typename T, size_t MAX >
-	void SListArray<T, MAX>::swap(SListArray& other)
+	void SListArray<T, MAX>::swap(SListArray<T, MAX>& other)
 	{
-		std::swap(before_head, other.before_head);
+		for (size_t i = 0; i < MAX; i++)
+		{
+			std::swap(storage[i], other.storage[i]);
+		}
 	}
 
 	template < typename T, size_t MAX >
 	void SListArray<T, MAX>::remove(const T& value)
 	{
-		iterator it = std::next(before_head);
-		iterator prevIt = before_head;
+		iterator it = std::next(before_used_head);
+		iterator prevIt = before_used_head;
 
 		while (it != back)
 		{
@@ -469,7 +470,7 @@ namespace cppadvanced
 			{
 				const iterator current_node = it;
 				it++;
-				delete current_node.current_node;
+				pushFreeHead(current_node);
 
 				prevIt.current_node->next = it.current_node;
 			}
@@ -480,6 +481,7 @@ namespace cppadvanced
 			}
 		}
 	}
+	/*
 
 	template < typename T, size_t MAX >
 	void SListArray<T, MAX>::reverse() noexcept

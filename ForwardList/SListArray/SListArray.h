@@ -79,7 +79,7 @@ namespace cppadvanced
 
 		void resize(size_type count, const value_type& value = value_type());
 
-		void swap(SList<T>& other);
+		void swap(SListArray<T, MAX>& other);
 
 		//OPERATIONS
 		void remove(const T& value);
