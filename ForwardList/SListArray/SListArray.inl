@@ -7,7 +7,8 @@ namespace cppadvanced
 
 	template < typename T, size_t MAX >
 	SListArray<T, MAX>::SListArray()
-		: before_used_node(MAX) //Points to end
+		: storage()
+		, before_used_node(MAX) //Points to end
 		, before_free_node(0) //Points to begin
 		, back(storage + MAX)
 		, before_used_head(&before_used_node, storage)

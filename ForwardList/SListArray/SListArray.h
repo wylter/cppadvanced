@@ -107,7 +107,7 @@ namespace cppadvanced
 
 		indexed_node_base before_used_node;
 		indexed_node_base before_free_node;
-		node[MAX] storage;
+		node storage[MAX];
 	};
 
 }
