@@ -294,7 +294,8 @@ namespace cppadvanced
 		prepos.current_node->next = newNode;
 		newNode->next = postpos.current_node;
 
-		return iterator(newNode);
+		const iterator newPosition(newNode);
+		return newPosition;
 	}
 
 	template < typename T, size_t MAX >
@@ -303,7 +304,7 @@ namespace cppadvanced
 		iterator last_prepos = pos;
 		const iterator postpos = std::next(pos);
 
-		for (int i = 0; i < count; i++, last_prepos++)
+		for (size_t i = 0; i < count; i++, last_prepos++)
 		{
 			node* newNode = extractFreeHeadNode();
 			if (!newNode) //Tries to insert as much as it can. if there's no space left, it just inserts the max amout
@@ -418,7 +419,7 @@ namespace cppadvanced
 	{
 		count = count <= MAX ? count : MAX;
 
-		int elements_count = 0;
+		size_t elements_count = 0;
 		iterator it = before_used_head;
 
 		while (std::next(it) != back && elements_count < count)

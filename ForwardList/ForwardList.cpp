@@ -590,26 +590,26 @@ void TestListInteger()
 	}
 
 	//sort()
-	{
-		std::cout << "\n***\nFunction sort()\n***\n";
-
-		int vect[10] = { 2, 4, 6, 8, 0, 1, 3, 5, 7, 9 };
-		List list(vect, vect + 10);
-
-		list.sort(std::greater<int>());
-
-		std::cout << "Result:" << std::endl;
-		print(list.begin(), list.end());
-		std::cout << std::endl;
-
-		int vect_result[10] = { 9, 8, 7, 6, 5, 4, 3, 2 , 1, 0 };
-		std::cout << "Attended Result:" << std::endl;
-		for (int i = 0; i < 10; i++)
-		{
-			std::cout << vect_result[i] << " ";
-		}
-		std::cout << std::endl;
-	}
+// 	{
+// 		std::cout << "\n***\nFunction sort()\n***\n";
+// 
+// 		int vect[10] = { 2, 4, 6, 8, 0, 1, 3, 5, 7, 9 };
+// 		List list(vect, vect + 10);
+// 
+// 		list.sort(std::greater<int>());
+// 
+// 		std::cout << "Result:" << std::endl;
+// 		print(list.begin(), list.end());
+// 		std::cout << std::endl;
+// 
+// 		int vect_result[10] = { 9, 8, 7, 6, 5, 4, 3, 2 , 1, 0 };
+// 		std::cout << "Attended Result:" << std::endl;
+// 		for (int i = 0; i < 10; i++)
+// 		{
+// 			std::cout << vect_result[i] << " ";
+// 		}
+// 		std::cout << std::endl;
+// 	}
 
 	std::cout << std::endl << std::endl;
 	std::cout << "Memory leaked: " << Integer::allocated_count * sizeof(Integer) << std::endl << std::endl;
@@ -637,14 +637,7 @@ int main()
 			break;
 		case 3:
 			std::cout << "\n\n---------------------------------------\nArray SList\n---------------------------------------\n\n";
-			{
-				cppadvanced::SList<Integer> list;
-				list.push_front(1);
-				Integer a = 2;
-				list.push_front(a);
-				print(list.begin(), list.end());
-				std::cout << std::endl << std::endl;
-			}
+			TestListInteger<cppadvanced::SListArray<Integer, 15>>();
 			
 			break;
 		default:

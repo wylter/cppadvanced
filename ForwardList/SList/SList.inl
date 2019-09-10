@@ -256,7 +256,7 @@ namespace cppadvanced
 		iterator last_prepos = pos;
 		const iterator postpos = std::next(pos);
 
-		for (int i = 0; i < count; i++, last_prepos++)
+		for (size_t i = 0; i < count; i++, last_prepos++)
 		{
 			node* newNode = new node();
 			newNode->value = value;
@@ -358,7 +358,7 @@ namespace cppadvanced
 	template < typename T >
 	void SList<T>::resize(size_type count, const value_type& value)
 	{
-		int elements_count = 0;
+		size_t elements_count = 0;
 		iterator it = before_head;
 
 		while (std::next(it) != back && elements_count < count)
