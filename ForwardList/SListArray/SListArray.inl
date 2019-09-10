@@ -175,19 +175,21 @@ namespace cppadvanced
 		return back;
 	}
 
-	/*
+	
 
 	template < typename T, size_t MAX >
 	bool SListArray<T, MAX>::empty() const noexcept
 	{
-		return std::next(before_head) == back;
+		return std::next(before_used_head) == back;
 	}
 
 	template < typename T, size_t MAX >
 	typename SListArray<T, MAX>::size_type SListArray<T, MAX>::max_size() const noexcept
 	{
-		return std::numeric_limits<size_type>::max() / sizeof(value_type);
+		return MAX;
 	}
+
+	/*
 
 	template < typename T, size_t MAX >
 	void SListArray<T, MAX>::clear() noexcept
