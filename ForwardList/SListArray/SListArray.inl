@@ -189,21 +189,24 @@ namespace cppadvanced
 		return MAX;
 	}
 
-	/*
-
 	template < typename T, size_t MAX >
 	void SListArray<T, MAX>::clear() noexcept
 	{
-		iterator it = std::next(before_head);
-		while (it != back)
+		iterator it = before_free_head;
+
+		while (std::next(it) != back)
 		{
-			const iterator current_node = it;
 			it++;
-			delete current_node.current_node;
 		}
 
-		before_head.current_node->next = nullptr;
+		iterator used_head = std::next(before_used_head);
+
+		it.current_node.next = used_head.current_node; //Concatenate the used list to the free list
+
+		before_used_head.current_node.next = MAX;
 	}
+
+	/*
 
 	template < typename T, size_t MAX >
 	typename SListArray<T, MAX>::iterator SListArray<T, MAX>::insert_after(const_iterator pos, const T& value)
