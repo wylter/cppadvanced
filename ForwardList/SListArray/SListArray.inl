@@ -83,45 +83,14 @@ namespace cppadvanced
 	{}
 
 	
-	/*
 	template < typename T, size_t MAX >
 	typename SListArray<T, MAX>& SListArray<T, MAX>::operator=(const SListArray<T, MAX>& other)
 	{
-		iterator preIt = before_head;
-		iterator it = std::next(before_head);
-		iterator otherIt = std::next(other.before_head);
+		std::memcpy(storage, other.storage, sizeof(storage));
 
-		while (it != back && otherIt != other.back)
-		{
-			*it = *otherIt;
-
-			preIt = it;
-
-			it++;
-			otherIt++;
-		}
-
-		if (it == back) //if this has less elements than other
-		{
-			it = preIt;
-
-			for (; otherIt != other.back; it++, otherIt++)
-			{
-				node* newNode = new node();
-				newNode->value = *otherIt;
-
-				it.current_node->next = newNode;
-			}
-		}
-		else //if other has less elements than this
-		{
-			while (it != back)
-			{
-				const iterator current_pos = it;
-				it++;
-				delete current_pos.current_node;
-			}
-		}
+		//Copying node indexes
+		before_used_node.next = other.before_used_node.next;
+		before_free_node.next = other.before_free_node.next;
 
 		return *this;
 	}
@@ -129,10 +98,18 @@ namespace cppadvanced
 	template < typename T, size_t MAX >
 	typename SListArray<T, MAX>& SListArray<T, MAX>::operator=(SListArray<T, MAX>&& other)
 	{
-		std::swap(before_head, other.before_head);
+		for (size_t i = 0; i < MAX; i++)
+		{
+			storage[i] = std::move(other.storage[i]);
+		}
+
+		before_used_node.next = other.before_used_node.next;
+		before_free_node.next = other.before_free_node.next;
 
 		return *this;
 	}
+
+	/*
 
 	template < typename T, size_t MAX >
 	typename SListArray<T, MAX>::reference SListArray<T, MAX>::front()
