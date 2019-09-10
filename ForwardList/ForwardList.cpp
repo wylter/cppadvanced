@@ -82,11 +82,9 @@ void print(ForwardIt begin, ForwardIt end)
 	}
 }
 
-int main()
+template < typename List >
+void TestListInteger()
 {
-	typedef SList<Integer> List;
-
-	SListArray_iterator<int> it;
 
 	//Default Constructor
 	{
@@ -113,7 +111,7 @@ int main()
 
 		print(list.begin(), list.end());
 		std::cout << std::endl;
-		
+
 		std::cout << "Attended Result:" << std::endl;
 
 		for (int i = 0; i < 10; i++)
@@ -129,7 +127,7 @@ int main()
 
 		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
 
-		List list(vect, vect+10);
+		List list(vect, vect + 10);
 
 		std::cout << "Result:" << std::endl;
 
@@ -309,7 +307,7 @@ int main()
 		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
 		List list(vect, vect + 10);
 
-		List::iterator it = std::next(list.begin(), 2); //3rd position
+		typename List::iterator it = std::next(list.begin(), 2); //3rd position
 		list.insert_after(it, 99);
 
 		std::cout << "Result:" << std::endl;
@@ -332,7 +330,7 @@ int main()
 		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
 		List list(vect, vect + 10);
 
-		List::iterator it = std::next(list.begin(), 2); //3rd position
+		typename List::iterator it = std::next(list.begin(), 2); //3rd position
 		size_t size = 3;
 		list.insert_after(it, size, 99);
 
@@ -354,11 +352,11 @@ int main()
 		std::cout << "\n***\nFunction insert_after() case 3\n***\n";
 
 		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
-		int vect2[3] = { 11, 12, 13};
+		int vect2[3] = { 11, 12, 13 };
 		List list(vect, vect + 10);
 
-		List::iterator it = std::next(list.begin(), 2); //3rd position
-		list.insert_after(it, vect2, vect2+3);
+		typename List::iterator it = std::next(list.begin(), 2); //3rd position
+		list.insert_after(it, vect2, vect2 + 3);
 
 		std::cout << "Result:" << std::endl;
 		print(list.begin(), list.end());
@@ -481,7 +479,7 @@ int main()
 		print(list2.begin(), list2.end());
 		std::cout << std::endl;
 
-		int vect_result[15] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9, 20, 20, 20, 20, 20};
+		int vect_result[15] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9, 20, 20, 20, 20, 20 };
 		std::cout << "Attended Result:" << std::endl;
 		for (int i = 0; i < 5; i++)
 		{
@@ -614,9 +612,32 @@ int main()
 	}
 
 	std::cout << std::endl << std::endl;
-	std::cout << "Memory leaked: " << Integer::allocated_count * sizeof(Integer);
+	std::cout << "Memory leaked: " << Integer::allocated_count * sizeof(Integer) << std::endl << std::endl;
+}
 
+int main()
+{
+	while (true)
+	{
+		std::cout << "Test List: \n1)Single-Linked List \n2)Vector SList \n3)Array SList\n";
+		unsigned short choice;
+		std::cin >> choice;
 
-
+		switch (choice)
+		{
+		case 1:
+			std::cout << "\n\n---------------------------------------\nSingle-Linked List\n---------------------------------------\n\n";
+			TestListInteger<cppadvanced::SList<Integer>>();
+			break;
+		case 2:
+			std::cout << "\n\n---------------------------------------\nVector SList\n---------------------------------------\n\n";
+			break;
+		case 3:
+			std::cout << "\n\n---------------------------------------\nArray SList\n---------------------------------------\n\n";
+			break;
+		default:
+			break;
+		}
+	}
 
 }
