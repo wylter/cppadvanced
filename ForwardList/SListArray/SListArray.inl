@@ -481,12 +481,11 @@ namespace cppadvanced
 			}
 		}
 	}
-	/*
 
 	template < typename T, size_t MAX >
 	void SListArray<T, MAX>::reverse() noexcept
 	{
-		const iterator head = std::next(before_head);
+		const iterator head = std::next(before_used_head);
 
 		if (head == back)
 		{
@@ -508,9 +507,10 @@ namespace cppadvanced
 			last_head = current_iterator;
 		}
 
-		before_head.current_node->next = last_head.current_node;
+		before_used_head.current_node->next = last_head.current_node;
 	}
 
+	/*
 	template < typename T, size_t MAX >
 	void SListArray<T, MAX>::unique()
 	{
