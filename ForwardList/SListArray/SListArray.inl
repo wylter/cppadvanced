@@ -7,8 +7,7 @@ namespace cppadvanced
 
 	template < typename T, size_t MAX >
 	SListArray<T, MAX>::SListArray()
-		: storage()
-		, before_used_node(MAX) //Points to end
+		: before_used_node(MAX) //Points to end
 		, before_free_node(0) //Points to begin
 		, back(storage + MAX)
 		, before_used_head(&before_used_node, storage)
@@ -20,11 +19,11 @@ namespace cppadvanced
 		}
 	}
 
-
-	/*
 	template < typename T, size_t MAX >
 	SListArray<T, MAX>::SListArray(size_type count) : SListArray()
 	{
+		count = count <= MAX ? count : MAX;
+
 		value_type default_value = {};
 		for (size_t i = 0; i < count; i++)
 		{
@@ -33,56 +32,57 @@ namespace cppadvanced
 	}
 
 	template < typename T, size_t MAX >
-	SListArray<T, MAX>::SListArray(const SListArray<T, MAX>& other) : SListArray()
+	SListArray<T, MAX>::SListArray(const SListArray<T, MAX>& other) 
+		: back(storage + MAX)
+		, before_used_head(&before_used_node, storage)
+		, before_free_head(&before_free_node, storage)
 	{
-		iterator it = before_head;
-		iterator otherIt = std::next(other.before_head);
+		std::memcpy(storage, other.storage, sizeof(storage));
 
-		for (; otherIt != other.back; it++, otherIt++)
-		{
-			node* newNode = new node();
-			newNode->value = *otherIt;
-
-			it.current_node->next = newNode;
-		}
+		//Copying node indexes
+		before_used_node.next = other.before_used_node.next;
+		before_free_node.next = other.before_free_node.next;
 	}
 
 	template < typename T, size_t MAX >
 	SListArray<T, MAX>::SListArray(SListArray<T, MAX>&& other)
+		: back(storage + MAX)
+		, before_used_head(&before_used_node, storage)
+		, before_free_head(&before_free_node, storage)
 	{
-		before_head = other.before_head;
+		for (size_t i = 0; i < MAX; i++)
+		{
+			storage[i] = std::move(other.storage[i]);
+		}
 
-		other.before_head = back;
+		before_used_node.next = other.before_used_node.next;
+		before_free_node.next = other.before_free_node.next;
 	}
 
 	template < typename T, size_t MAX >
 	template<class InputIt>
-	SListArray<T, MAX>::SListArray(InputIt first, InputIt last) : SListArray()
+	SListArray<T, MAX>::SListArray(InputIt first, InputIt last)
+		: back(storage + MAX)
+		, before_used_head(&before_used_node, storage)
+		, before_free_head(&before_free_node, storage)
 	{
-		iterator it = before_head;
-
-		for (; first != last; first++, it++)
+		int i;
+		for (i = 0; first != last && i < MAX; first++, i++)
 		{
-			node* newNode = new node();
-			newNode->value = *first;
-
-			it.current_node->next = newNode;
+			storage[i].value = *first;
+			storage[i].next = i + 1;
 		}
+
+		storage[i - 1].next = MAX; //Connects the last node to back
+		before_used_node.next = 0;
+		before_free_node.next = i;
 	}
 
 	template < typename T, size_t MAX >
 	SListArray<T, MAX>::~SListArray()
-	{
-		iterator it = before_head;
-		while (it != back)
-		{
-			const iterator current_node = it;
-			it++;
-			delete current_node.current_node;
-		}
-	}
+	{}
 
-	*/
+	
 	/*
 	template < typename T, size_t MAX >
 	typename SListArray<T, MAX>& SListArray<T, MAX>::operator=(const SListArray<T, MAX>& other)

@@ -615,6 +615,9 @@ void TestListInteger()
 	std::cout << "Memory leaked: " << Integer::allocated_count * sizeof(Integer) << std::endl << std::endl;
 }
 
+
+#include <array>
+
 int main()
 {
 	while (true)
@@ -634,6 +637,15 @@ int main()
 			break;
 		case 3:
 			std::cout << "\n\n---------------------------------------\nArray SList\n---------------------------------------\n\n";
+			{
+				cppadvanced::SList<Integer> list;
+				list.push_front(1);
+				Integer a = 2;
+				list.push_front(a);
+				print(list.begin(), list.end());
+				std::cout << std::endl << std::endl;
+			}
+			
 			break;
 		default:
 			break;
