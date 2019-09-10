@@ -109,21 +109,17 @@ namespace cppadvanced
 		return *this;
 	}
 
-	/*
-
 	template < typename T, size_t MAX >
 	typename SListArray<T, MAX>::reference SListArray<T, MAX>::front()
 	{
-		return *std::next(before_head);
+		return *std::next(before_used_head);
 	}
 
 	template < typename T, size_t MAX >
 	typename SListArray<T, MAX>::const_reference SListArray<T, MAX>::front() const
 	{
-		return *std::next(before_head);
+		return *std::next(before_used_head);
 	}
-
-	*/
 
 	template < typename T, size_t MAX >
 	typename SListArray<T, MAX>::iterator SListArray<T, MAX>::before_begin() noexcept
