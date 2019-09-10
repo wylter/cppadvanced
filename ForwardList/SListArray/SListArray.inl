@@ -97,6 +97,15 @@ namespace cppadvanced
 		return newPosition;
 	}
 
+	template < typename T, size_t MAX >
+	void cppadvanced::SListArray<T, MAX>::pushFreeHead(iterator it)
+	{
+		iterator free_head = std::next(before_free_head);
+
+		before_free_head.current_node->next = it.current_node;
+		it.current_node->next = free_head.current_node;
+	}
+
 	
 	template < typename T, size_t MAX >
 	typename SListArray<T, MAX>& SListArray<T, MAX>::operator=(const SListArray<T, MAX>& other)
@@ -312,7 +321,6 @@ namespace cppadvanced
 		return last_prepos;
 	}
 
-	/*
 	template < typename T, size_t MAX >
 	typename SListArray<T, MAX>::iterator SListArray<T, MAX>::erase_after(const_iterator pos)
 	{
@@ -320,7 +328,7 @@ namespace cppadvanced
 
 		const iterator postpos = std::next(erasepos);
 
-		delete erasepos.current_node;
+		pushFreeHead(erasepos);
 
 		pos.current_node->next = postpos.current_node;
 
@@ -332,18 +340,25 @@ namespace cppadvanced
 	{
 		iterator it = std::next(first);
 
-		while (it != last)
+		while (std::next(it) != last)
 		{
-			const iterator current_node = it;
 			it++;
-			delete current_node.current_node;
 		}
+
+		//Insertion of all nodes to insert at the beginning of the free list
+		const iterator firstItToErase = std::next(first);
+		const iterator lastItToErase = it;
+
+		const free_head = std::next(before_free_head);
+		
+		before_free_head.current_node->next = firstItToErase.current_node;
+		lastItToErase.current_node->next = free_head;
+		
 
 		first.current_node->next = last.current_node;
 
 		return last;
 	}
-	*/
 
 	template < typename T, size_t MAX >
 	void SListArray<T, MAX>::push_front(const T& value)

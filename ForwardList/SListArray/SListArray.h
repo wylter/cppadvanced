@@ -96,6 +96,7 @@ namespace cppadvanced
 
 	private:
 		iterator extractFreeHead();
+		void pushFreeHead(iterator it);
 		void split(iterator head, iterator& splittedHead1, iterator& splittedHead2);
 		template< class Compare >
 		iterator mergeList(iterator head1, iterator head2, Compare comp);
