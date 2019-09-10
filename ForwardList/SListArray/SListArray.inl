@@ -510,11 +510,10 @@ namespace cppadvanced
 		before_used_head.current_node->next = last_head.current_node;
 	}
 
-	/*
 	template < typename T, size_t MAX >
 	void SListArray<T, MAX>::unique()
 	{
-		iterator it = std::next(before_head);
+		iterator it = std::next(before_used_head);
 
 		while (it != back)
 		{
@@ -523,7 +522,7 @@ namespace cppadvanced
 			{
 				it.current_node->next = next.current_node->next;
 
-				delete next.current_node;
+				pushFreeHead(next);
 			}
 			else
 			{
@@ -532,6 +531,7 @@ namespace cppadvanced
 		}
 	}
 
+	/*
 	template < typename T, size_t MAX >
 	void SListArray<T, MAX>::split(iterator head, iterator& splittedHead1, iterator& splittedHead2)
 	{
