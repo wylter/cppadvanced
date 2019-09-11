@@ -610,9 +610,6 @@ void TestListInteger()
 // 		}
 // 		std::cout << std::endl;
 // 	}
-
-	std::cout << std::endl << std::endl;
-	std::cout << "Memory leaked: " << Integer::allocated_count * sizeof(Integer) << std::endl << std::endl;
 }
 
 
@@ -631,14 +628,18 @@ int main()
 		case 1:
 			std::cout << "\n\n---------------------------------------\nSingle-Linked List\n---------------------------------------\n\n";
 			TestListInteger<cppadvanced::SList<Integer>>();
+
+			std::cout << std::endl << std::endl;
+			std::cout << "Memory leaked: " << Integer::allocated_count * sizeof(Integer) << std::endl << std::endl;
 			break;
 		case 2:
 			std::cout << "\n\n---------------------------------------\nVector SList\n---------------------------------------\n\n";
 			break;
 		case 3:
 			std::cout << "\n\n---------------------------------------\nArray SList\n---------------------------------------\n\n";
-			TestListInteger<cppadvanced::SListArray<Integer, 15>>();
+			TestListInteger<cppadvanced::SListArray<int, 15>>();
 			
+			std::cout << std::endl << std::endl;
 			break;
 		default:
 			break;
