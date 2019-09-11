@@ -442,7 +442,7 @@ namespace cppadvanced
 		{
 			const size_t count_difference = count - elements_count;
 
-			for (int i = 0; i < count_difference; i++, it++)
+			for (size_t i = 0; i < count_difference; i++, it++)
 			{
 				node* newNode = extractFreeHeadNode();
 				newNode->value = value;
@@ -543,7 +543,7 @@ namespace cppadvanced
 		}
 	}
 
-	/*
+	
 	template < typename T, size_t MAX >
 	void SListArray<T, MAX>::split(iterator head, iterator& splittedHead1, iterator& splittedHead2)
 	{
@@ -563,9 +563,10 @@ namespace cppadvanced
 		splittedHead1 = head;
 		splittedHead2 = std::next(slow);
 
-		slow.current_node->next = nullptr; // splitting the two lists
+		slow.current_node->next = back; // splitting the two lists
 	}
 
+	
 	template < typename T, size_t MAX >
 	void SListArray<T, MAX>::sort()
 	{
@@ -576,20 +577,21 @@ namespace cppadvanced
 	template< class Compare >
 	void SListArray<T, MAX>::sort(Compare comp)
 	{
-		iterator head = std::next(before_head);
+		iterator head = std::next(before_used_head);
 
 		mergeSort(head, comp);
 
-		before_head.current_node->next = head.current_node;
+		before_used_head.current_node->next = head;
 	}
 
+	
 	template < typename T, size_t MAX >
 	template< class Compare >
 	typename SListArray<T, MAX>::iterator SListArray<T, MAX>::mergeList(iterator head1, iterator head2, Compare comp)
 	{
-		node_base before_head_node;
-		before_head_node.next = nullptr;
-		iterator before_head_result(&before_head_node);
+		indexed_node_base before_head_node;
+		before_head_node.next = back;
+		iterator before_head_result(&before_head_node, storage);
 
 		iterator it = before_head_result;
 
@@ -597,13 +599,13 @@ namespace cppadvanced
 		{
 			if (comp(*head1, *head2))
 			{
-				it.current_node->next = head1.current_node;
+				it.current_node->next = head1;
 				it++;
 				head1++;
 			}
 			else
 			{
-				it.current_node->next = head2.current_node;
+				it.current_node->next = head2;
 				it++;
 				head2++;
 			}
@@ -611,17 +613,16 @@ namespace cppadvanced
 
 		if (head1 != back)
 		{
-			it.current_node->next = head1.current_node;
+			it.current_node->next = head1;
 		}
 		else //head2 != back
 		{
-			it.current_node->next = head2.current_node;
+			it.current_node->next = head2;
 		}
 
 
 		return std::next(before_head_result);
 	}
-
 
 	template < typename T, size_t MAX >
 	template< class Compare >
@@ -644,5 +645,4 @@ namespace cppadvanced
 
 		head_reference = mergeList(splittedHead1, splittedHead2, comp);
 	}
-	*/
 }
