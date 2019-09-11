@@ -26,9 +26,35 @@ public:
 		allocated_count++;
 	}
 
+	Integer(const Integer& other)
+		: value(other.value)
+	{
+		allocated_count++;
+	}
+
+	Integer(Integer&& other)
+		: value(other.value)
+	{
+		allocated_count++;
+	}
+
 	~Integer()
 	{
 		allocated_count--;
+	}
+
+	Integer& operator=(const Integer& other)
+	{
+		value = other.value;
+
+		return *this;
+	}
+
+	Integer& operator=(Integer&& other)
+	{
+		value = other.value;
+
+		return *this;
 	}
 
 	operator int() const { 
@@ -135,7 +161,7 @@ void TestListInteger()
 		std::cout << std::endl;
 
 		std::cout << "Attended Result:" << std::endl;
-
+		
 		for (int i = 0; i < 10; i++)
 		{
 			std::cout << vect[i] << " ";
@@ -612,11 +638,13 @@ void TestListInteger()
 	}
 }
 
-
 #include <array>
 
 int main()
 {
+
+
+
 	while (true)
 	{
 		std::cout << "Test List: \n1)Single-Linked List \n2)Vector SList \n3)Array SList\n";
@@ -637,9 +665,10 @@ int main()
 			break;
 		case 3:
 			std::cout << "\n\n---------------------------------------\nArray SList\n---------------------------------------\n\n";
-			TestListInteger<cppadvanced::SListArray<int, 15>>();
+			TestListInteger<cppadvanced::SListArray<Integer, 15>>();
 			
 			std::cout << std::endl << std::endl;
+			std::cout << "Memory leaked: " << Integer::allocated_count * sizeof(Integer) << std::endl << std::endl;
 			break;
 		default:
 			break;

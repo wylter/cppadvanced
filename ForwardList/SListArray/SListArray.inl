@@ -468,6 +468,9 @@ namespace cppadvanced
 		{
 			std::swap(storage[i], other.storage[i]);
 		}
+
+		std::swap(before_used_node, other.before_used_node);
+		std::swap(before_free_node, other.before_free_node);
 	}
 
 	template < typename T, size_t MAX >
