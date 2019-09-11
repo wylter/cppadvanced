@@ -395,7 +395,7 @@ void TestListInteger()
 
 	//erase_after()
 	{
-		std::cout << "\n***\nFunction insert_after() case 2\n***\n";
+		std::cout << "\n***\nFunction erase_after() case 2\n***\n";
 
 		int vect[10] = { 0, 1, 2, 3, 4 , 5, 6, 7, 8, 9 };
 		List list(vect, vect + 10);

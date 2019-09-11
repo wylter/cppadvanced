@@ -122,7 +122,7 @@ namespace cppadvanced
 		}
 
 		iterator it = first;
-		while (std::next(first) != last)
+		while (std::next(it) != last)
 		{
 			it++;
 		}
@@ -440,7 +440,7 @@ namespace cppadvanced
 
 		if (elements_count < count)
 		{
-			const int count_difference = count - elements_count;
+			const size_t count_difference = count - elements_count;
 
 			for (int i = 0; i < count_difference; i++, it++)
 			{
@@ -451,7 +451,7 @@ namespace cppadvanced
 				it.current_node->next = nextIndex;
 			}
 		}
-		else if (elements_count > count)
+		else
 		{
 			iterator tail = it;
 
