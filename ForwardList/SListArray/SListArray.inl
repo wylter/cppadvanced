@@ -9,7 +9,7 @@ namespace cppadvanced
 	SListArray<T, MAX>::SListArray()
 		: before_used_node(MAX) //Points to end
 		, before_free_node(0) //Points to begin
-		, back(storage + MAX)
+		, back(storage + MAX, storage)
 		, before_used_head(&before_used_node, storage)
 		, before_free_head(&before_free_node, storage)
 	{
@@ -33,7 +33,7 @@ namespace cppadvanced
 
 	template < typename T, size_t MAX >
 	SListArray<T, MAX>::SListArray(const SListArray<T, MAX>& other) 
-		: back(storage + MAX)
+		: back(storage + MAX, storage)
 		, before_used_head(&before_used_node, storage)
 		, before_free_head(&before_free_node, storage)
 	{
@@ -46,7 +46,7 @@ namespace cppadvanced
 
 	template < typename T, size_t MAX >
 	SListArray<T, MAX>::SListArray(SListArray<T, MAX>&& other)
-		: back(storage + MAX)
+		: back(storage + MAX, storage)
 		, before_used_head(&before_used_node, storage)
 		, before_free_head(&before_free_node, storage)
 	{
@@ -62,7 +62,7 @@ namespace cppadvanced
 	template < typename T, size_t MAX >
 	template<class InputIt>
 	SListArray<T, MAX>::SListArray(InputIt first, InputIt last)
-		: back(storage + MAX)
+		: back(storage + MAX, storage)
 		, before_used_head(&before_used_node, storage)
 		, before_free_head(&before_free_node, storage)
 	{
@@ -72,10 +72,16 @@ namespace cppadvanced
 			storage[i].value = *first;
 			storage[i].next = i + 1;
 		}
-
 		storage[i - 1].next = MAX; //Connects the last node to back
+
 		before_used_node.next = 0;
 		before_free_node.next = i;
+
+		//Setup rest of the nodes
+		for (; i < MAX; i++)
+		{
+			storage[i].next = i + 1;
+		}
 	}
 
 	template < typename T, size_t MAX >
@@ -94,7 +100,7 @@ namespace cppadvanced
 
 		before_free_head.current_node->next = newPosition.current_node->next;  //Disconnect the node
 
-		return static_cast<node*>(newPosition->current_node);
+		return static_cast<node*>(newPosition.current_node);
 	}
 
 	template < typename T, size_t MAX >
@@ -102,8 +108,8 @@ namespace cppadvanced
 	{
 		const iterator free_head = std::next(before_free_head);
 
-		before_free_head.current_node->next = it.current_node;
-		it.current_node->next = free_head.current_node;
+		before_free_head.current_node->next = it;
+		it.current_node->next = free_head;
 	}
 
 
@@ -126,7 +132,7 @@ namespace cppadvanced
 
 		const iterator free_head = std::next(before_free_head);
 
-		before_free_head.current_node->next = firstItToErase.current_node;
+		before_free_head.current_node->next = firstItToErase;
 		lastItToErase.current_node->next = free_head;
 	}
 
@@ -249,9 +255,9 @@ namespace cppadvanced
 
 		iterator used_head = std::next(before_used_head);
 
-		it.current_node.next = used_head.current_node; //Concatenate the used list to the free list
+		it.current_node->next = used_head; //Concatenate the used list to the free list
 
-		before_used_head.current_node.next = MAX;
+		before_used_head.current_node->next = MAX;
 	}
 
 	template < typename T, size_t MAX >
@@ -290,11 +296,11 @@ namespace cppadvanced
 
 		newNode->value = std::move(value);
 
+		const size_t nextIndex = newNode - storage;
+		prepos.current_node->next = nextIndex;
+		newNode->next = postpos;
 
-		prepos.current_node->next = newNode;
-		newNode->next = postpos.current_node;
-
-		const iterator newPosition(newNode);
+		const iterator newPosition(newNode, storage);
 		return newPosition;
 	}
 
@@ -314,10 +320,11 @@ namespace cppadvanced
 
 			newNode->value = value;
 
-			last_prepos.current_node->next = newNode;
+			const size_t nextIndex = newNode - storage;
+			last_prepos.current_node->next = nextIndex;
 		}
 
-		last_prepos.current_node->next = postpos.current_node;
+		last_prepos.current_node->next = postpos;
 
 		return last_prepos;
 	}
@@ -338,10 +345,11 @@ namespace cppadvanced
 			}
 			newNode->value = *first;
 
-			last_prepos.current_node->next = newNode;
+			const size_t nextIndex = newNode - storage;
+			last_prepos.current_node->next = nextIndex;
 		}
 
-		last_prepos.current_node->next = postpos.current_node;
+		last_prepos.current_node->next = postpos;
 
 
 		return last_prepos;
@@ -356,7 +364,7 @@ namespace cppadvanced
 
 		pushFreeHead(erasepos);
 
-		pos.current_node->next = postpos.current_node;
+		pos.current_node->next = postpos;
 
 		return postpos;
 	}
@@ -366,7 +374,7 @@ namespace cppadvanced
 	{
 		pushFreeHead(std::next(first), last);
 
-		first.current_node->next = last.current_node;
+		first.current_node->next = last;
 
 		return last;
 	}
@@ -384,7 +392,8 @@ namespace cppadvanced
 		newNode->value = value;
 		newNode->next = before_used_head.current_node->next;
 
-		before_used_head.current_node->next = newNode;
+		const size_t nextIndex = newNode - storage;
+		before_used_head.current_node->next = nextIndex;
 	}
 
 	template < typename T, size_t MAX >
@@ -400,7 +409,8 @@ namespace cppadvanced
 		newNode->value = std::move(value);
 		newNode->next = before_used_head.current_node->next;
 
-		before_used_head.current_node->next = newNode;
+		const size_t nextIndex = newNode - storage;
+		before_used_head.current_node->next = nextIndex;
 	}
 
 	
@@ -437,7 +447,8 @@ namespace cppadvanced
 				node* newNode = extractFreeHeadNode();
 				newNode->value = value;
 
-				it.current_node->next = newNode;
+				const size_t nextIndex = newNode - storage;
+				it.current_node->next = nextIndex;
 			}
 		}
 		else if (elements_count > count)
@@ -446,7 +457,7 @@ namespace cppadvanced
 
 			pushFreeHead(std::next(tail), back);
 
-			tail.current_node->next = nullptr;
+			tail.current_node->next = MAX;
 		}
 	}
 
@@ -473,7 +484,7 @@ namespace cppadvanced
 				it++;
 				pushFreeHead(current_node);
 
-				prevIt.current_node->next = it.current_node;
+				prevIt.current_node->next = it;
 			}
 			else
 			{
@@ -495,7 +506,7 @@ namespace cppadvanced
 
 		iterator it = std::next(head);
 
-		head.current_node->next = nullptr;
+		head.current_node->next = MAX;
 
 		iterator last_head = head;
 
@@ -504,11 +515,11 @@ namespace cppadvanced
 			const iterator current_iterator = it;
 			it++;
 
-			current_iterator.current_node->next = last_head.current_node;
+			current_iterator.current_node->next = last_head;
 			last_head = current_iterator;
 		}
 
-		before_used_head.current_node->next = last_head.current_node;
+		before_used_head.current_node->next = last_head;
 	}
 
 	template < typename T, size_t MAX >

@@ -7,7 +7,7 @@ namespace cppadvanced
 	class SListArray_iterator : public std::iterator < std::forward_iterator_tag, T, std::ptrdiff_t, T*, T& >
 	{
 
-		template<typename> friend class SList;
+		template<typename, size_t> friend class SListArray;
 		typedef T& it_reference;
 		typedef T* it_pointer;
 		typedef SListArray_node<T> it_node;
@@ -29,9 +29,12 @@ namespace cppadvanced
 		friend bool operator!=(const SListArray_iterator<U>&, const SListArray_iterator<U>&);
 
 	protected:
+		operator size_t() const;
+
 		indexed_node_base* current_node;
 		it_node* storage_pointer;
 	};
+
 }
 
 #include "SListArray_iterator.inl"

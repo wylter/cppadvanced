@@ -82,4 +82,11 @@ namespace cppadvanced
 	{
 		return !(lhs == rhs);
 	}
+
+	template < typename T >
+	cppadvanced::SListArray_iterator<T>::operator size_t() const
+	{
+		const it_node* currentPos = static_cast<it_node*>(current_node);
+		return currentPos - storage_pointer;
+	}
 }
