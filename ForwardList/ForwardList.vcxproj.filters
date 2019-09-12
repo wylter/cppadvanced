@@ -25,6 +25,12 @@
     <Filter Include="Header Files\SListArray">
       <UniqueIdentifier>{bccdcc4c-5d36-490c-91d0-6ef12a627203}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\SListVector">
+      <UniqueIdentifier>{add322b7-fda6-4350-93fc-29c3972102fe}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\SListVector">
+      <UniqueIdentifier>{b789cfea-9fbc-47e8-8a09-8647d0a8e2b7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
@@ -44,6 +50,12 @@
     </ClInclude>
     <ClInclude Include="SListArray\SListArray.h">
       <Filter>Header Files\SListArray</Filter>
+    </ClInclude>
+    <ClInclude Include="SListVector\SListVector.h">
+      <Filter>Header Files\SListVector</Filter>
+    </ClInclude>
+    <ClInclude Include="SListVector\SListVector_iterator.h">
+      <Filter>Header Files\SListVector</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -66,6 +78,12 @@
     </None>
     <None Include="SListArray\SListArray.inl">
       <Filter>Source Files\SListArray</Filter>
+    </None>
+    <None Include="SListVector\SListVector.inl">
+      <Filter>Source Files\SListVector</Filter>
+    </None>
+    <None Include="SListVector\SListVector_iterator.inl">
+      <Filter>Source Files\SListVector</Filter>
     </None>
   </ItemGroup>
 </Project>
