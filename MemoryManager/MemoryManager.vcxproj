@@ -154,6 +154,7 @@
     <ClInclude Include="pch.h" />
     <ClInclude Include="SmallObjectAllocator\Chunk.h" />
     <ClInclude Include="SmallObjectAllocator\FixedAllocator.h" />
+    <ClInclude Include="SmallObjectAllocator\SmallObjectAllocator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MemoryManager.cpp" />
@@ -165,6 +166,7 @@
     </ClCompile>
     <ClCompile Include="SmallObjectAllocator\Chunk.cpp" />
     <ClCompile Include="SmallObjectAllocator\FixedAllocator.cpp" />
+    <ClCompile Include="SmallObjectAllocator\SmallObjectAllocator.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

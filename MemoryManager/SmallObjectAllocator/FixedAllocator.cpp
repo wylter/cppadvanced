@@ -59,7 +59,7 @@ void FixedAllocator::Deallocate(void* p)
 {
 	const size_t chunkSize = blockSize_ * numBlocks_;
 
-	if (deallocChunk_ == 0 || !InsideAddress(p, deallocChunk_->pData_, deallocChunk_->pData_ + chunkSize));
+	if (deallocChunk_ == 0 || !InsideAddress(p, deallocChunk_->pData_, deallocChunk_->pData_ + chunkSize))
 	{
 		for (Chunks::iterator i = chunks_.begin(); i != chunks_.end(); ++i)
 		{
@@ -89,6 +89,7 @@ void FixedAllocator::Deallocate(void* p)
 		}
 	}
 }
+
 
 bool FixedAllocator::InsideAddress(void* p, void* first, void* last)
 {

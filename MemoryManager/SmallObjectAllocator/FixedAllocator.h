@@ -10,6 +10,7 @@ public:
 	void* Allocate();
 	void Deallocate(void* p);
 
+	inline size_t GetBlockSize() { return blockSize_; }
 private:
 	bool inline InsideAddress(void* p, void* first, void* last);
 	size_t blockSize_;

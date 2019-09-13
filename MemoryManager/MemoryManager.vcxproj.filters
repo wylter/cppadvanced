@@ -30,6 +30,9 @@
     <ClInclude Include="SmallObjectAllocator\FixedAllocator.h">
       <Filter>Header Files\SmallObjectAllocator</Filter>
     </ClInclude>
+    <ClInclude Include="SmallObjectAllocator\SmallObjectAllocator.h">
+      <Filter>Header Files\SmallObjectAllocator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -42,6 +45,9 @@
       <Filter>Source Files\SmallObjectAllocator</Filter>
     </ClCompile>
     <ClCompile Include="SmallObjectAllocator\FixedAllocator.cpp">
+      <Filter>Source Files\SmallObjectAllocator</Filter>
+    </ClCompile>
+    <ClCompile Include="SmallObjectAllocator\SmallObjectAllocator.cpp">
       <Filter>Source Files\SmallObjectAllocator</Filter>
     </ClCompile>
   </ItemGroup>
