@@ -41,3 +41,23 @@ void* SmallObjAllocator::Allocate(size_t numBytes)
 	return pLastAlloc_->Allocate();
 }
 
+void SmallObjAllocator::Deallocate(void* p, size_t size)
+{
+	if (pLastDealloc_ == 0 || pLastDealloc_->GetBlockSize() != size)
+	{
+		for (auto i = pool_.begin(); i != pool_.end(); ++i)
+		{
+			if (i->GetBlockSize() == size)
+			{
+				pLastDealloc_ = &*i;
+				break;
+			}
+		}
+	}
+
+	assert(pLastDealloc_ != 0);
+	assert(pLastDealloc_->GetBlockSize() == size);
+
+	return pLastDealloc_->Deallocate(p);
+}
+
