@@ -156,6 +156,7 @@
     <ClInclude Include="SmallObjectAllocator\FixedAllocator.h" />
     <ClInclude Include="SmallObjectAllocator\SmallAllocator.h" />
     <ClInclude Include="SmallObjectAllocator\SmallObjectAllocator.h" />
+    <ClInclude Include="SmallObjectAllocator\utility.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="MemoryManager.cpp" />

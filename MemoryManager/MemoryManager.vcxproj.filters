@@ -36,6 +36,9 @@
     <ClInclude Include="SmallObjectAllocator\SmallAllocator.h">
       <Filter>Header Files\SmallObjectAllocator</Filter>
     </ClInclude>
+    <ClInclude Include="SmallObjectAllocator\utility.h">
+      <Filter>Header Files\SmallObjectAllocator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
