@@ -1,10 +1,11 @@
 #include "pch.h"
 #include "Chunk.h"
+#include <new>
 
 void Chunk::Init(size_t blockSize, unsigned char blocks)
 {
 
-	pData_ = new unsigned char[blockSize * blocks];
+	pData_ = new(std::nothrow) unsigned char[blockSize * blocks];
 
 	firstAvailableBlock_ = 0;
 	blocksAvailable_ = blocks;

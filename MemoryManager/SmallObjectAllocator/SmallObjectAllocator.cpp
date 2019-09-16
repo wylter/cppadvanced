@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "SmallObjectAllocator.h"
 #include <cassert>
+#include <new>
 
 SmallObjAllocator::SmallObjAllocator(size_t chunkSize, size_t maxObjectSize)
 	: chunkSize_(chunkSize)
@@ -11,6 +12,11 @@ SmallObjAllocator::SmallObjAllocator(size_t chunkSize, size_t maxObjectSize)
 
 void* SmallObjAllocator::Allocate(size_t numBytes)
 {
+	if (numBytes > maxObjectSize_)
+	{
+		return new(std::nothrow) unsigned char[numBytes];
+	}
+
 	if (pLastAlloc_ == 0 || pLastAlloc_->GetBlockSize() != numBytes)
 	{
 		auto i = pool_.begin();
@@ -43,6 +49,11 @@ void* SmallObjAllocator::Allocate(size_t numBytes)
 
 void SmallObjAllocator::Deallocate(void* p, size_t size)
 {
+	if (size > maxObjectSize_)
+	{
+		operator delete[] (p, std::nothrow);
+	}
+
 	if (pLastDealloc_ == 0 || pLastDealloc_->GetBlockSize() != size)
 	{
 		for (auto i = pool_.begin(); i != pool_.end(); ++i)
