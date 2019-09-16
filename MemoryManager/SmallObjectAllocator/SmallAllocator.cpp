@@ -2,8 +2,8 @@
 #include "SmallAllocator.h"
 #include <iostream>
 
-SmallObjAllocator MemoryManager::small_allocator = SmallObjAllocator(255, 64);
-size_t MemoryManager::byte_used = 0;
+SmallObjAllocator MemoryManager::small_allocator(255, 64);
+size_t MemoryManager::byte_used(0);
 
 void* MM_NEW(std::size_t count) noexcept
 {
@@ -15,7 +15,10 @@ void* MM_NEW(std::size_t count) noexcept
 
 void MM_DELETE(void* ptr, std::size_t count) noexcept
 {
-	MemoryManager::small_allocator.Deallocate(ptr, count);
-	MemoryManager::byte_used -= count;
-	std::cout << "DELETE\t" << MemoryManager::byte_used << std::endl;
+	if (ptr)
+	{
+		MemoryManager::small_allocator.Deallocate(ptr, count);
+		MemoryManager::byte_used -= count;
+		std::cout << "DELETE\t" << MemoryManager::byte_used << std::endl;
+	}
 }

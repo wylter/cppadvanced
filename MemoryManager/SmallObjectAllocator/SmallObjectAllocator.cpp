@@ -4,7 +4,8 @@
 #include <new>
 
 SmallObjAllocator::SmallObjAllocator(size_t chunkSize, size_t maxObjectSize)
-	: chunkSize_(chunkSize)
+	: pool_()
+	, chunkSize_(chunkSize)
 	, maxObjectSize_(maxObjectSize)
 	, pLastAlloc_(nullptr)
 	, pLastDealloc_(nullptr)
@@ -14,7 +15,8 @@ void* SmallObjAllocator::Allocate(size_t numBytes)
 {
 	if (numBytes > maxObjectSize_)
 	{
-		return new(std::nothrow) unsigned char[numBytes];
+		//return new(std::nothrow) unsigned char[numBytes];
+		return malloc(numBytes);
 	}
 
 	if (pLastAlloc_ == 0 || pLastAlloc_->GetBlockSize() != numBytes)
@@ -51,7 +53,8 @@ void SmallObjAllocator::Deallocate(void* p, size_t size)
 {
 	if (size > maxObjectSize_)
 	{
-		operator delete[] (p, std::nothrow);
+		//operator delete[] (p, std::nothrow);
+		free(p);
 	}
 
 	if (pLastDealloc_ == 0 || pLastDealloc_->GetBlockSize() != size)

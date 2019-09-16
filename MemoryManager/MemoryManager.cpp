@@ -7,18 +7,51 @@
 
 #define USE_CUSTOM_MEMORY
 
-// #ifdef USE_CUSTOM_MEMORY
-// 	void* operator new(size_t size) { return MM_NEW(size); };
-// 	void operator delete(void* ptr, size_t size) { MM_DELETE(ptr, size); };
-// #endif // 
+#ifdef USE_CUSTOM_MEMORY
+	void* operator new(size_t size) { return MM_NEW(size); };
+	void operator delete(void* ptr, size_t size) { MM_DELETE(ptr, size); };
+#endif // 
 
 struct test
 {
+	test()
+	{
+
+	}
+
+	test(int val)
+		: i(val)
+	{
+
+	}
+
 	int i;
 
-	void* operator new(size_t size) { return MM_NEW(size); };
-	void operator delete(void* ptr, size_t size) { return MM_DELETE(ptr, size); };
+// 	void* operator new(size_t size) { return MM_NEW(size); };
+// 	void operator delete(void* ptr, size_t size) { return MM_DELETE(ptr, size); };
 };
+
+struct test2
+{
+	test2()
+	{
+
+	}
+
+	test2(test v)
+		: t(v)
+	{
+
+	}
+
+	test t;
+
+// 	void* operator new(size_t size) { return MM_NEW(size); };
+// 	void operator delete(void* ptr, size_t size) { return MM_DELETE(ptr, size); };
+};
+
+static test ts1;
+static test2 ts = test2(ts1);
 
 int main()
 {
