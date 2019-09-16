@@ -25,7 +25,7 @@ void* SmallObjAllocator::Allocate(size_t numBytes)
 			if (i == pool_.end())
 			{	
 				pool_.reserve(pool_.size() + 1);
-				FixedAllocator allocator(chunkSize_, maxObjectSize_);
+				FixedAllocator allocator(numBytes, chunkSize_);
 				pool_.push_back(allocator);
 
 				pLastAlloc_ = &pool_.back();

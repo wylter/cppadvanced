@@ -3,10 +3,33 @@
 
 #include "pch.h"
 #include <iostream>
+#include "SmallObjectAllocator/SmallAllocator.h"
+
+#define USE_CUSTOM_MEMORY
+
+// #ifdef USE_CUSTOM_MEMORY
+// 	void* operator new(size_t size) { return MM_NEW(size); };
+// 	void operator delete(void* ptr, size_t size) { MM_DELETE(ptr, size); };
+// #endif // 
+
+struct test
+{
+	int i;
+
+	void* operator new(size_t size) { return MM_NEW(size); };
+	void operator delete(void* ptr, size_t size) { return MM_DELETE(ptr, size); };
+};
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+	test* t = new test();
+
+	std::cout << MemoryManager::byte_used << std::endl;
+
+	test* t2 = new test();
+	std::cout << MemoryManager::byte_used << std::endl;
+	delete t;
+	delete t2;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

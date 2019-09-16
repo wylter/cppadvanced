@@ -1,8 +1,13 @@
 #pragma once
 #include "SmallObjectAllocator.h"
+#include <map>
 
-static SmallObjAllocator small_allocator = SmallObjAllocator(255, 64);
-static size_t byte_used = 0;
+struct MemoryManager
+{
+public:
+	static SmallObjAllocator small_allocator;
+	static size_t byte_used;
+};
 
 template <typename T>
 struct SmallAllocator
@@ -22,16 +27,16 @@ struct SmallAllocator
 
 	pointer allocate(size_type n)
 	{
-		byte_used += n;
-		return static_cast<pointer>(small_allocator.Allocate(n));
+		MemoryManager::byte_used += n;
+		return static_cast<pointer>(MemoryManager::small_allocator.Allocate(n));
 	}
 	
 	void deallocate(T* p)
 	{
 		const size_t size = sizeof(T);
+		MemoryManager::small_allocator.Deallocate(p, size);
 
-		byte_used -= size;
-		small_allocator.Deallocate(p, size);
+		MemoryManager::byte_used -= size;
 	}
 
 	template <typename U>
@@ -48,4 +53,4 @@ struct SmallAllocator
 };
 
 void* MM_NEW(std::size_t count) noexcept;
-void* MM_DELETE(void* ptr) noexcept;
+void MM_DELETE(void* ptr, std::size_t count) noexcept;

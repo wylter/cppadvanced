@@ -33,7 +33,7 @@ void* FixedAllocator::Allocate()
 				chunks_.push_back(newChunk);
 				allocChunk_ = &chunks_.back();
 				deallocChunk_ = &chunks_.back();
-				deallocIndex_ = std::distance(chunks_.begin(), i);
+				deallocIndex_ = chunks_.size() - 1;
 				break;
 
 			}
@@ -81,6 +81,7 @@ void FixedAllocator::Deallocate(void* p)
 	{
 		if (freeChunks >= 1)
 		{
+			deallocChunk_->Close();
 			chunks_.erase(chunks_.begin() + deallocIndex_);
 		}
 		else
