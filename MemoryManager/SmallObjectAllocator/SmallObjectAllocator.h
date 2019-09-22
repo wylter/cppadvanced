@@ -16,7 +16,7 @@ public:
 // 	void* operator new(size_t size) { return malloc(size); }
 // 	void operator delete(void* p) { free(p); }
 private:
-	std::vector<FixedAllocator, tmpAllocator<FixedAllocator>> pool_;
+	std::vector<FixedAllocator, mallocAllocator<FixedAllocator>> pool_;
 	FixedAllocator* pLastAlloc_;
 	FixedAllocator* pLastDealloc_;
 	size_t chunkSize_;

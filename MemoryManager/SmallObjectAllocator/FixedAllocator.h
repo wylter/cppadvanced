@@ -16,7 +16,7 @@ private:
 	bool inline InsideAddress(void* p, void* first, void* last);
 	size_t blockSize_;
 	size_t deallocIndex_;
-	typedef std::vector<Chunk, tmpAllocator<Chunk>> Chunks;
+	typedef std::vector<Chunk, mallocAllocator<Chunk>> Chunks;
 	Chunks chunks_;
 	Chunk* allocChunk_;
 	Chunk* deallocChunk_;

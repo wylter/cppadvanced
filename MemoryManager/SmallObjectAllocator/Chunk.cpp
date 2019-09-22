@@ -6,7 +6,7 @@ void Chunk::Init(size_t blockSize, unsigned char blocks)
 {
 
 	//pData_ = new(std::nothrow) unsigned char[blockSize * blocks];
-	pData_ = static_cast<unsigned char*>(malloc(blockSize * blocks));
+	pData_ = static_cast<unsigned char*>(std::malloc(blockSize * blocks));
 
 	firstAvailableBlock_ = 0;
 	blocksAvailable_ = blocks;
@@ -21,7 +21,7 @@ void Chunk::Init(size_t blockSize, unsigned char blocks)
 
 void Chunk::Close()
 {
-	free(pData_);
+	std::free(pData_);
 }
 
 void* Chunk::Allocate(size_t blockSize)

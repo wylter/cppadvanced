@@ -2,7 +2,7 @@
 #include <memory>
 
 template <typename T>
-struct tmpAllocator
+struct mallocAllocator
 {
 	typedef T value_type;
 	typedef value_type& reference;
@@ -13,38 +13,46 @@ struct tmpAllocator
 	typedef	std::ptrdiff_t difference_type;
 	typedef	std::true_type propagate_on_container_move_assignment;
 	typedef std::true_type is_always_equal;
-	template< class U > struct rebind { typedef tmpAllocator<U> other; };
+	template< class U > struct rebind { typedef mallocAllocator<U> other; };
 
-	tmpAllocator() {};
-	tmpAllocator(const tmpAllocator& other) {}
+	mallocAllocator() {};
+	mallocAllocator(const mallocAllocator& other) {}
 	template< class U >
-	tmpAllocator(const tmpAllocator<U>& other) {}
-	~tmpAllocator() {};
+	mallocAllocator(const mallocAllocator<U>& other) {}
+	~mallocAllocator() {};
 
 	pointer allocate(size_type s, void const * = 0)
 	{
 		if (0 == s)
-			return NULL;
-		pointer temp = (pointer)malloc(s * sizeof(T));
-		if (temp == NULL)
-			throw std::bad_alloc();
+		{
+			return nullptr;
+		}
+
+		pointer temp = static_cast<pointer>(std::malloc(s * sizeof(T)));
+
 		return temp;
 	}
 
 	void deallocate(pointer p, size_type)
 	{
-		free(p);
+		std::free(p);
 	}
 
-	// 	template <typename U>
-	// 	friend bool operator==(const tmpAllocator<U>& lhs, const tmpAllocator<U>& rhs)
-	// 	{
-	// 		return true;
-	// 	}
-	// 
-	// 	template <typename U>
-	// 	friend bool operator!=(const tmpAllocator<U>& lhs, const tmpAllocator<U>& rhs)
-	// 	{
-	// 		return !(lhs == rhs);
-	// 	}
+	template <typename U>
+	friend bool operator==(const mallocAllocator<U>& lhs, const mallocAllocator<U>& rhs);
+	
+	template <typename U>
+	friend bool operator!=(const mallocAllocator<U>& lhs, const mallocAllocator<U>& rhs);
 };
+
+template <typename U>
+bool operator==(const mallocAllocator<U>& lhs, const mallocAllocator<U>& rhs)
+{
+	return true;
+}
+
+template <typename U>
+bool operator!=(const mallocAllocator<U>& lhs, const mallocAllocator<U>& rhs)
+{
+	return !(lhs == rhs);
+}

@@ -16,7 +16,7 @@ void* SmallObjAllocator::Allocate(size_t numBytes)
 	if (numBytes > maxObjectSize_)
 	{
 		//return new(std::nothrow) unsigned char[numBytes];
-		return malloc(numBytes);
+		return std::malloc(numBytes);
 	}
 
 	if (pLastAlloc_ == 0 || pLastAlloc_->GetBlockSize() != numBytes)
@@ -54,7 +54,7 @@ void SmallObjAllocator::Deallocate(void* p, size_t size)
 	if (size > maxObjectSize_)
 	{
 		//operator delete[] (p, std::nothrow);
-		free(p);
+		std::free(p);
 	}
 
 	if (pLastDealloc_ == 0 || pLastDealloc_->GetBlockSize() != size)
