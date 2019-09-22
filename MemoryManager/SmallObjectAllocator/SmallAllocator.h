@@ -2,6 +2,8 @@
 #include "SmallObjectAllocator.h"
 #include <map>
 
+#define MAXBYTECOUNT 64
+
 struct MemoryManager
 {
 public:
@@ -54,3 +56,7 @@ struct SmallAllocator
 
 void* MM_NEW(std::size_t count) noexcept;
 void MM_DELETE(void* ptr, std::size_t count) noexcept;
+void* MM_NEW_A(std::size_t count) noexcept;
+void MM_DELETE_A(void* ptr) noexcept;
+void* MM_ALLOC(std::size_t count) noexcept;
+void MM_FREE(void* ptr, std::size_t count) noexcept;

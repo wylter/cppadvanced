@@ -10,7 +10,9 @@
 #ifdef USE_CUSTOM_MEMORY
 	void* operator new(size_t size) { return MM_NEW(size); };
 	void operator delete(void* ptr, size_t size) { MM_DELETE(ptr, size); };
-#endif // 
+	void* operator new[](size_t size) { return MM_NEW_A(size); };
+	void operator delete[](void* ptr) { MM_DELETE_A(ptr); };
+#endif 
 
 struct test
 {
@@ -38,6 +40,20 @@ int main()
 	std::cout << MemoryManager::byte_used << std::endl;
 	delete t;
 	delete t2;
+
+
+// 	test* tv = new test[10];
+// 
+// 	std::cout << MemoryManager::byte_used << std::endl;
+// 
+// 	delete[] tv;
+// 
+// 	std::cout << MemoryManager::byte_used << std::endl;
+
+	int* i = new int[20];
+	std::cout << MemoryManager::byte_used << std::endl;
+	delete[] i;
+	std::cout << MemoryManager::byte_used << std::endl;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
