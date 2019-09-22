@@ -26,7 +26,7 @@ BigInt::BigInt(BigInt& other)
 }
 
 BigInt::BigInt(BigInt&& other)
-	: m_data(other.m_data)
+	: m_data(std::move(other.m_data))
 	, m_negativeFlag(std::move(other.m_negativeFlag)) {
 
 }
@@ -45,13 +45,13 @@ BigInt& BigInt::operator=(BigInt&& other) {
 	return *this;
 }
 
+BigInt::~BigInt() {
+
+}
+
 /*
-BigInt& BigInt::operator+(BigInt& other) {
+BigInt& BigInt::operator+(const BigInt& other) {
 
 
 }
 */
-
-BigInt::~BigInt() {
-
-}

@@ -17,7 +17,19 @@ public:
 	BigInt& operator=(BigInt&& other);
 	virtual ~BigInt();
 
-	BigInt& operator+(BigInt& other);
+// 	BigInt& operator+() const;
+// 	BigInt& operator-() const;
+	BigInt& operator+=(const BigInt& other) const;
+	BigInt& operator-=(const BigInt& other) const;
+	BigInt& operator*=(const BigInt& other) const;
+	BigInt& operator/=(const BigInt& other) const;
+// 	BigInt& operator~() const;
+	BigInt& operator&=(const BigInt& other) const;
+	BigInt& operator|=(const BigInt& other) const;
+	BigInt& operator^=(const BigInt& other) const;
+// 	BigInt& operator<<(const BigInt& other) const;
+// 	BigInt& operator>>(const BigInt& other) const;
+
 
 private:
 	bool m_negativeFlag;
