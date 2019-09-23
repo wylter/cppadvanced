@@ -10,10 +10,9 @@ int main()
 	BigInt a = 127;
 	BigInt b = 100;
 
-	a -= b;
-	a -= b;
-	a += 127;
-	a -= b;
+	a *= 100;
+	a *= 100;
+	a *= 100;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

@@ -105,7 +105,7 @@ void BigInt::Sub(const BigInt& other)
 		m_data.pop_back();
 	}
 
-	m_negativeFlag = (!m_negativeFlag && !aIsPositive) || (m_negativeFlag && aIsPositive);
+	m_negativeFlag = (!m_negativeFlag && !aIsPositive) || (m_negativeFlag && aIsPositive); //NXOR
 }
 
 bool BigInt::GreaterAbs(const BigInt& other)
@@ -152,6 +152,41 @@ BigInt& BigInt::operator-=(const BigInt& other)
 	{
 		Sub(other);
 	}
+
+	return *this;
+}
+
+BigInt& BigInt::operator*=(const BigInt& other)
+{
+	m_negativeFlag = (m_negativeFlag && !other.m_negativeFlag) || (!m_negativeFlag && other.m_negativeFlag); //XOR
+
+	int_type rest{ 0 };
+
+	
+	const size_t newLenght = m_data.size() + other.m_data.size();
+	container_type dataResult(newLenght - 1);
+
+	for (size_t i = 0; i < m_data.size(); i++)
+	{
+		for (size_t j = 0; j < other.m_data.size(); j++)
+		{
+			const uint_union a = { m_data[i] };
+			const uint_union b = { other.m_data[j]};
+
+			const uint_union mul = { a.big_val * b.big_val + rest };
+
+			const size_t index = i + j;
+			dataResult[index] += mul.rightmost();
+			rest = mul.leftmost();
+		}
+	}
+
+	if (rest != 0)
+	{
+		dataResult.push_back(rest);
+	}
+
+	m_data = std::move(dataResult);
 
 	return *this;
 }

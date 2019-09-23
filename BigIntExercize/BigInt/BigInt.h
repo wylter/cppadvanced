@@ -10,6 +10,7 @@ public:
 	typedef uint16_t int_doublesize_type;
 	typedef int16_t sint_doublesize_type;
 	typedef int8_t sint_type;
+	typedef std::deque<int_type> container_type;
 
 	struct uint_union
 	{
@@ -93,5 +94,5 @@ private:
 	bool GreaterAbs(const BigInt& other);
 
 	bool m_negativeFlag;
-	std::deque<int_type> m_data;
+	container_type m_data;
 };
