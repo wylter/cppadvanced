@@ -3,10 +3,17 @@
 
 #include "pch.h"
 #include <iostream>
+#include "BigInt/BigInt.h"
 
 int main()
 {
-    std::cout << "Hello World!\n"; 
+	BigInt a = 127;
+	BigInt b = 127;
+
+	a += b;
+	a += b;
+	a += b;
+	a += b;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
