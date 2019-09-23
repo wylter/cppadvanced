@@ -8,12 +8,12 @@
 int main()
 {
 	BigInt a = 127;
-	BigInt b = 127;
+	BigInt b = 100;
 
-	a += b;
-	a += b;
-	a += b;
-	a += b;
+	a -= b;
+	a -= b;
+	a += 127;
+	a -= b;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu

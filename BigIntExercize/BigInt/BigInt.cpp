@@ -11,7 +11,7 @@ BigInt::BigInt() : m_data(1){
 // 
 // }
 
-BigInt::BigInt(int_signed num) : m_data(1) {
+BigInt::BigInt(sint_type num) : m_data(1) {
 	if (num < 0) {
 		m_negativeFlag = true;
 		num = -num;
@@ -61,12 +61,12 @@ void BigInt::Sum(const BigInt& other)
 	const size_t maxLenght = std::max<size_t>(m_data.size(), other.m_data.size());
 	m_data.resize(maxLenght);
 
-	for (int i = 0; i < maxLenght; i++)
+	for (size_t i = 0; i < maxLenght; i++)
 	{
-		const int_union_type a = {m_data[i]};
-		const int_union_type b =  { i < other.m_data.size() ? other.m_data[i] : 0 };
+		const uint_union a = {m_data[i]};
+		const uint_union b =  { i < other.m_data.size() ? other.m_data[i] : 0 };
 		
-		const int_union_type sum = { a.big_val + b.big_val + rest};
+		const uint_union sum = { a.big_val + b.big_val + rest};
 
 		m_data[i] = sum.rightmost();
 		rest = sum.leftmost();
@@ -78,11 +78,79 @@ void BigInt::Sum(const BigInt& other)
 	}
 }
 
+void BigInt::Sub(const BigInt& other)
+{
+	sint_doublesize_type rest{ 0 };
+
+	const size_t maxLenght = std::max<size_t>(m_data.size(), other.m_data.size());
+	m_data.resize(maxLenght);
+
+	const bool aIsPositive = GreaterAbs(other);
+
+	for (size_t i = 0; i < maxLenght; i++)
+	{
+		const sint_doublesize_type aSign = aIsPositive ? 1 : -1;
+		const sint_doublesize_type bSign = -aSign;
+		const sint_union a = { m_data[i] };
+		const sint_union b = { i < other.m_data.size() ? other.m_data[i] : 0 };
+
+		const sint_union sum = { aSign * a.big_val + bSign * b.big_val + rest };
+
+		m_data[i] = sum.toPositive();
+		rest = sum.toNegative();
+	}
+
+	while (m_data.back() == 0)
+	{
+		m_data.pop_back();
+	}
+
+	m_negativeFlag = (!m_negativeFlag && !aIsPositive) || (m_negativeFlag && aIsPositive);
+}
+
+bool BigInt::GreaterAbs(const BigInt& other)
+{
+	if (m_data.size() != other.m_data.size())
+	{
+		return m_data.size() > other.m_data.size();
+	}
+
+	for (size_t i = 0; i < m_data.size(); i++)
+	{
+		const size_t index = m_data.size() - i - 1;
+		
+		if (m_data[index] != other.m_data[index])
+		{
+			return m_data[index] > other.m_data[index];
+		}
+	}
+
+	return false; //they are equal
+}
+
 BigInt& BigInt::operator+=(const BigInt& other)
 {
 	if ((m_negativeFlag && other.m_negativeFlag) || (!m_negativeFlag && !other.m_negativeFlag))
 	{
 		Sum(other);
+	}
+	else
+	{
+		Sub(other);
+	}
+
+	return *this;
+}
+
+BigInt& BigInt::operator-=(const BigInt& other)
+{
+	if ((m_negativeFlag && !other.m_negativeFlag) || (!m_negativeFlag && other.m_negativeFlag))
+	{
+		Sum(other);
+	}
+	else
+	{
+		Sub(other);
 	}
 
 	return *this;
