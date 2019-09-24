@@ -2,7 +2,7 @@
 #include "BigInt.h"
 #include <algorithm>
 #include <iostream>
-#include <vector>
+#include <string>
 
 
 BigInt::BigInt() : m_data(1){
@@ -335,7 +335,7 @@ bool operator>=(const BigInt &a, const BigInt &b)
 
 std::ostream& operator<<(std::ostream& os, const BigInt& bInt)
 {
-	std::vector<BigInt::int_type> result;
+	std::string result;
 
 	BigInt a{ bInt };
 	a.m_negativeFlag = false;
@@ -343,16 +343,20 @@ std::ostream& operator<<(std::ostream& os, const BigInt& bInt)
 	do
 	{
 		const BigInt c = a % 10;
-		result.push_back(c.m_data[0]);
+		result.push_back('0' + c.m_data[0]);
 
 		a /= 10;
 	}
 	while (a > 0);
 
-	for (auto it = result.rbegin(); it != result.rend(); it++)
+	if (bInt.m_negativeFlag)
 	{
-		os << + *it;
+		result.push_back('-');
 	}
+
+	std::reverse(result.begin(), result.end());
+
+	os << result;
 
 	return os;
 }
