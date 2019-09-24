@@ -136,8 +136,11 @@ BigInt BigInt::Division(const BigInt& other)
 		m_negativeFlag = false;
 		container_type newData(1);
 
+		BigInt rest{ *this };
+		rest.m_negativeFlag = false;
+
 		m_data = std::move(newData);
-		return *this;
+		return rest;
 	}
 
 	m_negativeFlag = (m_negativeFlag && !other.m_negativeFlag) || (!m_negativeFlag && other.m_negativeFlag); //XOR
@@ -167,9 +170,12 @@ BigInt BigInt::Division(const BigInt& other)
 		dataResult.pop_back();
 	}
 
+	BigInt rest{ *this };
+	rest.m_negativeFlag = false;
+
 	m_data = std::move(dataResult);
 
-	return *this;
+	return rest;
 }
 
 BigInt& BigInt::operator+=(const BigInt& other)
@@ -237,7 +243,14 @@ BigInt& BigInt::operator*=(const BigInt& other)
 
 BigInt& BigInt::operator/=(const BigInt& other)
 {
-	BigInt rest = Division(other);
+	Division(other);
+
+	return *this;
+}
+
+BigInt& BigInt::operator%=(const BigInt& other)
+{
+	*this = Division(other);
 
 	return *this;
 }
@@ -274,6 +287,15 @@ BigInt operator/(const BigInt &a, const BigInt &b)
 	BigInt c{ a };
 
 	c /= b;
+
+	return c;
+}
+
+BigInt operator%(const BigInt &a, const BigInt &b)
+{
+	BigInt c{ a };
+
+	c %= b;
 
 	return c;
 }

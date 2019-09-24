@@ -72,6 +72,7 @@ public:
 	BigInt& operator-=(const BigInt& other);
 	BigInt& operator*=(const BigInt& other);
 	BigInt& operator/=(const BigInt& other);
+	BigInt& operator%=(const BigInt& other);
 // 	BigInt& operator~() const;
 	BigInt& operator&=(const BigInt& other);
 	BigInt& operator|=(const BigInt& other);
@@ -83,6 +84,7 @@ public:
 	friend BigInt operator-(const BigInt &a, const BigInt &b);
 	friend BigInt operator*(const BigInt &a, const BigInt &b);
 	friend BigInt operator/(const BigInt &a, const BigInt &b);
+	friend BigInt operator%(const BigInt &a, const BigInt &b);
 
 	friend std::ostream& operator<<(std::ostream&, const BigInt&);
 
