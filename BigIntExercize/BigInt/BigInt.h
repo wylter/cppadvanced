@@ -85,6 +85,10 @@ public:
 	friend BigInt operator*(const BigInt &a, const BigInt &b);
 	friend BigInt operator/(const BigInt &a, const BigInt &b);
 	friend BigInt operator%(const BigInt &a, const BigInt &b);
+	friend bool operator<(const BigInt &a, const BigInt &b);
+	friend bool operator<=(const BigInt &a, const BigInt &b);
+	friend bool operator>(const BigInt &a, const BigInt &b);
+	friend bool operator>=(const BigInt &a, const BigInt &b);
 
 	friend std::ostream& operator<<(std::ostream&, const BigInt&);
 
@@ -92,7 +96,7 @@ public:
 private:
 	void Sum(const BigInt& other);
 	void Sub(const BigInt& other);
-	bool GreaterOrEqualAbs(const BigInt& other);
+	short CompareAbs(const BigInt& other) const;
 	BigInt Division(const BigInt& other);
 
 	bool m_negativeFlag;

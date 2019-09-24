@@ -86,7 +86,7 @@ void BigInt::Sub(const BigInt& other)
 	const size_t maxLenght = std::max<size_t>(m_data.size(), other.m_data.size());
 	m_data.resize(maxLenght);
 
-	const bool aIsPositive = GreaterOrEqualAbs(other);
+	const bool aIsPositive = CompareAbs(other) >= 0;
 
 	for (size_t i = 0; i < maxLenght; i++)
 	{
@@ -109,11 +109,11 @@ void BigInt::Sub(const BigInt& other)
 	m_negativeFlag = (!m_negativeFlag && !aIsPositive) || (m_negativeFlag && aIsPositive); //NXOR
 }
 
-bool BigInt::GreaterOrEqualAbs(const BigInt& other)
+short BigInt::CompareAbs(const BigInt& other)
 {
 	if (m_data.size() != other.m_data.size())
 	{
-		return m_data.size() > other.m_data.size();
+		return m_data.size() > other.m_data.size() ? 1 : -1;
 	}
 
 	for (size_t i = 0; i < m_data.size(); i++)
@@ -122,16 +122,16 @@ bool BigInt::GreaterOrEqualAbs(const BigInt& other)
 		
 		if (m_data[index] != other.m_data[index])
 		{
-			return m_data[index] > other.m_data[index];
+			return m_data[index] > other.m_data[index] ? 1 : -1;
 		}
 	}
 
-	return true; //they are equal
+	return 0; //they are equal
 }
 
 BigInt BigInt::Division(const BigInt& other)
 {
-	if (!GreaterOrEqualAbs(other))
+	if (CompareAbs(other) < 0)
 	{
 		m_negativeFlag = false;
 		container_type newData(1);
@@ -152,11 +152,11 @@ BigInt BigInt::Division(const BigInt& other)
 	container_type dataResult;
 
 
-	while (GreaterOrEqualAbs(other))
+	while (CompareAbs(other) >= 0)
 	{
 		dataResult.push_front(0);
 
-		while (GreaterOrEqualAbs(divisor))
+		while (CompareAbs(divisor) >= 0)
 		{
 			*this -= divisor;
 			++dataResult.front();
@@ -300,6 +300,38 @@ BigInt operator%(const BigInt &a, const BigInt &b)
 	return c;
 }
 
+bool operator<(const BigInt &a, const BigInt &b)
+{
+	if (a.m_negativeFlag != b.m_negativeFlag)
+	{
+		return a.m_negativeFlag;
+	}
+
+	if (a.m_negativeFlag)
+	{
+		return a.CompareAbs(b) > 0;
+	}
+	else
+	{
+		return a.CompareAbs(b) < 0;
+	}
+}
+
+bool operator>(const BigInt &a, const BigInt &b)
+{
+	return b < a;
+}
+
+bool operator<=(const BigInt &a, const BigInt &b)
+{
+	return !(a > b);
+}
+
+bool operator>=(const BigInt &a, const BigInt &b)
+{
+	return !(a < b);
+}
+
 std::ostream& operator<<(std::ostream& os, const BigInt& bInt)
 {
 	if (bInt.m_negativeFlag)
@@ -307,12 +339,17 @@ std::ostream& operator<<(std::ostream& os, const BigInt& bInt)
 		os << '-';
 	}
 
-	for (size_t i = 0; i < bInt.m_data.size(); i++)
+	BigInt a{ bInt };
+	a.m_negativeFlag = false;
+
+	do
 	{
-/*		const BigInt = */
-		const size_t index = bInt.m_data.size() - i - 1;
-		os << '0' + bInt.m_data[index];
+		const BigInt c = a % 10;
+		os << '0' + c.m_data[0];
+
+		a /= 10;
 	}
+	while (a > 0);
 
 	return os;
 }
