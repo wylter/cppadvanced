@@ -237,6 +237,41 @@ BigInt& BigInt::operator/=(const BigInt& other)
 	return *this;
 }
 
+BigInt operator+(const BigInt &a, const BigInt &b)
+{
+	BigInt c{ a };
+
+	c += b;
+	
+	return c;
+}
+
+BigInt operator-(const BigInt &a, const BigInt &b)
+{
+	BigInt c{ a };
+
+	c -= b;
+
+	return c;
+}
+
+BigInt operator*(const BigInt &a, const BigInt &b)
+{
+	BigInt c{ a };
+
+	c *= b;
+
+	return c;
+}
+
+BigInt operator/(const BigInt &a, const BigInt &b)
+{
+	BigInt c{ a };
+
+	c /= b;
+
+	return c;
+}
 
 std::ostream& operator<<(std::ostream& os, const BigInt& bInt)
 {
