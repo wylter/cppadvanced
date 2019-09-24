@@ -109,7 +109,7 @@ void BigInt::Sub(const BigInt& other)
 	m_negativeFlag = (!m_negativeFlag && !aIsPositive) || (m_negativeFlag && aIsPositive); //NXOR
 }
 
-short BigInt::CompareAbs(const BigInt& other)
+short BigInt::CompareAbs(const BigInt& other) const
 {
 	if (m_data.size() != other.m_data.size())
 	{
