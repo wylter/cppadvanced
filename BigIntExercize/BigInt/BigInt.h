@@ -49,7 +49,7 @@ public:
 
 		bool sign() const
 		{
-			return big_val > 0;
+			return big_val >= 0;
 		}
 	};
 
@@ -91,6 +91,7 @@ private:
 	void Sum(const BigInt& other);
 	void Sub(const BigInt& other);
 	bool GreaterOrEqualAbs(const BigInt& other);
+	BigInt Division(const BigInt& other);
 
 	bool m_negativeFlag;
 	container_type m_data;

@@ -129,6 +129,49 @@ bool BigInt::GreaterOrEqualAbs(const BigInt& other)
 	return true; //they are equal
 }
 
+BigInt BigInt::Division(const BigInt& other)
+{
+	if (!GreaterOrEqualAbs(other))
+	{
+		m_negativeFlag = false;
+		container_type newData(1);
+
+		m_data = std::move(newData);
+		return *this;
+	}
+
+	m_negativeFlag = (m_negativeFlag && !other.m_negativeFlag) || (!m_negativeFlag && other.m_negativeFlag); //XOR
+
+	BigInt divisor(other);
+	size_t differenceSize = m_data.size() - other.m_data.size(); //Min is 0
+	divisor.m_data.insert(divisor.m_data.begin(), differenceSize, 0); //Multiply by base differenceSize times.
+
+	container_type dataResult;
+
+
+	while (GreaterOrEqualAbs(other))
+	{
+		dataResult.push_front(0);
+
+		while (GreaterOrEqualAbs(divisor))
+		{
+			*this -= divisor;
+			++dataResult.front();
+		}
+
+		divisor.m_data.pop_front();//Divide by base
+	}
+
+	while (dataResult.back() == 0 && dataResult.size() > 1)
+	{
+		dataResult.pop_back();
+	}
+
+	m_data = std::move(dataResult);
+
+	return *this;
+}
+
 BigInt& BigInt::operator+=(const BigInt& other)
 {
 	if ((m_negativeFlag && other.m_negativeFlag) || (!m_negativeFlag && !other.m_negativeFlag))
@@ -194,45 +237,7 @@ BigInt& BigInt::operator*=(const BigInt& other)
 
 BigInt& BigInt::operator/=(const BigInt& other)
 {
-	if (!GreaterOrEqualAbs(other))
-	{
-		m_negativeFlag = false;
-		container_type newData(1);
-
-		m_data = std::move(newData);
-		return *this;
-	}
-
-	m_negativeFlag = (m_negativeFlag && !other.m_negativeFlag) || (!m_negativeFlag && other.m_negativeFlag); //XOR
-
-	BigInt divisor(other);	
-	size_t differenceSize = m_data.size() - other.m_data.size(); //Min is 0
-	divisor.m_data.insert(divisor.m_data.begin(), differenceSize, 0); //Multiply by base differenceSize times.
-
-	int_type rest{ 0 };
-
-	container_type dataResult;
-
-
-	while (GreaterOrEqualAbs(other))
-	{
-		dataResult.push_front(0);
-
-		while (GreaterOrEqualAbs(divisor))
-		{
-			*this -= divisor;
-			++dataResult.front();
-		}
-
-		divisor.m_data.pop_front();//Divide by base
-	}
-
-	while (dataResult.back() == 0 && dataResult.size() > 1)
-	{
-		dataResult.pop_back();
-	}
-
-	m_data = std::move(dataResult);
+	BigInt rest = Division(other);
 
 	return *this;
 }
@@ -282,6 +287,7 @@ std::ostream& operator<<(std::ostream& os, const BigInt& bInt)
 
 	for (size_t i = 0; i < bInt.m_data.size(); i++)
 	{
+/*		const BigInt = */
 		const size_t index = bInt.m_data.size() - i - 1;
 		os << '0' + bInt.m_data[index];
 	}
