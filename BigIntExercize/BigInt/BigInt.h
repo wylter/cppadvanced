@@ -3,6 +3,8 @@
 #include <deque>
 #include <limits>
 
+class std::ostream;
+
 class BigInt {
 
 public:
@@ -41,23 +43,11 @@ public:
 			else
 			{
 				const int_type max = std::numeric_limits<int_type>::max();
-				return max + big_val;
+				return max + (big_val + (sint_doublesize_type)1);
 			}
 		}
 
-		sint_type toNegative() const
-		{
-			if (big_val >= 0)
-			{
-				return 0;
-			}
-			else
-			{
-				return big_val;
-			}
-		}
-
-		bool sign()
+		bool sign() const
 		{
 			return big_val > 0;
 		}
@@ -68,9 +58,11 @@ public:
 	BigInt();
 	//BigInt(int_type);
 	BigInt(sint_type);
-	BigInt(BigInt& other);
+	BigInt(const BigInt& other);
 	BigInt(BigInt&& other);
-	BigInt& operator=(BigInt& other);
+	template <typename InputIt>
+	BigInt(InputIt first, InputIt last, bool negativeFlag = false);
+	BigInt& operator=(const BigInt& other);
 	BigInt& operator=(BigInt&& other);
 	virtual ~BigInt();
 
@@ -87,12 +79,20 @@ public:
 // 	BigInt& operator<<(const BigInt& other) const;
 // 	BigInt& operator>>(const BigInt& other) const;
 
+	friend std::ostream& operator<<(std::ostream&, const BigInt&);
+
 
 private:
 	void Sum(const BigInt& other);
 	void Sub(const BigInt& other);
-	bool GreaterAbs(const BigInt& other);
+	bool GreaterOrEqualAbs(const BigInt& other);
 
 	bool m_negativeFlag;
 	container_type m_data;
 };
+
+template <typename InputIt>
+BigInt::BigInt(InputIt first, InputIt last, bool negativeFlag /*= false*/)
+	: m_data(first, last)
+	, m_negativeFlag(negativeFlag)
+{}

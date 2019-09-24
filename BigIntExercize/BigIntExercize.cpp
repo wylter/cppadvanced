@@ -7,12 +7,22 @@
 
 int main()
 {
-	BigInt a = 127;
-	BigInt b = 100;
+	BigInt a = 100;
+	BigInt b = 1;
 
 	a *= 100;
 	a *= 100;
 	a *= 100;
+	a *= 100;
+	a *= 100;
+	a *= 100;
+	a *= 100;
+	a *= 100;
+	a *= 100;
+
+/*	a /= b;*/
+
+	std::cout << a;
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
