@@ -274,6 +274,19 @@ BigInt& BigInt::operator%=(const BigInt& other)
 	return *this;
 }
 
+BigInt operator+(const BigInt &a)
+{
+	return a;
+}
+
+BigInt operator-(const BigInt &a)
+{
+	BigInt c{ a };
+	c.m_negativeFlag = !a.m_negativeFlag;
+
+	return c;
+}
+
 BigInt operator+(const BigInt &a, const BigInt &b)
 {
 	BigInt c{ a };

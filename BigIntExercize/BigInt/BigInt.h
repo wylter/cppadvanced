@@ -80,6 +80,8 @@ public:
 // 	BigInt& operator<<(const BigInt& other) const;
 // 	BigInt& operator>>(const BigInt& other) const;
 
+	friend BigInt operator+(const BigInt &a);
+	friend BigInt operator-(const BigInt &a);
 	friend BigInt operator+(const BigInt &a, const BigInt &b);
 	friend BigInt operator-(const BigInt &a, const BigInt &b);
 	friend BigInt operator*(const BigInt &a, const BigInt &b);
