@@ -351,6 +351,16 @@ bool operator>=(const BigInt &a, const BigInt &b)
 	return !(a < b);
 }
 
+bool operator==(const BigInt &a, const BigInt &b)
+{
+	return a.CompareAbs(b) == 0;
+}
+
+bool operator!=(const BigInt &a, const BigInt &b)
+{
+	return !(a == b);
+}
+
 BigInt& BigInt::operator++()
 {
 	*this += 1;

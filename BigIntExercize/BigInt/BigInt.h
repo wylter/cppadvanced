@@ -89,6 +89,8 @@ public:
 	friend bool operator<=(const BigInt &a, const BigInt &b);
 	friend bool operator>(const BigInt &a, const BigInt &b);
 	friend bool operator>=(const BigInt &a, const BigInt &b);
+	friend bool operator==(const BigInt &a, const BigInt &b);
+	friend bool operator!=(const BigInt &a, const BigInt &b);
 
 	BigInt& operator++();
 	BigInt operator++(int);
@@ -112,4 +114,5 @@ template <typename InputIt>
 BigInt::BigInt(InputIt first, InputIt last, bool negativeFlag /*= false*/)
 	: m_data(first, last)
 	, m_negativeFlag(negativeFlag)
-{}
+{
+}
