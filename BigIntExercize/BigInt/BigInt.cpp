@@ -351,6 +351,32 @@ bool operator>=(const BigInt &a, const BigInt &b)
 	return !(a < b);
 }
 
+BigInt& BigInt::operator++()
+{
+	*this += 1;
+	return *this;
+}
+
+BigInt BigInt::operator++(int)
+{
+	BigInt result(*this);
+	++(*this);
+	return result;
+}
+
+BigInt& BigInt::operator--()
+{
+	*this -= 1;
+	return *this;
+}
+
+BigInt BigInt::operator--(int)
+{
+	BigInt result(*this);
+	--(*this);
+	return result;
+}
+
 std::ostream& operator<<(std::ostream& os, const BigInt& bInt)
 {
 	std::string result;

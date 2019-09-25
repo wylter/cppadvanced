@@ -90,6 +90,11 @@ public:
 	friend bool operator>(const BigInt &a, const BigInt &b);
 	friend bool operator>=(const BigInt &a, const BigInt &b);
 
+	BigInt& operator++();
+	BigInt operator++(int);
+	BigInt& operator--();
+	BigInt operator--(int);
+
 	friend std::ostream& operator<<(std::ostream&, const BigInt&);
 
 
