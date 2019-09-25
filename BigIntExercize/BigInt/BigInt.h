@@ -56,10 +56,10 @@ public:
 
 
 	BigInt();
-	//BigInt(int_type);
 	BigInt(sint_type);
 	BigInt(const BigInt& other);
 	BigInt(BigInt&& other);
+	BigInt(const std::string&);
 	template <typename InputIt>
 	BigInt(InputIt first, InputIt last, bool negativeFlag = false);
 	BigInt& operator=(const BigInt& other);

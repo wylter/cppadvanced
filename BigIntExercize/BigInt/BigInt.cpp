@@ -5,15 +5,13 @@
 #include <string>
 
 
-BigInt::BigInt() : m_data(1){
+BigInt::BigInt() 
+	: m_data(1)
+	, m_negativeFlag(false)
+{}
 
-}
-
-// BigInt::BigInt(int_type num) : m_data(1, num) {
-// 
-// }
-
-BigInt::BigInt(sint_type num) : m_data(1) {
+BigInt::BigInt(sint_type num) : m_data(1) 
+{
 	if (num < 0) {
 		m_negativeFlag = true;
 		num = -num;
@@ -28,14 +26,34 @@ BigInt::BigInt(sint_type num) : m_data(1) {
 
 BigInt::BigInt(const BigInt& other) 
 	: m_data(other.m_data)
-	, m_negativeFlag(other.m_negativeFlag){
-
-}
+	, m_negativeFlag(other.m_negativeFlag)
+{}
 
 BigInt::BigInt(BigInt&& other)
 	: m_data(std::move(other.m_data))
-	, m_negativeFlag(std::move(other.m_negativeFlag)) {
+	, m_negativeFlag(other.m_negativeFlag) 
+{}
 
+BigInt::BigInt(const std::string& numStr) : BigInt()
+{
+	if (numStr.length() == 0)
+	{
+		return;
+	}
+
+	if (numStr.c_str()[0] == '-')
+	{
+		m_negativeFlag = true;
+	}
+
+	for (size_t i = m_negativeFlag ? 1 : 0; i < numStr.length(); ++i)
+	{
+		const char c = numStr.c_str()[i];
+		const int_type cipher = c - '0';
+
+		*this *= 10;
+		Sum(cipher);
+	}
 }
 
 BigInt& BigInt::operator=(const BigInt& other) {
