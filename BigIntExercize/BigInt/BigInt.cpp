@@ -84,7 +84,7 @@ void BigInt::Sum(const BigInt& other)
 	for (size_t i = 0; i < maxLenght; i++)
 	{
 		const uint_union a = {m_data[i]};
-		const uint_union b =  { i < other.m_data.size() ? other.m_data[i] : 0 };
+		const uint_union b =  { i < other.m_data.size() ? other.m_data[i] : (int_type)0 };
 		
 		const uint_union sum = { a.big_val + b.big_val + rest};
 
@@ -426,4 +426,41 @@ std::ostream& operator<<(std::ostream& os, const BigInt& bInt)
 	os << result;
 
 	return os;
+}
+
+
+BigInt& BigInt::operator&=(const BigInt& other)
+{
+	for (size_t i = 0; i < m_data.size(); i++)
+	{
+		const int_type b = { i < other.m_data.size() ? other.m_data[i] : (int_type)0 };
+
+		m_data[i] &= b;
+	}
+
+	return *this;
+}
+
+BigInt& BigInt::operator|=(const BigInt& other)
+{
+	for (size_t i = 0; i < m_data.size(); i++)
+	{
+		const int_type b = { i < other.m_data.size() ? other.m_data[i] : (int_type)0 };
+
+		m_data[i] |= b;
+	}
+
+	return *this;
+}
+
+BigInt& BigInt::operator^=(const BigInt& other)
+{
+	for (size_t i = 0; i < m_data.size(); i++)
+	{
+		const int_type b = { i < other.m_data.size() ? other.m_data[i] : (int_type)0 };
+
+		m_data[i] ^= b;
+	}
+
+	return *this;
 }

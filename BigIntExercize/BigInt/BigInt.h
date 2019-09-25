@@ -66,19 +66,11 @@ public:
 	BigInt& operator=(BigInt&& other);
 	virtual ~BigInt();
 
-// 	BigInt& operator+() const;
-// 	BigInt& operator-() const;
 	BigInt& operator+=(const BigInt& other);
 	BigInt& operator-=(const BigInt& other);
 	BigInt& operator*=(const BigInt& other);
 	BigInt& operator/=(const BigInt& other);
 	BigInt& operator%=(const BigInt& other);
-// 	BigInt& operator~() const;
-	BigInt& operator&=(const BigInt& other);
-	BigInt& operator|=(const BigInt& other);
-	BigInt& operator^=(const BigInt& other);
-// 	BigInt& operator<<(const BigInt& other) const;
-// 	BigInt& operator>>(const BigInt& other) const;
 
 	friend BigInt operator+(const BigInt &a);
 	friend BigInt operator-(const BigInt &a);
@@ -100,6 +92,13 @@ public:
 	BigInt operator--(int);
 
 	friend std::ostream& operator<<(std::ostream&, const BigInt&);
+
+	// 	BigInt& operator~() const;
+	BigInt& operator&=(const BigInt& other);
+	BigInt& operator|=(const BigInt& other);
+	BigInt& operator^=(const BigInt& other);
+	// 	BigInt& operator<<(const BigInt& other) const;
+	// 	BigInt& operator>>(const BigInt& other) const;
 
 
 private:
