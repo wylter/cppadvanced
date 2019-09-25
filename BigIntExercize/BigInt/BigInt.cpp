@@ -464,3 +464,42 @@ BigInt& BigInt::operator^=(const BigInt& other)
 
 	return *this;
 }
+
+BigInt operator~(const BigInt &a)
+{
+	BigInt c{ a };
+
+	for (int i = 0; i < c.m_data.size(); i++)
+	{
+		c.m_data[i] = ~c.m_data[i];
+	}
+
+	return c;
+}
+
+BigInt operator&(const BigInt &a, const BigInt &b)
+{
+	BigInt c{ a };
+
+	c &= b;
+
+	return c;
+}
+
+BigInt operator|(const BigInt &a, const BigInt &b)
+{
+	BigInt c{ a };
+
+	c |= b;
+
+	return c;
+}
+
+BigInt operator^(const BigInt &a, const BigInt &b)
+{
+	BigInt c{ a };
+
+	c ^= b;
+
+	return c;
+}
