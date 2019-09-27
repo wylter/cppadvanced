@@ -112,7 +112,8 @@ private:
 	void Sub(const BigInt& other);
 	short CompareAbs(const BigInt& other) const;
 	BigInt Division(const BigInt& other);
-	void Shift(int_type);
+	void ShiftLeft(int_type);
+	void ShiftRight(int_type);
 
 	bool m_negativeFlag;
 	container_type m_data;

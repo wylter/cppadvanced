@@ -198,7 +198,7 @@ BigInt BigInt::Division(const BigInt& other)
 }
 
 
-void BigInt::Shift(int_type shiftNum)
+void BigInt::ShiftLeft(int_type shiftNum)
 {
 	int_type rest{ 0 };
 
@@ -216,6 +216,31 @@ void BigInt::Shift(int_type shiftNum)
 	if (rest > 0)
 	{
 		m_data.push_back(rest);
+	}
+}
+
+void BigInt::ShiftRight(int_type shiftNum)
+{
+	int_type rest{ 0 };
+
+	for (size_t i = 0; i < m_data.size(); i++)
+	{
+		const size_t index = m_data.size() - i - 1;
+		const int_type maxShift = sizeof(int_type) * CHAR_BIT;
+
+		uint_union a = { m_data[index] };
+		a.big_val <<= maxShift;
+
+		a.big_val >>= shiftNum;
+
+		m_data[index] = a.leftmost();
+		m_data[index] |= rest;
+		rest = a.rightmost();
+	}
+
+	if (m_data.back() == 0 && m_data.size() > 1)
+	{
+		m_data.pop_back();
 	}
 }
 
@@ -513,7 +538,34 @@ BigInt& BigInt::operator<<=(const BigInt& other)
 
 		otherCpy -= maxShift;
 
-		Shift(shiftNum);
+		ShiftLeft(shiftNum);
+	}
+
+	return *this;
+}
+
+BigInt& BigInt::operator>>=(const BigInt& other)
+{
+	BigInt otherCpy{ other };
+
+	while (otherCpy > 0)
+	{
+		int_type shiftNum{ 0 };
+
+		const int_type maxShift = sizeof(int_type) * CHAR_BIT;
+
+		if (otherCpy >= maxShift)
+		{
+			shiftNum = maxShift;
+		}
+		else
+		{
+			shiftNum = (int_type)otherCpy;
+		}
+
+		otherCpy -= maxShift;
+
+		ShiftRight(shiftNum);
 	}
 
 	return *this;

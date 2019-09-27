@@ -18,16 +18,15 @@ int main()
 	}
 
 	{
-		BigInt a{ "12345" };
-		BigInt b{ "987600000" };
+		BigInt a{ "1" };
+		BigInt b{ "100" };
 
-		a +=  b;
+		a <<= b;
+		a >>= 90;
 
 		std::cout << "B: " << b << std::endl;
 		std::cout << "A: " << a << std::endl;
 	}
-
-
 
 }
 
