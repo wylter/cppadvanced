@@ -25,7 +25,7 @@ public:
 
 		int_type leftmost() const
 		{
-			const int_type h = big_val >> sizeof(int_type) * 8;
+			const int_type h = big_val >> sizeof(int_type) * CHAR_BIT;
 			return h;
 		}
 	};
@@ -66,6 +66,8 @@ public:
 	BigInt& operator=(BigInt&& other);
 	virtual ~BigInt();
 
+	explicit operator int_type() const;
+
 	BigInt& operator+=(const BigInt& other);
 	BigInt& operator-=(const BigInt& other);
 	BigInt& operator*=(const BigInt& other);
@@ -96,8 +98,8 @@ public:
 	BigInt& operator&=(const BigInt& other);
 	BigInt& operator|=(const BigInt& other);
 	BigInt& operator^=(const BigInt& other);
-	BigInt& operator<<=(const BigInt& other) const;
-	BigInt& operator>>=(const BigInt& other) const;
+	BigInt& operator<<=(const BigInt& other);
+	BigInt& operator>>=(const BigInt& other);
 
 	friend BigInt operator~(const BigInt &a);
 	friend BigInt operator&(const BigInt &a, const BigInt &b);
@@ -110,6 +112,7 @@ private:
 	void Sub(const BigInt& other);
 	short CompareAbs(const BigInt& other) const;
 	BigInt Division(const BigInt& other);
+	void Shift(int_type);
 
 	bool m_negativeFlag;
 	container_type m_data;

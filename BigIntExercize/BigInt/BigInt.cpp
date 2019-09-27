@@ -197,6 +197,33 @@ BigInt BigInt::Division(const BigInt& other)
 	return rest;
 }
 
+
+void BigInt::Shift(int_type shiftNum)
+{
+	int_type rest{ 0 };
+
+	for (size_t i = 0; i < m_data.size(); i++)
+	{
+		uint_union a = { m_data[i] };
+
+		a.big_val <<= shiftNum;
+		a.big_val |= rest;
+
+		m_data[i] = a.rightmost();
+		rest = a.leftmost();
+	}
+
+	if (rest > 0)
+	{
+		m_data.push_back(rest);
+	}
+}
+
+BigInt::operator int_type() const
+{
+	return m_data[0];
+}
+
 BigInt& BigInt::operator+=(const BigInt& other)
 {
 	if ((m_negativeFlag && other.m_negativeFlag) || (!m_negativeFlag && !other.m_negativeFlag))
@@ -460,6 +487,33 @@ BigInt& BigInt::operator^=(const BigInt& other)
 		const int_type b = { i < other.m_data.size() ? other.m_data[i] : (int_type)0 };
 
 		m_data[i] ^= b;
+	}
+
+	return *this;
+}
+
+BigInt& BigInt::operator<<=(const BigInt& other)
+{
+	BigInt otherCpy{ other };
+
+	while (otherCpy > 0)
+	{
+		int_type shiftNum{ 0 };
+
+		const int_type maxShift = sizeof(int_type) * CHAR_BIT;
+
+		if (otherCpy >= maxShift)
+		{
+			shiftNum = maxShift;
+		}
+		else
+		{
+			shiftNum = (int_type)otherCpy;
+		}
+
+		otherCpy -= maxShift;
+
+		Shift(shiftNum);
 	}
 
 	return *this;

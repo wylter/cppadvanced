@@ -7,9 +7,28 @@
 
 int main()
 {
-	BigInt a{ "-012345" };
+	{
+		BigInt a{ "1" };
+		BigInt b{ "100" };
 
-	std::cout << a;
+		a <<= b;
+
+		std::cout << "B: " << b << std::endl;
+		std::cout << "A: " << a << std::endl;
+	}
+
+	{
+		BigInt a{ "12345" };
+		BigInt b{ "987600000" };
+
+		a +=  b;
+
+		std::cout << "B: " << b << std::endl;
+		std::cout << "A: " << a << std::endl;
+	}
+
+
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
