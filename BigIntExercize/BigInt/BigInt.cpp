@@ -3,6 +3,41 @@
 #include <algorithm>
 #include <iostream>
 #include <string>
+#include <limits>
+
+
+BigInt::int_type BigInt::uint_union::rightmost() const
+
+{
+	return big_val;
+}
+
+BigInt::int_type BigInt::uint_union::leftmost() const
+{
+	const int_type h = big_val >> sizeof(int_type) * CHAR_BIT;
+	return h;
+}
+
+BigInt::int_type BigInt::sint_union::toPositive() const
+{
+	if (big_val >= 0)
+	{
+		return big_val;
+	}
+	else
+	{
+		const int_type max = std::numeric_limits<int_type>::max();
+		return max + (big_val + (sint_doublesize_type)1);
+	}
+}
+
+bool BigInt::sint_union::sign() const
+{
+	return big_val >= 0;
+}
+
+
+
 
 
 BigInt::BigInt() 

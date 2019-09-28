@@ -1,8 +1,6 @@
 #pragma once
 
 #include <deque>
-#include <limits>
-
 #include<iosfwd>
 
 class BigInt {
@@ -18,39 +16,16 @@ public:
 	{
 		int_doublesize_type big_val;
 
-		int_type rightmost() const
-		{
-			return big_val;
-		}
-
-		int_type leftmost() const
-		{
-			const int_type h = big_val >> sizeof(int_type) * CHAR_BIT;
-			return h;
-		}
+		int_type rightmost() const;
+		int_type leftmost() const;
 	};
 
 	struct sint_union
 	{
 		sint_doublesize_type big_val;
 
-		int_type toPositive() const
-		{
-			if (big_val >= 0)
-			{
-				return big_val;
-			}
-			else
-			{
-				const int_type max = std::numeric_limits<int_type>::max();
-				return max + (big_val + (sint_doublesize_type)1);
-			}
-		}
-
-		bool sign() const
-		{
-			return big_val >= 0;
-		}
+		int_type toPositive() const;
+		bool sign() const;
 	};
 
 
@@ -81,6 +56,7 @@ public:
 	friend BigInt operator*(const BigInt &a, const BigInt &b);
 	friend BigInt operator/(const BigInt &a, const BigInt &b);
 	friend BigInt operator%(const BigInt &a, const BigInt &b);
+
 	friend bool operator<(const BigInt &a, const BigInt &b);
 	friend bool operator<=(const BigInt &a, const BigInt &b);
 	friend bool operator>(const BigInt &a, const BigInt &b);
@@ -122,7 +98,7 @@ private:
 };
 
 template <typename InputIt>
-BigInt::BigInt(InputIt first, InputIt last, bool negativeFlag /*= false*/)
+BigInt::BigInt(InputIt first, InputIt last, bool negativeFlag)
 	: m_data(first, last)
 	, m_negativeFlag(negativeFlag)
 {
