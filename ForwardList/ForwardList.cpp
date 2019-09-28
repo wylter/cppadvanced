@@ -663,7 +663,7 @@ int main()
 			break;
 		case 2:
 			std::cout << "\n\n---------------------------------------\nVector SList\n---------------------------------------\n\n";
-			TestListInteger<cppadvanced::SListVector<Integer, 15>>();
+			TestListInteger<cppadvanced::SListVector<Integer>>();
 
 			std::cout << std::endl << std::endl;
 			std::cout << "Memory leaked: " << Integer::allocated_count * sizeof(Integer) << std::endl << std::endl;

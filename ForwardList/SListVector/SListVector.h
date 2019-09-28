@@ -2,10 +2,11 @@
 #include <iterator>
 #include "List_types.h"
 #include "SListVector/SListVector_iterator.h"
+#include <vector>
 
 namespace cppadvanced
 {
-	template < typename T, size_t MAX >
+	template < typename T >
 	class SListVector {
 	public:
 
@@ -20,6 +21,8 @@ namespace cppadvanced
 		typedef SListVector_iterator<T> iterator;
 		typedef const iterator const_iterator;
 
+		typedef std::vector<node> storage_type;
+
 
 		//CTOR
 		SListVector();
@@ -28,15 +31,15 @@ namespace cppadvanced
 		template<class InputIt>
 		SListVector(InputIt first, InputIt last);
 
-		SListVector(const SListVector<T, MAX>& other); //Copy constructor
-		SListVector(SListVector<T, MAX>&& other); //Move constructor
+		SListVector(const SListVector<T>& other); //Copy constructor
+		SListVector(SListVector<T>&& other); //Move constructor
 
 		//DTOR
 		~SListVector();
 
 		//MEMBER FUNCTIONS
-		SListVector<T, MAX>& operator=(const SListVector<T, MAX>& other); //Copy operator
-		SListVector<T, MAX>& operator=(SListVector<T, MAX>&& other); //Move Operator
+		SListVector<T>& operator=(const SListVector<T>& other); //Copy operator
+		SListVector<T>& operator=(SListVector<T>&& other); //Move Operator
 
 		//ELEMENT ACCESS
 		reference front();
@@ -79,7 +82,7 @@ namespace cppadvanced
 
 		void resize(size_type count, const value_type& value = value_type());
 
-		void swap(SListVector<T, MAX>& other);
+		void swap(SListVector<T>& other);
 
 		//OPERATIONS
 		void remove(const T& value);
@@ -95,7 +98,7 @@ namespace cppadvanced
 	
 
 	private:
-		node* extractFreeHeadNode();
+		size_t extractFreeHeadNode();
 		void pushFreeHead(iterator it);
 		void pushFreeHead(iterator first, iterator last);
 		void split(iterator head, iterator& splittedHead1, iterator& splittedHead2);
@@ -106,11 +109,9 @@ namespace cppadvanced
 
 		iterator before_used_head; //Front iterator of the SList
 		iterator before_free_head;
-		const iterator back; //End iterator of the SList
+		static const iterator back; //End iterator of the SList
 
-		indexed_node_base before_used_node;
-		indexed_node_base before_free_node;
-		node storage[MAX];
+		storage_type storage;
 	};
 
 }

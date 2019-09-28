@@ -1,21 +1,24 @@
 #pragma once
 #include "List_types.h"
+#include <vector>
 
 namespace cppadvanced
 {
+
 	template < typename T >
 	class SListVector_iterator : public std::iterator < std::forward_iterator_tag, T, std::ptrdiff_t, T*, T& >
 	{
 
-		template<typename, size_t> friend class SListVector;
+		template<typename> friend class SListVector;
 		typedef T& it_reference;
 		typedef T* it_pointer;
 		typedef SListArray_node<T> it_node;
+		typedef std::vector<it_node>* storage_type;
 
 	public:
 		SListVector_iterator<T>();
 		SListVector_iterator<T>(const SListVector_iterator<T>&);
-		explicit SListVector_iterator(indexed_node_base* const, it_node* const);
+		SListVector_iterator(const size_t, storage_type const, bool isBeforeBegin = false);
 		~SListVector_iterator();
 		SListVector_iterator<T>& operator=(const SListVector_iterator<T>&);
 		SListVector_iterator<T>& operator++();
@@ -30,9 +33,11 @@ namespace cppadvanced
 
 	protected:
 		operator size_t() const;
+		it_node* GetCurrentNode() const;
 
-		indexed_node_base* current_node;
-		it_node* storage_pointer;
+		bool isBeforeBegin;
+		size_t current_node;
+		storage_type storage_pointer;
 	};
 
 }
