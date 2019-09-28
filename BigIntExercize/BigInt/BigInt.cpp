@@ -609,3 +609,21 @@ BigInt operator^(const BigInt &a, const BigInt &b)
 
 	return c;
 }
+
+BigInt operator<<(const BigInt &a, const BigInt &b)
+{
+	BigInt c{ a };
+
+	c <<= b;
+
+	return c;
+}
+
+BigInt operator>>(const BigInt &a, const BigInt &b)
+{
+	BigInt c{ a };
+
+	c >>= b;
+
+	return c;
+}

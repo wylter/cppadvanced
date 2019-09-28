@@ -2,9 +2,8 @@
 
 #include <deque>
 #include <limits>
-//TODO: 
-//#include<iosfwd>
-class std::ostream;
+
+#include<iosfwd>
 
 class BigInt {
 
@@ -106,6 +105,8 @@ public:
 	friend BigInt operator&(const BigInt &a, const BigInt &b);
 	friend BigInt operator|(const BigInt &a, const BigInt &b);
 	friend BigInt operator^(const BigInt &a, const BigInt &b);
+	friend BigInt operator<<(const BigInt &a, const BigInt &b);
+	friend BigInt operator>>(const BigInt &a, const BigInt &b);
 
 
 private:
