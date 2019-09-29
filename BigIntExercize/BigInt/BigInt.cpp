@@ -666,22 +666,17 @@ BigInt pow(const BigInt& base, const BigInt& exp)
 {
 	BigInt base_{ base };
 	BigInt exp_{ exp };
-	BigInt result{ 0 };
+	BigInt result{ 1 };
 
-	while(true)
+	while(exp_ != 0)
 	{
-		const BigInt test = exp_ & 1;
-		if (test != 0);
+		const bool isExpOdd = exp_.m_data[0] & 1;
+		if (isExpOdd)
 		{
 			result *= base_;
 		}
 
 		exp_ >>= 1;
-		
-		if (exp != 0)
-		{
-			break;
-		}
 
 		base_ *= base_;
 	}
