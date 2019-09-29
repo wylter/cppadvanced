@@ -6,10 +6,10 @@
 class BigInt {
 
 public:
-	typedef uint8_t int_type;
-	typedef uint16_t int_doublesize_type;
-	typedef int16_t sint_doublesize_type;
-	typedef int8_t sint_type;
+	typedef uint32_t int_type;
+	typedef int32_t sint_type;
+	typedef uint64_t int_doublesize_type;
+	typedef int64_t sint_doublesize_type;
 	typedef std::deque<int_type> container_type;
 
 	struct uint_union

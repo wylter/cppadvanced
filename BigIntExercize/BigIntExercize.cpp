@@ -5,39 +5,36 @@
 #include <iostream>
 #include "BigInt/BigInt.h"
 
-int main()
+BigInt fibonacci(BigInt n)
+{
+	if (n == 0)
+	{
+		return 0;
+	}
+
+	if (n == 1)
+	{
+		return 1;
+	}
+
+	return fibonacci(n - 1) + fibonacci(n - 2);
+}
+
+void TestBigInt()
 {
 	{
-		BigInt a{ "1" };
-		BigInt b{ "100" };
+		BigInt a{ "99999999"};
+		BigInt b = { "1" };
 
-		a <<= b;
+		BigInt c = a + b;
 
-		std::cout << "B: " << b << std::endl;
-		std::cout << "A: " << a << std::endl;
+		std::cout << "Sum test: " << c;
 	}
+}
 
-	{
-		BigInt a{ "1" };
-		BigInt b{ "100" };
-
-		a <<= b;
-		a >>= 90;
-
-		std::cout << "B: " << b << std::endl;
-		std::cout << "A: " << a << std::endl;
-	}
-
-	{
-		BigInt a{ "2" };
-		BigInt b{ "10" };
-
-		BigInt c = pow(a, b);
-
-		std::cout << "B: " << b << std::endl;
-		std::cout << "A: " << a << std::endl;
-		std::cout << "C: " << c << std::endl;
-	}
+int main()
+{
+	TestBigInt();
 
 }
 

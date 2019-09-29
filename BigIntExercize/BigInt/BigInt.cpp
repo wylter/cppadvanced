@@ -495,10 +495,8 @@ std::ostream& operator<<(std::ostream& os, const BigInt& bInt)
 
 	do
 	{
-		const BigInt c = a % 10;
-		result.push_back('0' + c.m_data[0]);
-
-		a /= 10;
+		const BigInt rest = a.Division(10);
+		result.push_back('0' + rest.m_data[0]);
 	}
 	while (a > 0);
 
@@ -609,7 +607,7 @@ BigInt operator~(const BigInt &a)
 {
 	BigInt c{ a };
 
-	for (int i = 0; i < c.m_data.size(); i++)
+	for (size_t i = 0; i < c.m_data.size(); i++)
 	{
 		c.m_data[i] = ~c.m_data[i];
 	}
