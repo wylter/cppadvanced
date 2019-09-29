@@ -7,7 +7,6 @@
 
 
 BigInt::int_type BigInt::uint_union::rightmost() const
-
 {
 	return big_val;
 }
@@ -661,4 +660,31 @@ BigInt operator>>(const BigInt &a, const BigInt &b)
 	c >>= b;
 
 	return c;
+}
+
+BigInt pow(const BigInt& base, const BigInt& exp)
+{
+	BigInt base_{ base };
+	BigInt exp_{ exp };
+	BigInt result{ 0 };
+
+	while(true)
+	{
+		const BigInt test = exp_ & 1;
+		if (test != 0);
+		{
+			result *= base_;
+		}
+
+		exp_ >>= 1;
+		
+		if (exp != 0)
+		{
+			break;
+		}
+
+		base_ *= base_;
+	}
+
+	return result;
 }

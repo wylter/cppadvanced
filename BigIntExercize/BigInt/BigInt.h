@@ -49,13 +49,13 @@ public:
 	BigInt& operator/=(const BigInt& other);
 	BigInt& operator%=(const BigInt& other);
 
-	friend BigInt operator+(const BigInt &a);
-	friend BigInt operator-(const BigInt &a);
-	friend BigInt operator+(const BigInt &a, const BigInt &b);
-	friend BigInt operator-(const BigInt &a, const BigInt &b);
-	friend BigInt operator*(const BigInt &a, const BigInt &b);
-	friend BigInt operator/(const BigInt &a, const BigInt &b);
-	friend BigInt operator%(const BigInt &a, const BigInt &b);
+	friend BigInt operator+(const BigInt& a);
+	friend BigInt operator-(const BigInt& a);
+	friend BigInt operator+(const BigInt& a, const BigInt& b);
+	friend BigInt operator-(const BigInt& a, const BigInt& b);
+	friend BigInt operator*(const BigInt& a, const BigInt& b);
+	friend BigInt operator/(const BigInt& a, const BigInt& b);
+	friend BigInt operator%(const BigInt& a, const BigInt& b);
 
 	friend bool operator<(const BigInt &a, const BigInt &b);
 	friend bool operator<=(const BigInt &a, const BigInt &b);
@@ -77,12 +77,14 @@ public:
 	BigInt& operator<<=(const BigInt& other);
 	BigInt& operator>>=(const BigInt& other);
 
-	friend BigInt operator~(const BigInt &a);
-	friend BigInt operator&(const BigInt &a, const BigInt &b);
-	friend BigInt operator|(const BigInt &a, const BigInt &b);
-	friend BigInt operator^(const BigInt &a, const BigInt &b);
-	friend BigInt operator<<(const BigInt &a, const BigInt &b);
-	friend BigInt operator>>(const BigInt &a, const BigInt &b);
+	friend BigInt operator~(const BigInt& a);
+	friend BigInt operator&(const BigInt& a, const BigInt& b);
+	friend BigInt operator|(const BigInt& a, const BigInt& b);
+	friend BigInt operator^(const BigInt& a, const BigInt& b);
+	friend BigInt operator<<(const BigInt& a, const BigInt& b);
+	friend BigInt operator>>(const BigInt& a, const BigInt& b);
+
+	friend BigInt pow(const BigInt& ,const BigInt&);
 
 
 private:

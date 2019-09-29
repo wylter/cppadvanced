@@ -28,6 +28,17 @@ int main()
 		std::cout << "A: " << a << std::endl;
 	}
 
+	{
+		BigInt a{ "2" };
+		BigInt b{ "10" };
+
+		BigInt c = pow(a, b);
+
+		std::cout << "B: " << b << std::endl;
+		std::cout << "A: " << a << std::endl;
+		std::cout << "C: " << c << std::endl;
+	}
+
 }
 
 // Run program: Ctrl + F5 or Debug > Start Without Debugging menu
