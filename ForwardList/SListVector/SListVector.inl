@@ -472,15 +472,17 @@ namespace cppadvanced
 	template< class Compare >
 	typename SListVector<T>::iterator SListVector<T>::mergeList(iterator head1, iterator head2, Compare comp)
 	{
-		const bool head1OverHead2 = comp(*head1, *head2);
-		iterator head_result = head1OverHead2 ? head1 : head2;
+		iterator head_result;
 		
-		if (head1OverHead2)
+		//Init head result with one of the two heads
+		if (head1 != back && comp(*head1, *head2))
 		{
+			head_result = head1;
 			head1++;
 		}
-		else
+		else if (head2 != back)
 		{
+			head_result = head2;
 			head2++;
 		}
 
