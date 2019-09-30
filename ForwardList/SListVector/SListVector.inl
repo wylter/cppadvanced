@@ -199,7 +199,6 @@ namespace cppadvanced
 		const iterator postpos = std::next(pos);
 
 		newNode->value = value;
-
 		prepos.get_node_address()->next = newIndex;
 		newNode->next = postpos;
 
@@ -217,7 +216,6 @@ namespace cppadvanced
 		const iterator postpos = std::next(pos);
 
 		newNode->value = std::move(value);
-
 		prepos.get_node_address()->next = newIndex;
 		newNode->next = postpos;
 
