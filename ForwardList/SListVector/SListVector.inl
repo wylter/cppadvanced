@@ -313,46 +313,20 @@ namespace cppadvanced
 	template < typename T >
 	void SListVector<T>::push_front(const T& value)
 	{
-		const size_t newIndex = extractFreeHeadNode();
-		node* const newNode = &storage[newIndex];
-
-		if (!newNode)
-		{
-			return;
-		}
-
-		newNode->value = value;
-		newNode->next = before_used_head.GetCurrentNodeAddress()->next;
-
-		before_used_head.GetCurrentNodeAddress()->next = newIndex;
+		insert_after(before_used_head, value);
 	}
 
 	template < typename T >
 	void SListVector<T>::push_front(T&& value)
 	{
-		const size_t newIndex = extractFreeHeadNode();
-		node* const newNode = &storage[newIndex];
-
-		if (!newNode)
-		{
-			return;
-		}
-
-		newNode->value = std::move(value);
-		newNode->next = before_used_head.GetCurrentNodeAddress()->next;
-
-		before_used_head.GetCurrentNodeAddress()->next = newIndex;
+		insert_after(before_used_head, std::move(value));
 	}
 
 	
 	template < typename T >
 	void SListVector<T>::pop_front()
 	{
-		const iterator toEraseIterator = std::next(before_used_head);
-
-		before_used_head.GetCurrentNodeAddress()->next = toEraseIterator.GetCurrentNodeAddress()->next;
-
-		pushFreeHead(toEraseIterator);
+		erase_after(before_used_head);
 	}
 
 	template < typename T >
@@ -370,23 +344,11 @@ namespace cppadvanced
 		if (elements_count < count)
 		{
 			const size_t count_difference = count - elements_count;
-
-			for (size_t i = 0; i < count_difference; i++, it++)
-			{
-				const size_t newIndex = extractFreeHeadNode();
-				node* const newNode = &storage[newIndex];
-				newNode->value = value;
-
-				it.GetCurrentNodeAddress()->next = newIndex;
-			}
+			insert_after(it, count_difference, value);
 		}
 		else
 		{
-			iterator tail = it;
-
-			pushFreeHead(std::next(tail), back);
-
-			tail.GetCurrentNodeAddress()->next = back;
+			erase_after(it, back);
 		}
 	}
 
@@ -406,11 +368,8 @@ namespace cppadvanced
 		{
 			if (*it == value)
 			{
-				const iterator current_node = it;
-				it++;
-				pushFreeHead(current_node);
-
-				prevIt.GetCurrentNodeAddress()->next = it;
+ 				it++;
+				erase_after(prevIt);
 			}
 			else
 			{
@@ -458,9 +417,7 @@ namespace cppadvanced
 			const iterator next = std::next(it);
 			if (next != back && *it == *next)
 			{
-				it.GetCurrentNodeAddress()->next = next.GetCurrentNodeAddress()->next;
-
-				pushFreeHead(next);
+				erase_after(it);
 			}
 			else
 			{
