@@ -22,10 +22,7 @@ namespace cppadvanced
 	template < typename T >
 	SListVector<T>::SListVector(size_type count) : SListVector()
 	{
-		for (size_t i = 0; i < count; i++)
-		{
-			push_front(value_type());
-		}
+		insert_after(before_used_head, count, T());
 	}
 
 	template < typename T >

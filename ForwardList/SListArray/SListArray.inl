@@ -24,10 +24,7 @@ namespace cppadvanced
 	{
 		count = count <= MAX ? count : MAX;
 
-		for (size_t i = 0; i < count; i++)
-		{
-			push_front(value_type());
-		}
+		insert_after(before_used_head, count, T());
 	}
 
 	template < typename T, size_t MAX >
