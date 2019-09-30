@@ -103,20 +103,6 @@ namespace cppadvanced
 		before_free_head.GetCurrentNodeAddress()->next = it;
 		it.GetCurrentNodeAddress()->next = free_head;
 	}
-
-
-	template < typename T >
-	void cppadvanced::SListVector<T>::pushFreeHead(iterator first, iterator last)
-	{
-		while(first != last)
-		{
-			const iterator current_it = first;
-			first++;
-
-			pushFreeHead(current_it);
-		}
-	}
-
 	
 	template < typename T >
 	typename SListVector<T>& SListVector<T>::operator=(const SListVector<T>& other)
@@ -290,7 +276,6 @@ namespace cppadvanced
 	typename SListVector<T>::iterator SListVector<T>::erase_after(const_iterator pos)
 	{
 		const iterator erasepos = std::next(pos);
-
 		const iterator postpos = std::next(erasepos);
 
 		pushFreeHead(erasepos);
@@ -303,7 +288,15 @@ namespace cppadvanced
 	template < typename T >
 	typename SListVector<T>::iterator SListVector<T>::erase_after(const_iterator first, const_iterator last)
 	{
-		pushFreeHead(std::next(first), last);
+		iterator it = std::next(first);
+
+		while (it != last)
+		{
+			const iterator current_it = it;
+			it++;
+
+			pushFreeHead(current_it);
+		}
 
 		first.GetCurrentNodeAddress()->next = last;
 
