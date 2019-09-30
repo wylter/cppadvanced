@@ -108,9 +108,12 @@ namespace cppadvanced
 	template < typename T >
 	void cppadvanced::SListVector<T>::pushFreeHead(iterator first, iterator last)
 	{
-		for (; first != last; first++)
+		while(first != last)
 		{
-			pushFreeHead(first);
+			const iterator current_it = first;
+			first++;
+
+			pushFreeHead(current_it);
 		}
 	}
 
