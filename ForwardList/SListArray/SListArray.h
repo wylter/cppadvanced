@@ -95,13 +95,13 @@ namespace cppadvanced
 	
 
 	private:
-		node* extractFreeHeadNode();
-		void pushFreeHead(iterator it);
+		node* extract_free_head_node();
+		void push_free_head(iterator it);
 		void split(iterator head, iterator& splittedHead1, iterator& splittedHead2);
 		template< class Compare >
-		iterator mergeList(iterator head1, iterator head2, Compare comp);
+		iterator merge_list(iterator head1, iterator head2, Compare comp);
 		template< class Compare >
-		void mergeSort(iterator& head, Compare comp);
+		void merges_sort(iterator& head, Compare comp);
 
 		iterator before_used_head; //Front iterator of the SList
 		iterator before_free_head;

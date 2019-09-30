@@ -93,7 +93,7 @@ namespace cppadvanced
 	{}
 
 	template < typename T, size_t MAX >
-	typename SListArray<T, MAX>::node* cppadvanced::SListArray<T, MAX>::extractFreeHeadNode()
+	typename SListArray<T, MAX>::node* cppadvanced::SListArray<T, MAX>::extract_free_head_node()
 	{
 		iterator newPosition = std::next(before_free_head);
 
@@ -108,7 +108,7 @@ namespace cppadvanced
 	}
 
 	template < typename T, size_t MAX >
-	void cppadvanced::SListArray<T, MAX>::pushFreeHead(iterator it)
+	void cppadvanced::SListArray<T, MAX>::push_free_head(iterator it)
 	{
 		const iterator free_head = std::next(before_free_head);
 
@@ -234,7 +234,7 @@ namespace cppadvanced
 	template < typename T, size_t MAX >
 	typename SListArray<T, MAX>::iterator SListArray<T, MAX>::insert_after(const_iterator pos, const T& value)
 	{
-		node* newNode = extractFreeHeadNode();
+		node* newNode = extract_free_head_node();
 
 		if (!newNode)
 		{
@@ -257,7 +257,7 @@ namespace cppadvanced
 	template < typename T, size_t MAX >
 	typename SListArray<T, MAX>::iterator SListArray<T, MAX>::insert_after(const_iterator pos, T&& value)
 	{
-		node* newNode = extractFreeHeadNode();
+		node* newNode = extract_free_head_node();
 
 		if (!newNode)
 		{
@@ -325,7 +325,7 @@ namespace cppadvanced
 
 		const iterator postpos = std::next(erasepos);
 
-		pushFreeHead(erasepos);
+		push_free_head(erasepos);
 
 		pos.current_node->next = postpos;
 
@@ -342,7 +342,7 @@ namespace cppadvanced
 			const iterator current_it = it;
 			it++;
 
-			pushFreeHead(current_it);
+			push_free_head(current_it);
 		}
 
 		first.current_node->next = last;
@@ -510,7 +510,7 @@ namespace cppadvanced
 	{
 		iterator head = std::next(before_used_head);
 
-		mergeSort(head, comp);
+		merges_sort(head, comp);
 
 		before_used_head.current_node->next = head;
 	}
@@ -518,7 +518,7 @@ namespace cppadvanced
 	
 	template < typename T, size_t MAX >
 	template< class Compare >
-	typename SListArray<T, MAX>::iterator SListArray<T, MAX>::mergeList(iterator head1, iterator head2, Compare comp)
+	typename SListArray<T, MAX>::iterator SListArray<T, MAX>::merge_list(iterator head1, iterator head2, Compare comp)
 	{
 		indexed_node_base before_head_node;
 		before_head_node.next = back;
@@ -557,7 +557,7 @@ namespace cppadvanced
 
 	template < typename T, size_t MAX >
 	template< class Compare >
-	void SListArray<T, MAX>::mergeSort(iterator& head_reference, Compare comp)
+	void SListArray<T, MAX>::merges_sort(iterator& head_reference, Compare comp)
 	{
 		const iterator head = head_reference;
 
@@ -571,9 +571,9 @@ namespace cppadvanced
 
 		split(head, splittedHead1, splittedHead2);
 
-		mergeSort(splittedHead1, comp);
-		mergeSort(splittedHead2, comp);
+		merges_sort(splittedHead1, comp);
+		merges_sort(splittedHead2, comp);
 
-		head_reference = mergeList(splittedHead1, splittedHead2, comp);
+		head_reference = merge_list(splittedHead1, splittedHead2, comp);
 	}
 }
