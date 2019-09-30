@@ -15,8 +15,8 @@ namespace cppadvanced
 		, before_used_head(0, &storage)
 		, before_free_head(1, &storage)
 	{
-		before_used_head.GetCurrentNodeAddress()->next = back;
-		before_free_head.GetCurrentNodeAddress()->next = back;
+		before_used_head.get_node_address()->next = back;
+		before_free_head.get_node_address()->next = back;
 	}
 
 	template < typename T >
@@ -46,25 +46,7 @@ namespace cppadvanced
 	template<class InputIt>
 	SListVector<T>::SListVector(InputIt first, InputIt last) : SListVector()
 	{
-		int i;
-		for (i = MINSIZE; first != last; first++, i++)
-		{
-			storage.resize(storage.size() + 1);
-			storage[i].value = *first;
-			storage[i].next = i + 1;
-		}
-
-		if (i != 0)// If at least 1 element was inserted
-		{
-			before_used_head.GetCurrentNodeAddress()->next = MINSIZE;
-			before_free_head.GetCurrentNodeAddress()->next = back;
-			storage[i - 1].next = back; //Connects the last node to back
-		}
-		else
-		{
-			before_used_head.GetCurrentNodeAddress()->next = back;
-			before_free_head.GetCurrentNodeAddress()->next = back;
-		}
+		insert_after(before_used_head, first, last);
 	}
 
 	template < typename T >
@@ -72,36 +54,34 @@ namespace cppadvanced
 	{}
 
 	template < typename T >
-	size_t cppadvanced::SListVector<T>::extractFreeHeadNode()
+	size_t cppadvanced::SListVector<T>::extract_free_head_index()
 	{
 		iterator newPosition = std::next(before_free_head);
 
 		if (newPosition != back) // No space left, cant push another item
 		{
-			before_free_head.GetCurrentNodeAddress()->next = newPosition.GetCurrentNodeAddress()->next;  //Disconnect the node
+			before_free_head.get_node_address()->next = newPosition.get_node_address()->next;  //Disconnect the node
 		}
 		else
 		{
-			const size_t newSize = storage.size() + 1;
-			storage.resize(newSize);
+			const size_t lastIndex = storage.size() - 1;
+			storage.resize(storage.size() + 1);
 
-			const size_t lastIndex = newSize - 1;
 			storage[lastIndex].next = back;
 
 			newPosition.current_node_index = lastIndex;
 		}
 
-
 		return newPosition.current_node_index;
 	}
 
 	template < typename T >
-	void cppadvanced::SListVector<T>::pushFreeHead(iterator it)
+	void cppadvanced::SListVector<T>::push_free_head(iterator it)
 	{
 		const iterator free_head = std::next(before_free_head);
 
-		before_free_head.GetCurrentNodeAddress()->next = it;
-		it.GetCurrentNodeAddress()->next = free_head;
+		before_free_head.get_node_address()->next = it;
+		it.get_node_address()->next = free_head;
 	}
 	
 	template < typename T >
@@ -205,14 +185,14 @@ namespace cppadvanced
 	{
 		storage.resize(MINSIZE);
 
-		before_used_head.GetCurrentNodeAddress()->next = back;
-		before_free_head.GetCurrentNodeAddress()->next = back;
+		before_used_head.get_node_address()->next = back;
+		before_free_head.get_node_address()->next = back;
 	}
 
 	template < typename T >
 	typename SListVector<T>::iterator SListVector<T>::insert_after(const_iterator pos, const T& value)
 	{
-		const size_t newIndex = extractFreeHeadNode();
+		const size_t newIndex = extract_free_head_index();
 		node* const newNode = &storage[newIndex];
 
 		const iterator prepos = pos;
@@ -220,7 +200,7 @@ namespace cppadvanced
 
 		newNode->value = value;
 
-		prepos.GetCurrentNodeAddress()->next = newIndex;
+		prepos.get_node_address()->next = newIndex;
 		newNode->next = postpos;
 
 		const iterator newPosition(newIndex, &storage);
@@ -230,7 +210,7 @@ namespace cppadvanced
 	template < typename T >
 	typename SListVector<T>::iterator SListVector<T>::insert_after(const_iterator pos, T&& value)
 	{
-		const size_t newIndex = extractFreeHeadNode();
+		const size_t newIndex = extract_free_head_index();
 		node* const newNode = &storage[newIndex];
 
 		const iterator prepos = pos;
@@ -238,7 +218,7 @@ namespace cppadvanced
 
 		newNode->value = std::move(value);
 
-		prepos.GetCurrentNodeAddress()->next = newIndex;
+		prepos.get_node_address()->next = newIndex;
 		newNode->next = postpos;
 
 		const iterator newPosition(newIndex, &storage);
@@ -278,9 +258,9 @@ namespace cppadvanced
 		const iterator erasepos = std::next(pos);
 		const iterator postpos = std::next(erasepos);
 
-		pushFreeHead(erasepos);
+		push_free_head(erasepos);
 
-		pos.GetCurrentNodeAddress()->next = postpos;
+		pos.get_node_address()->next = postpos;
 
 		return postpos;
 	}
@@ -295,10 +275,10 @@ namespace cppadvanced
 			const iterator current_it = it;
 			it++;
 
-			pushFreeHead(current_it);
+			push_free_head(current_it);
 		}
 
-		first.GetCurrentNodeAddress()->next = last;
+		first.get_node_address()->next = last;
 
 		return last;
 	}
@@ -384,7 +364,7 @@ namespace cppadvanced
 
 		iterator it = std::next(head);
 
-		head.GetCurrentNodeAddress()->next = back;
+		head.get_node_address()->next = back;
 
 		iterator last_head = head;
 
@@ -393,11 +373,11 @@ namespace cppadvanced
 			const iterator current_iterator = it;
 			it++;
 
-			current_iterator.GetCurrentNodeAddress()->next = last_head;
+			current_iterator.get_node_address()->next = last_head;
 			last_head = current_iterator;
 		}
 
-		before_used_head.GetCurrentNodeAddress()->next = last_head;
+		before_used_head.get_node_address()->next = last_head;
 	}
 
 	template < typename T >
@@ -421,7 +401,7 @@ namespace cppadvanced
 
 	
 	template < typename T >
-	void SListVector<T>::split(iterator head, iterator& splittedHead1, iterator& splittedHead2)
+	void SListVector<T>::split(iterator head, iterator& splittedhead1, iterator& splittedhead2)
 	{
 		iterator slow = head;
 		iterator fast = std::next(head);
@@ -436,10 +416,10 @@ namespace cppadvanced
 			}
 		}
 
-		splittedHead1 = head;
-		splittedHead2 = std::next(slow);
+		splittedhead1 = head;
+		splittedhead2 = std::next(slow);
 
-		slow.GetCurrentNodeAddress()->next = back; // splitting the two lists
+		slow.get_node_address()->next = back; // splitting the two lists
 	}
 
 	
@@ -455,15 +435,15 @@ namespace cppadvanced
 	{
 		iterator head = std::next(before_used_head);
 
-		mergeSort(head, comp);
+		merge_sort(head, comp);
 
-		before_used_head.GetCurrentNodeAddress()->next = head;
+		before_used_head.get_node_address()->next = head;
 	}
 
 	
 	template < typename T >
 	template< class Compare >
-	typename SListVector<T>::iterator SListVector<T>::mergeList(iterator head1, iterator head2, Compare comp)
+	typename SListVector<T>::iterator SListVector<T>::merge_list(iterator head1, iterator head2, Compare comp)
 	{
 		iterator head_result;
 		
@@ -485,12 +465,12 @@ namespace cppadvanced
 		{
 			if (comp(*head1, *head2))
 			{
-				it.GetCurrentNodeAddress()->next = head1;
+				it.get_node_address()->next = head1;
 				head1++;
 			}
 			else
 			{
-				it.GetCurrentNodeAddress()->next = head2;
+				it.get_node_address()->next = head2;
 				head2++;
 			}
 
@@ -499,11 +479,11 @@ namespace cppadvanced
 
 		if (head1 != back)
 		{
-			it.GetCurrentNodeAddress()->next = head1;
+			it.get_node_address()->next = head1;
 		}
 		else //head2 != back
 		{
-			it.GetCurrentNodeAddress()->next = head2;
+			it.get_node_address()->next = head2;
 		}
 
 
@@ -512,7 +492,7 @@ namespace cppadvanced
 
 	template < typename T >
 	template< class Compare >
-	void SListVector<T>::mergeSort(iterator& head_reference, Compare comp)
+	void SListVector<T>::merge_sort(iterator& head_reference, Compare comp)
 	{
 		const iterator head = head_reference;
 
@@ -526,9 +506,9 @@ namespace cppadvanced
 
 		split(head, splittedHead1, splittedHead2);
 
-		mergeSort(splittedHead1, comp);
-		mergeSort(splittedHead2, comp);
+		merge_sort(splittedHead1, comp);
+		merge_sort(splittedHead2, comp);
 
-		head_reference = mergeList(splittedHead1, splittedHead2, comp);
+		head_reference = merge_list(splittedHead1, splittedHead2, comp);
 	}
 }

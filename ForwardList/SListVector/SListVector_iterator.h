@@ -33,7 +33,7 @@ namespace cppadvanced
 
 	protected:
 		operator size_t() const;
-		it_node* GetCurrentNodeAddress() const;
+		it_node* get_node_address() const;
 
 		size_t current_node_index;
 		storage_type storage_pointer;

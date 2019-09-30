@@ -89,7 +89,7 @@ namespace cppadvanced
 	}
 
 	template < typename T >
-	typename SListVector_iterator<T>::it_node* SListVector_iterator<T>::GetCurrentNodeAddress() const
+	typename SListVector_iterator<T>::it_node* SListVector_iterator<T>::get_node_address() const
 	{
 		it_node* current_node_address = &(*storage_pointer)[current_node_index];
 		return current_node_address;
