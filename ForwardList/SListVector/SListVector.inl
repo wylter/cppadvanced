@@ -64,7 +64,7 @@ namespace cppadvanced
 		}
 		else
 		{
-			const size_t lastIndex = storage.size() - 1;
+			const size_t lastIndex = storage.size();
 			storage.resize(storage.size() + 1);
 
 			storage[lastIndex].next = back;
