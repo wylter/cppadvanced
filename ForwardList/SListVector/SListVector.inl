@@ -475,12 +475,12 @@ namespace cppadvanced
 		iterator head_result;
 		
 		//Init head result with one of the two heads
-		if (head1 != back && comp(*head1, *head2))
+		if (comp(*head1, *head2))
 		{
 			head_result = head1;
 			head1++;
 		}
-		else if (head2 != back)
+		else
 		{
 			head_result = head2;
 			head2++;
@@ -493,15 +493,15 @@ namespace cppadvanced
 			if (comp(*head1, *head2))
 			{
 				it.GetCurrentNodeAddress()->next = head1;
-				it++;
 				head1++;
 			}
 			else
 			{
 				it.GetCurrentNodeAddress()->next = head2;
-				it++;
 				head2++;
 			}
+
+			it++;
 		}
 
 		if (head1 != back)
