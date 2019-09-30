@@ -202,13 +202,11 @@ void TestListInteger()
 
 		std::cout << "Result:" << std::endl;
 
-		std::cout << (list1.before_begin() == list1.end() ? "true" : "false");
 		std::cout << std::endl;
 		print(list2.begin(), list2.end());
 		std::cout << std::endl;
 
 		std::cout << "Attended Result:" << std::endl;
-		std::cout << "true" << std::endl;
 		for (int i = 0; i < 10; i++)
 		{
 			std::cout << vect[i] << " ";
