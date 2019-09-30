@@ -19,10 +19,9 @@ namespace cppadvanced
 	template < typename T >
 	SList<T>::SList(size_type count) : SList()
 	{
-		value_type default_value = {};
 		for (size_t i = 0; i < count; i++)
 		{
-			push_front(default_value);
+			push_front(value_type());
 		}
 	}
 

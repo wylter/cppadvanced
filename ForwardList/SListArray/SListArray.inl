@@ -24,10 +24,9 @@ namespace cppadvanced
 	{
 		count = count <= MAX ? count : MAX;
 
-		value_type default_value = {};
 		for (size_t i = 0; i < count; i++)
 		{
-			push_front(default_value);
+			push_front(value_type());
 		}
 	}
 
@@ -72,10 +71,18 @@ namespace cppadvanced
 			storage[i].value = *first;
 			storage[i].next = i + 1;
 		}
-		storage[i - 1].next = MAX; //Connects the last node to back
 
-		before_used_node.next = 0;
-		before_free_node.next = i;
+		if (i != 0) // If at least 1 element was inserted
+		{
+			storage[i - 1].next = MAX; //Connects the last node to back
+			before_used_node.next = 0;
+			before_free_node.next = i;
+		}
+		else
+		{
+			before_used_node.next = MAX;
+			before_free_node.next = i;
+		}
 
 		//Setup rest of the nodes
 		for (; i < MAX; i++)
@@ -304,6 +311,7 @@ namespace cppadvanced
 		return newPosition;
 	}
 
+	//TODO: change logic 
 	template < typename T, size_t MAX >
 	typename SListArray<T, MAX>::iterator SListArray<T, MAX>::insert_after(const_iterator pos, size_type count, const T& value)
 	{
