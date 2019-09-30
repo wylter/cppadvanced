@@ -7,13 +7,17 @@ namespace cppadvanced
 {
 	//back iterator is set to nullptr. As the "end()" method will return the iterator that represents the element after the last one, the last element will always point to nullptr.
 	template < typename T >
-	const typename SListVector<T>::iterator SListVector<T>::back = iterator(std::numeric_limits<size_t>::max(), nullptr, false);
+	const typename SListVector<T>::iterator SListVector<T>::back = iterator(std::numeric_limits<size_t>::max(), nullptr);
 
 	template < typename T >
 	SListVector<T>::SListVector()
-		: before_used_head(back, &storage, true)
-		, before_free_head(back, &storage, true)
-	{}
+		: storage(2)
+		, before_used_head(0, &storage)
+		, before_free_head(1, &storage)
+	{
+		before_used_head.GetCurrentNode()->next = back;
+		before_free_head.GetCurrentNode()->next = back;
+	}
 
 	template < typename T >
 	SListVector<T>::SListVector(size_type count) : SListVector()
@@ -28,33 +32,23 @@ namespace cppadvanced
 	template < typename T >
 	SListVector<T>::SListVector(const SListVector<T>& other) 
 		: storage(other.storage)
-		, before_used_head(back, &storage, true)
-		, before_free_head(back, &storage, true)
-	{
-		//Copying node indexes
-		before_used_head.current_node = other.before_used_head.current_node;
-		before_free_head.current_node = other.before_free_head.current_node;
-	}
+		, before_used_head(other.before_used_head.current_node, &storage)
+		, before_free_head(other.before_free_head.current_node, &storage)
+	{}
 
 	template < typename T >
 	SListVector<T>::SListVector(SListVector<T>&& other)
 		: storage(std::move(other.storage))
-		, before_used_head(back, &storage, true)
-		, before_free_head(back, &storage, true)
-	{
-
-		before_used_head.current_node = other.before_used_head.current_node;
-		before_free_head.current_node = other.before_free_head.current_node;
-	}
+		, before_used_head(other.before_used_head.current_node, &storage)
+		, before_free_head(other.before_free_head.current_node, &storage)
+	{}
 
 	template < typename T >
 	template<class InputIt>
-	SListVector<T>::SListVector(InputIt first, InputIt last)
-		: before_used_head(back, &storage, true)
-		, before_free_head(back, &storage, true)
+	SListVector<T>::SListVector(InputIt first, InputIt last) : SListVector()
 	{
 		int i;
-		for (i = 0; first != last; first++, i++)
+		for (i = MINSIZE; first != last; first++, i++)
 		{
 			storage.resize(storage.size() + 1);
 			storage[i].value = *first;
@@ -62,8 +56,8 @@ namespace cppadvanced
 		}
 		storage[i - 1].next = back; //Connects the last node to back
 
-		before_used_head.current_node = 0;
-		before_free_head.current_node = back;
+		before_used_head.GetCurrentNode()->next = MINSIZE;
+		before_free_head.GetCurrentNode()->next = back;
 	}
 
 	template < typename T >
@@ -133,10 +127,6 @@ namespace cppadvanced
 	{
 		storage = other.storage;
 
-		//Copying node indexes
-		before_used_head.current_node = other.before_used_head.current_node;
-		before_free_head.current_node = other.before_free_head.current_node;
-
 		return *this;
 	}
 
@@ -144,10 +134,6 @@ namespace cppadvanced
 	typename SListVector<T>& SListVector<T>::operator=(SListVector<T>&& other)
 	{
 		storage = std::move(other.storage);
-
-		//Copying node indexes
-		before_used_head.current_node = other.before_used_head.current_node;
-		before_free_head.current_node = other.before_free_head.current_node;
 
 		return *this;
 	}
@@ -235,10 +221,10 @@ namespace cppadvanced
 	template < typename T >
 	void SListVector<T>::clear() noexcept
 	{
-		storage.clear();
+		storage.resize(MINSIZE);
 
-		before_used_head.current_node = back;
-		before_free_head.current_node = back;
+		before_used_head.GetCurrentNode()->next = back;
+		before_free_head.GetCurrentNode()->next = back;
 	}
 
 	template < typename T >
@@ -256,7 +242,7 @@ namespace cppadvanced
 
 		newNode->value = value;
 
-		prepos.current_node->next = newNode;
+		prepos.GetCurrentNode()->next = newNode;
 		newNode->next = postpos.current_node;
 
 		return iterator(newNode);
@@ -435,9 +421,6 @@ namespace cppadvanced
 	void SListVector<T>::swap(SListVector<T>& other)
 	{
 		storage.swap(other.storage);
-
-		std::swap(before_used_head.current_node, other.before_used_head.current_node);
-		std::swap(before_free_head.current_node, other.before_free_head.current_node);
 	}
 
 	template < typename T >
@@ -559,9 +542,19 @@ namespace cppadvanced
 	template< class Compare >
 	typename SListVector<T>::iterator SListVector<T>::mergeList(iterator head1, iterator head2, Compare comp)
 	{
-		iterator before_head_result(back, &storage);
+		const bool head1OverHead2 = comp(*head1, *head2);
+		iterator head_result = head1OverHead2 ? head1 : head2;
+		
+		if (head1OverHead2)
+		{
+			head1++;
+		}
+		else
+		{
+			head2++;
+		}
 
-		iterator it = before_head_result;
+		iterator it = head_result;
 
 		while (head1 != back && head2 != back)
 		{
@@ -589,7 +582,7 @@ namespace cppadvanced
 		}
 
 
-		return std::next(before_head_result);
+		return head_result;
 	}
 
 	template < typename T >

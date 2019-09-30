@@ -16,7 +16,7 @@ namespace cppadvanced
  		typedef const pointer const_pointer;
 		typedef size_t size_type;
 
-		typedef SListArray_node<T> node;
+		typedef indexed_node<T> node;
 		typedef SListArray_iterator<T> iterator;
 		typedef const iterator const_iterator;
 

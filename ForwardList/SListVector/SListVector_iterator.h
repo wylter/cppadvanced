@@ -12,13 +12,13 @@ namespace cppadvanced
 		template<typename> friend class SListVector;
 		typedef T& it_reference;
 		typedef T* it_pointer;
-		typedef SListArray_node<T> it_node;
+		typedef indexed_node<T> it_node;
 		typedef std::vector<it_node>* storage_type;
 
 	public:
 		SListVector_iterator<T>();
 		SListVector_iterator<T>(const SListVector_iterator<T>&);
-		SListVector_iterator(const size_t, storage_type const, bool isBeforeBegin = false);
+		SListVector_iterator(const size_t, storage_type const);
 		~SListVector_iterator();
 		SListVector_iterator<T>& operator=(const SListVector_iterator<T>&);
 		SListVector_iterator<T>& operator++();
@@ -35,7 +35,6 @@ namespace cppadvanced
 		operator size_t() const;
 		it_node* GetCurrentNode() const;
 
-		bool isBeforeBegin;
 		size_t current_node;
 		storage_type storage_pointer;
 	};

@@ -10,7 +10,7 @@ namespace cppadvanced
 		template<typename, size_t> friend class SListArray;
 		typedef T& it_reference;
 		typedef T* it_pointer;
-		typedef SListArray_node<T> it_node;
+		typedef indexed_node<T> it_node;
 
 	public:
 		SListArray_iterator<T>();

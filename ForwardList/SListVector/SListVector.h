@@ -17,7 +17,7 @@ namespace cppadvanced
  		typedef const pointer const_pointer;
 		typedef size_t size_type;
 
-		typedef SListArray_node<T> node;
+		typedef indexed_node<T> node;
 		typedef SListVector_iterator<T> iterator;
 		typedef const iterator const_iterator;
 
@@ -110,6 +110,8 @@ namespace cppadvanced
 		iterator before_used_head; //Front iterator of the SList
 		iterator before_free_head;
 		static const iterator back; //End iterator of the SList
+
+		static constexpr size_t MINSIZE = 2;
 
 		storage_type storage;
 	};

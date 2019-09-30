@@ -8,7 +8,6 @@ namespace cppadvanced
 	SListVector_iterator<T>::SListVector_iterator() 
 		: current_node()
 		, storage_pointer(nullptr)
-		, isBeforeBegin(false)
 	{}
 
 	template < typename T >
@@ -16,14 +15,12 @@ namespace cppadvanced
 	{
 		current_node = other.current_node;
 		storage_pointer = other.storage_pointer;
-		isBeforeBegin = other.isBeforeBegin;
 	}
 
 	template < typename T >
-	SListVector_iterator<T>::SListVector_iterator(const size_t nodeIndex, storage_type const storage_pointer, bool isBeforeBegin)
+	SListVector_iterator<T>::SListVector_iterator(const size_t nodeIndex, storage_type const storage_pointer)
 		: current_node(nodeIndex)
 		, storage_pointer(storage_pointer)
-		, isBeforeBegin(isBeforeBegin)
 	{}
 
 	template < typename T >
@@ -35,21 +32,13 @@ namespace cppadvanced
 	{
 		current_node = other.current_node;
 		storage_pointer = other.storage_pointer;
-		isBeforeBegin = other.isBeforeBegin;
 		return *this;
 	}
 
 	template < typename T >
 	SListVector_iterator<T>& SListVector_iterator<T>::operator++()
 	{
-		if (isBeforeBegin)
-		{
-			isBeforeBegin = false;
-		}
-		else
-		{
-			current_node = (*storage_pointer)[current_node].next;
-		}
+		current_node = (*storage_pointer)[current_node].next;
 		return *this;
 	}
 
@@ -84,7 +73,7 @@ namespace cppadvanced
 	template < typename U >
 	bool operator==(const SListVector_iterator<U>& lhs, const SListVector_iterator<U>& rhs)
 	{
-		return lhs.current_node == rhs.current_node && lhs.isBeforeBegin == rhs.isBeforeBegin;
+		return lhs.current_node == rhs.current_node;
 	}
 
 	template < typename U >
