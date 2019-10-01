@@ -97,9 +97,9 @@ namespace cppadvanced
 	private:
 		void split(iterator head, iterator& splittedHead1, iterator& splittedHead2);
 		template< class Compare >
-		iterator mergeList(iterator head1, iterator head2, Compare comp);
+		iterator merge_list(iterator head1, iterator head2, Compare comp);
 		template< class Compare >
-		void mergeSort(iterator& head, Compare comp);
+		void merge_sort(iterator& head, Compare comp);
 
 		iterator before_head; //Front iterator of the SList
 		static const iterator back; //End iterator of the SList

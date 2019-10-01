@@ -414,14 +414,14 @@ namespace cppadvanced
 	{
 		iterator head = std::next(before_head);
 
-		mergeSort(head, comp);
+		merge_sort(head, comp);
 
 		before_head.current_node->next = head.current_node;
 	}
 
 	template < typename T >
 	template< class Compare >
-	typename SList<T>::iterator SList<T>::mergeList(iterator head1, iterator head2, Compare comp)
+	typename SList<T>::iterator SList<T>::merge_list(iterator head1, iterator head2, Compare comp)
 	{
 		node_base before_head_node;
 		before_head_node.next = nullptr;
@@ -461,7 +461,7 @@ namespace cppadvanced
 
 	template < typename T >
 	template< class Compare >
-	void SList<T>::mergeSort(iterator& head_reference, Compare comp)
+	void SList<T>::merge_sort(iterator& head_reference, Compare comp)
 	{
 		const iterator head = head_reference;
 
@@ -475,10 +475,10 @@ namespace cppadvanced
 
 		split(head, splittedHead1, splittedHead2);
 
-		mergeSort(splittedHead1, comp);
-		mergeSort(splittedHead2, comp);
+		merge_sort(splittedHead1, comp);
+		merge_sort(splittedHead2, comp);
 
-		head_reference = mergeList(splittedHead1, splittedHead2, comp);
+		head_reference = merge_list(splittedHead1, splittedHead2, comp);
 	}
 
 }
