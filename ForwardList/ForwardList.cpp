@@ -202,13 +202,11 @@ void TestListInteger()
 
 		std::cout << "Result:" << std::endl;
 
-		std::cout << (list1.before_begin() == list1.end() ? "true" : "false");
 		std::cout << std::endl;
 		print(list2.begin(), list2.end());
 		std::cout << std::endl;
 
 		std::cout << "Attended Result:" << std::endl;
-		std::cout << "true" << std::endl;
 		for (int i = 0; i < 10; i++)
 		{
 			std::cout << vect[i] << " ";
@@ -620,8 +618,8 @@ void TestListInteger()
 	{
 		std::cout << "\n***\nFunction sort()\n***\n";
 
-		int vect[10] = { 2, 4, 6, 8, 0, 1, 3, 5, 7, 9 };
-		List list(vect, vect + 10);
+		int vect[11] = { 2, 4, 6, 8, 0, 1, 3, 5, 7, 9, 10 };
+		List list(vect, vect + 11);
 
 		list.sort(std::greater<int>());
 
@@ -629,9 +627,9 @@ void TestListInteger()
 		print(list.begin(), list.end());
 		std::cout << std::endl;
 
-		int vect_result[10] = { 9, 8, 7, 6, 5, 4, 3, 2 , 1, 0 };
+		int vect_result[11] = { 10, 9, 8, 7, 6, 5, 4, 3, 2 , 1, 0 };
 		std::cout << "Attended Result:" << std::endl;
-		for (int i = 0; i < 10; i++)
+		for (int i = 0; i < 11; i++)
 		{
 			std::cout << vect_result[i] << " ";
 		}
@@ -643,9 +641,6 @@ void TestListInteger()
 
 int main()
 {
-
-
-
 	while (true)
 	{
 		std::cout << "Test List: \n1)Single-Linked List \n2)Vector SList \n3)Array SList\n";

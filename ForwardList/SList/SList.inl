@@ -19,26 +19,13 @@ namespace cppadvanced
 	template < typename T >
 	SList<T>::SList(size_type count) : SList()
 	{
-		value_type default_value = {};
-		for (size_t i = 0; i < count; i++)
-		{
-			push_front(default_value);
-		}
+		insert_after(before_head, count, T());
 	}
 
 	template < typename T >
 	SList<T>::SList(const SList& other) : SList()
 	{
-		iterator it = before_head;
-		iterator otherIt = std::next(other.before_head);
-
-		for (; otherIt != other.back; it++, otherIt++)
-		{
-			node* newNode = new node();
-			newNode->value = *otherIt;
-
-			it.current_node->next = newNode;
-		}
+		insert_after(before_head, other.begin(), other.end());
 	}
 
 	template < typename T >
@@ -53,15 +40,7 @@ namespace cppadvanced
 	template<class InputIt>
 	SList<T>::SList(InputIt first, InputIt last) : SList()
 	{
-		iterator it = before_head;
-
-		for (; first != last; first++, it++)
-		{
-			node* newNode = new node();
-			newNode->value = *first;
-
-			it.current_node->next = newNode;
-		}
+		insert_after(before_head, first, last);
 	}
 
 	template < typename T >
@@ -79,7 +58,7 @@ namespace cppadvanced
 	template < typename T >
 	typename SList<T>& SList<T>::operator=(const SList<T>& other)
 	{
-		iterator preIt = before_head;
+		iterator lastInserted = before_head;
 		iterator it = std::next(before_head);
 		iterator otherIt = std::next(other.before_head);
 
@@ -87,7 +66,7 @@ namespace cppadvanced
 		{
 			*it = *otherIt;
 
-			preIt = it;
+			lastInserted = it;
 
 			it++;
 			otherIt++;
@@ -95,24 +74,11 @@ namespace cppadvanced
 
 		if (it == back) //if this has less elements than other
 		{
-			it = preIt;
-
-			for (; otherIt != other.back; it++, otherIt++)
-			{
-				node* newNode = new node();
-				newNode->value = *otherIt;
-
-				it.current_node->next = newNode;
-			}
+			insert_after(lastInserted, otherIt, other.back);
 		}
 		else //if other has less elements than this
 		{
-			while (it != back)
-			{
-				const iterator current_pos = it;
-				it++;
-				delete current_pos.current_node;
-			}
+			erase_after(lastInserted, back);
 		}
 
 		return *this;
@@ -207,15 +173,7 @@ namespace cppadvanced
 	template < typename T >
 	void SList<T>::clear() noexcept
 	{
-		iterator it = std::next(before_head);
-		while (it != back)
-		{
-			const iterator current_node = it;
-			it++;
-			delete current_node.current_node;
-		}
-
-		before_head.current_node->next = nullptr;
+		erase_after(before_head, back);
 	}
 
 	template < typename T >
@@ -254,17 +212,11 @@ namespace cppadvanced
 	typename SList<T>::iterator SList<T>::insert_after(const_iterator pos, size_type count, const T& value)
 	{
 		iterator last_prepos = pos;
-		const iterator postpos = std::next(pos);
 
 		for (size_t i = 0; i < count; i++, last_prepos++)
 		{
-			node* newNode = new node();
-			newNode->value = value;
-
-			last_prepos.current_node->next = newNode;
+			insert_after(last_prepos, value);
 		}
-
-		last_prepos.current_node->next = postpos.current_node;
 
 		return last_prepos;
 	}
@@ -274,18 +226,11 @@ namespace cppadvanced
 	typename SList<T>::iterator SList<T>::insert_after(const_iterator pos, InputIt first, InputIt last)
 	{
 		iterator last_prepos = pos;
-		const iterator postpos = std::next(pos);
 
 		for (; first != last; first++, last_prepos++)
 		{
-			node* newNode = new node();
-			newNode->value = *first;
-
-			last_prepos.current_node->next = newNode;
+			insert_after(last_prepos, *first);
 		}
-
-		last_prepos.current_node->next = postpos.current_node;
-
 
 		return last_prepos;
 	}
@@ -294,7 +239,6 @@ namespace cppadvanced
 	typename SList<T>::iterator SList<T>::erase_after(const_iterator pos)
 	{
 		const iterator erasepos = std::next(pos);
-
 		const iterator postpos = std::next(erasepos);
 
 		delete erasepos.current_node;
@@ -324,35 +268,19 @@ namespace cppadvanced
 	template < typename T >
 	void SList<T>::push_front(const T& value)
 	{
-		const iterator head = std::next(before_head);
-
-		node* newHead = new node();
-		newHead->value = value;
-		newHead->next = head.current_node;
-
-		before_head.current_node->next = newHead;
+		insert_after(before_head, value);
 	}
 
 	template < typename T >
 	void SList<T>::push_front(T&& value)
 	{
-		const iterator head = std::next(before_head);
-
-		node* newHead = new node();
-		newHead->value = std::move(value);
-		newHead->next = head.current_node;
-
-		before_head.current_node->next = newHead;
+		insert_after(before_head, std::move(value));
 	}
 
 	template < typename T >
 	void SList<T>::pop_front()
 	{
-		const iterator toEraseIterator = std::next(before_head);
-
-		before_head.current_node->next = toEraseIterator.current_node->next;
-
-		delete toEraseIterator.current_node;
+		erase_after(before_head);
 	}
 
 	template < typename T >
@@ -369,29 +297,12 @@ namespace cppadvanced
 
 		if (elements_count < count)
 		{
-			const int count_difference = count - elements_count;
-
-			for (int i = 0; i < count_difference; i++, it++)
-			{
-				node* newNode = new node();
-				newNode->value = value;
-
-				it.current_node->next = newNode;
-			}
+			const size_t count_difference = count - elements_count;
+			insert_after(it, count_difference, value);
 		}
 		else
 		{
-			iterator tail = it;
-			it++;
-
-			while (it != back)
-			{
-				const iterator current_node = it;
-				it++;
-				delete current_node.current_node;
-			}
-
-			tail.current_node->next = nullptr;
+			erase_after(it, back);
 		}
 	}
 
@@ -411,11 +322,8 @@ namespace cppadvanced
 		{
 			if (*it == value)
 			{
-				const iterator current_node = it;
 				it++;
-				delete current_node.current_node;
-
-				prevIt.current_node->next = it.current_node;
+				erase_after(prevIt);
 			}
 			else
 			{
@@ -463,9 +371,7 @@ namespace cppadvanced
 			const iterator next = std::next(it);
 			if (next != back && *it == *next)
 			{
-				it.current_node->next = next.current_node->next;
-
-				delete next.current_node;
+				erase_after(it);
 			}
 			else
 			{
@@ -508,14 +414,14 @@ namespace cppadvanced
 	{
 		iterator head = std::next(before_head);
 
-		mergeSort(head, comp);
+		merge_sort(head, comp);
 
 		before_head.current_node->next = head.current_node;
 	}
 
 	template < typename T >
 	template< class Compare >
-	typename SList<T>::iterator SList<T>::mergeList(iterator head1, iterator head2, Compare comp)
+	typename SList<T>::iterator SList<T>::merge_list(iterator head1, iterator head2, Compare comp)
 	{
 		node_base before_head_node;
 		before_head_node.next = nullptr;
@@ -555,7 +461,7 @@ namespace cppadvanced
 
 	template < typename T >
 	template< class Compare >
-	void SList<T>::mergeSort(iterator& head_reference, Compare comp)
+	void SList<T>::merge_sort(iterator& head_reference, Compare comp)
 	{
 		const iterator head = head_reference;
 
@@ -569,10 +475,10 @@ namespace cppadvanced
 
 		split(head, splittedHead1, splittedHead2);
 
-		mergeSort(splittedHead1, comp);
-		mergeSort(splittedHead2, comp);
+		merge_sort(splittedHead1, comp);
+		merge_sort(splittedHead2, comp);
 
-		head_reference = mergeList(splittedHead1, splittedHead2, comp);
+		head_reference = merge_list(splittedHead1, splittedHead2, comp);
 	}
 
 }

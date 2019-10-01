@@ -42,11 +42,11 @@ namespace cppadvanced
 	};
 
 	template < typename T >
-	struct SListArray_node : indexed_node_base
+	struct indexed_node : indexed_node_base
 	{
 		T value;
 
-		virtual ~SListArray_node()
+		virtual ~indexed_node()
 		{
 		}
 	};

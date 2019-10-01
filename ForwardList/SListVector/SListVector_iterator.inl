@@ -6,24 +6,21 @@ namespace cppadvanced
 {
 	template < typename T >
 	SListVector_iterator<T>::SListVector_iterator() 
-		: current_node()
+		: current_node_index()
 		, storage_pointer(nullptr)
-		, isBeforeBegin(false)
 	{}
 
 	template < typename T >
 	SListVector_iterator<T>::SListVector_iterator(const SListVector_iterator<T>& other)
 	{
-		current_node = other.current_node;
+		current_node_index = other.current_node_index;
 		storage_pointer = other.storage_pointer;
-		isBeforeBegin = other.isBeforeBegin;
 	}
 
 	template < typename T >
-	SListVector_iterator<T>::SListVector_iterator(const size_t nodeIndex, storage_type const storage_pointer, bool isBeforeBegin)
-		: current_node(nodeIndex)
+	SListVector_iterator<T>::SListVector_iterator(const size_t nodeIndex, storage_type const storage_pointer)
+		: current_node_index(nodeIndex)
 		, storage_pointer(storage_pointer)
-		, isBeforeBegin(isBeforeBegin)
 	{}
 
 	template < typename T >
@@ -33,30 +30,22 @@ namespace cppadvanced
 	template < typename T >
 	SListVector_iterator<T>& SListVector_iterator<T>::operator=(const SListVector_iterator<T>& other)
 	{
-		current_node = other.current_node;
+		current_node_index = other.current_node_index;
 		storage_pointer = other.storage_pointer;
-		isBeforeBegin = other.isBeforeBegin;
 		return *this;
 	}
 
 	template < typename T >
 	SListVector_iterator<T>& SListVector_iterator<T>::operator++()
 	{
-		if (isBeforeBegin)
-		{
-			isBeforeBegin = false;
-		}
-		else
-		{
-			current_node = (*storage_pointer)[current_node].next;
-		}
+		current_node_index = (*storage_pointer)[current_node_index].next;
 		return *this;
 	}
 
 	template < typename T >
 	typename SListVector_iterator<T>::it_reference SListVector_iterator<T>::operator*() const
 	{
-		it_node& current_typed_node = (*storage_pointer)[current_node];
+		it_node& current_typed_node = (*storage_pointer)[current_node_index];
 		return current_typed_node.value;
 	}
 
@@ -77,14 +66,14 @@ namespace cppadvanced
 	template < typename T >
 	typename SListVector_iterator<T>::it_pointer SListVector_iterator<T>::operator->() const
 	{
-		it_node& current_typed_node = (*storage_pointer)[current_node];
-		return &current_typed_node->value;
+		it_node& current_typed_node = (*storage_pointer)[current_node_index];
+		return &current_typed_node.value;
 	}
 
 	template < typename U >
 	bool operator==(const SListVector_iterator<U>& lhs, const SListVector_iterator<U>& rhs)
 	{
-		return lhs.current_node == rhs.current_node && lhs.isBeforeBegin == rhs.isBeforeBegin;
+		return lhs.current_node_index == rhs.current_node_index;
 	}
 
 	template < typename U >
@@ -96,13 +85,13 @@ namespace cppadvanced
 	template < typename T >
 	SListVector_iterator<T>::operator size_t() const
 	{
-		return current_node;
+		return current_node_index;
 	}
 
 	template < typename T >
-	typename SListVector_iterator<T>::it_node* SListVector_iterator<T>::GetCurrentNode() const
+	typename SListVector_iterator<T>::it_node* SListVector_iterator<T>::get_node_address() const
 	{
-		it_node* current_node_address = &(*storage_pointer)[current_node];
+		it_node* current_node_address = &(*storage_pointer)[current_node_index];
 		return current_node_address;
 	}
 }
