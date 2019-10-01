@@ -4,7 +4,34 @@
 #include <iostream>
 #include <string>
 #include <limits>
+#include <cstdio>
+#include <inttypes.h>
+#include <vector>
 
+constexpr uint64_t max_power10_in_max_power2[] = { 0, 100, 10000, 10000000, 1000000000, 1000000000000, 100000000000000, 10000000000000000, 10000000000000000000 };
+
+constexpr uint64_t max_power10()
+{
+	return max_power10_in_max_power2[sizeof(BigInt::int_type)];
+}
+
+template <uint64_t T>
+struct count_digits
+{
+	static constexpr uint64_t value = 1 + count_digits<T / 10>::value;
+
+};
+
+template <>
+struct count_digits<0>
+{
+	static constexpr uint64_t value = 0;
+};
+
+constexpr uint64_t max_digits()
+{
+	return count_digits<max_power10()>::value;
+}
 
 BigInt::int_type BigInt::uint_union::rightmost() const
 {
@@ -486,28 +513,51 @@ BigInt BigInt::operator--(int)
 	return result;
 }
 
+std::string IntToStringFormatted(uint64_t num)
+{
+	constexpr uint64_t maxzeroes = max_digits() - 1;
+	std::string format = "%0";
+	format.append(std::to_string(maxzeroes));
+	format.append(PRIu64);
+
+	char buffer[maxzeroes + 1];
+	sprintf_s(buffer, maxzeroes + 1, format.c_str(), num);
+
+	return buffer;
+}
+
 std::ostream& operator<<(std::ostream& os, const BigInt& bInt)
 {
-	std::string result;
+	std::vector<std::string> result;
 
 	BigInt a{ bInt };
 	a.m_negativeFlag = false;
 
-	do
+	constexpr BigInt::int_type divisor = max_power10();
+	while (a > divisor)
 	{
-		const BigInt rest = a.Division(10);
-		result.push_back('0' + rest.m_data[0]);
+		const BigInt rest = a.Division(divisor);
+		const std::string resultDigit = IntToStringFormatted(rest.m_data[0]);
+
+		result.push_back(resultDigit);
 	}
-	while (a > 0);
+
+	const std::string resultDigit = std::to_string(a.m_data[0]); //Last rest
+	result.push_back(resultDigit);
 
 	if (bInt.m_negativeFlag)
 	{
-		result.push_back('-');
+		result.push_back("-");
 	}
 
 	std::reverse(result.begin(), result.end());
 
-	os << result;
+
+
+	for (size_t i = 0; i < result.size(); i++)
+	{
+		os << result[i];
+	}
 
 	return os;
 }

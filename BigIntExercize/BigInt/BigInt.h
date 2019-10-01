@@ -95,6 +95,8 @@ private:
 	void ShiftLeft(int_type);
 	void ShiftRight(int_type);
 
+	std::string IntToStringFormatted(uint64_t num);
+
 	bool m_negativeFlag;
 	container_type m_data;
 };

@@ -5,35 +5,23 @@
 #include <iostream>
 #include "BigInt/BigInt.h"
 
-BigInt fibonacci(BigInt n)
-{
-	if (n == 0)
-	{
-		return 0;
-	}
-
-	if (n == 1)
-	{
-		return 1;
-	}
-
-	return fibonacci(n - 1) + fibonacci(n - 2);
-}
-
 void TestBigInt()
 {
 	{
 		BigInt a{ "99999999"};
 		BigInt b = { "1" };
 
-		BigInt c = a + b;
+		BigInt c = { "12000000000090" };
 
 		std::cout << "Sum test: " << c;
 	}
 }
 
+
+
 int main()
 {
+
 	TestBigInt();
 
 }
