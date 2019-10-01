@@ -4,16 +4,126 @@
 #include "pch.h"
 #include <iostream>
 #include "BigInt/BigInt.h"
+#include <cassert>
 
 void TestBigInt()
 {
+	//+
 	{
-		BigInt a{ "99999999"};
-		BigInt b = { "1" };
+		std::cout << "\n\n************\nSum test\n************\n" << std::endl;
+		BigInt a{ "99999999999999"};
+		BigInt b = { "2" };
 
-		BigInt c = { "12000000000090" };
+		BigInt c = a + b;
 
-		std::cout << "Sum test: " << c;
+		BigInt result{ "100000000000001" };
+
+		std::cout << "Result: \t" << c << std::endl;
+		std::cout << "Attended: \t" << result << std::endl;
+		assert(c == result);
+	}
+
+	//-
+	{
+		std::cout << "\n\n************\nSubtraction test\n************\n" << std::endl;
+		BigInt a{ "100000000000001" };
+		BigInt b = { "100000000000002" };
+
+		BigInt c = a - b;
+
+		BigInt result{ "-1" };
+
+		std::cout << "Result: \t" << c << std::endl;
+		std::cout << "Attended: \t" << result << std::endl;
+		assert(c == result);
+	}
+
+	//*
+	{
+		std::cout << "\n\n************\nMultiplication test\n************\n" << std::endl;
+		BigInt a{ "-1234567" };
+		BigInt b = { "-7654321" };
+
+		BigInt c = a * b;
+
+		BigInt result{ "9449772114007" };
+
+		std::cout << "Result: \t" << c << std::endl;
+		std::cout << "Attended: \t" << result << std::endl;
+		assert(c == result);
+	}
+
+	//*
+	{
+		std::cout << "\n\n************\nDivision test\n************\n" << std::endl;
+		BigInt a{ "12345678987" };
+		BigInt b = { "-123123" };
+
+		BigInt c = a / b;
+
+		BigInt result{ "-100271" };
+
+		std::cout << "Result: \t" << c << std::endl;
+		std::cout << "Attended: \t" << result << std::endl;
+		assert(c == result);
+	}
+
+	//%
+	{
+		std::cout << "\n\n************\nModule test\n************\n" << std::endl;
+		BigInt a{ "10000000051" };
+		BigInt b = { "100000" };
+
+		BigInt c = a % b;
+
+		BigInt result{ "51" };
+
+		std::cout << "Result: \t" << c << std::endl;
+		std::cout << "Attended: \t" << result << std::endl;
+		assert(c == result);
+	}
+
+	//<<
+	{
+		std::cout << "\n\n************\nLeftShift test\n************\n" << std::endl;
+		BigInt a{ "111111111111" };
+
+		BigInt c = a << 2;
+
+		BigInt result{ "444444444444" };
+
+		std::cout << "Result: \t" << c << std::endl;
+		std::cout << "Attended: \t" << result << std::endl;
+		assert(c == result);
+	}
+
+	//>>
+	{
+		std::cout << "\n\n************\nRightShift test\n************\n" << std::endl;
+		BigInt a{ "100000000000" };
+
+		BigInt c = a >> 2;
+
+		BigInt result{ "25000000000" };
+
+		std::cout << "Result: \t" << c << std::endl;
+		std::cout << "Attended: \t" << result << std::endl;
+		assert(c == result);
+	}
+
+	//pow
+	{
+		std::cout << "\n\n************\nPow test\n************\n" << std::endl;	
+		BigInt a{ "3" };
+		BigInt b{ "30" };
+
+		BigInt c = pow(a, b);
+
+		BigInt result{ "205891132094649" };
+
+		std::cout << "Result: \t" << c << std::endl;
+		std::cout << "Attended: \t" << result << std::endl;
+		assert(c == result);
 	}
 }
 
@@ -25,14 +135,3 @@ int main()
 	TestBigInt();
 
 }
-
-// Run program: Ctrl + F5 or Debug > Start Without Debugging menu
-// Debug program: F5 or Debug > Start Debugging menu
-
-// Tips for Getting Started: 
-//   1. Use the Solution Explorer window to add/manage files
-//   2. Use the Team Explorer window to connect to source control
-//   3. Use the Output window to see build output and other messages
-//   4. Use the Error List window to view errors
-//   5. Go to Project > Add New Item to create new code files, or Project > Add Existing Item to add existing code files to the project
-//   6. In the future, to open this project again, go to File > Open > Project and select the .sln file

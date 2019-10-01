@@ -110,10 +110,10 @@ BigInt::BigInt(const std::string& numStr) : BigInt()
 	for (size_t i = m_negativeFlag ? 1 : 0; i < numStr.length(); ++i)
 	{
 		const char c = numStr.c_str()[i];
-		const int_type cipher = c - '0';
+		const int_type digit = c - '0';
 
 		*this *= 10;
-		Sum(cipher);
+		Sum(digit);
 	}
 }
 
@@ -226,7 +226,9 @@ BigInt BigInt::Division(const BigInt& other)
 	m_negativeFlag = (m_negativeFlag && !other.m_negativeFlag) || (!m_negativeFlag && other.m_negativeFlag); //XOR
 
 	BigInt divisor(other);
-	size_t differenceSize = m_data.size() - other.m_data.size(); //Min is 0
+	divisor.m_negativeFlag = false;
+
+	size_t differenceSize = m_data.size() >= other.m_data.size() ? m_data.size() - other.m_data.size() : 0; //Min is 0
 	divisor.m_data.insert(divisor.m_data.begin(), differenceSize, 0); //Multiply by base differenceSize times.
 
 	container_type dataResult;
@@ -238,7 +240,7 @@ BigInt BigInt::Division(const BigInt& other)
 
 		while (CompareAbs(divisor) >= 0)
 		{
-			*this -= divisor;
+			Sub(divisor);
 			++dataResult.front();
 		}
 
@@ -513,7 +515,7 @@ BigInt BigInt::operator--(int)
 	return result;
 }
 
-std::string IntToStringFormatted(uint64_t num)
+std::string BigInt::IntToStringFormatted(uint64_t num)
 {
 	constexpr uint64_t maxzeroes = max_digits() - 1;
 	std::string format = "%0";
@@ -537,7 +539,7 @@ std::ostream& operator<<(std::ostream& os, const BigInt& bInt)
 	while (a > divisor)
 	{
 		const BigInt rest = a.Division(divisor);
-		const std::string resultDigit = IntToStringFormatted(rest.m_data[0]);
+		const std::string resultDigit = BigInt::IntToStringFormatted(rest.m_data[0]);
 
 		result.push_back(resultDigit);
 	}
