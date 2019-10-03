@@ -4,6 +4,7 @@
 #include "pch.h"
 #include <iostream>
 #include "SmallObjectAllocator/SmallAllocator.h"
+#include <vector>
 
 #define USE_CUSTOM_MEMORY
 
@@ -42,4 +43,15 @@ int main()
 	std::cout << MemoryManager::byte_used << std::endl;
 	delete[] i;
 	std::cout << MemoryManager::byte_used << std::endl;
+
+	{
+		std::vector<test, SmallAllocator<test>> v(10);
+
+		std::cout << MemoryManager::byte_used << std::endl;
+	}
+
+	std::cout << MemoryManager::byte_used << std::endl;
+	
+
+
 }

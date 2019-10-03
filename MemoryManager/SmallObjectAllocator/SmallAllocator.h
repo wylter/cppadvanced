@@ -23,36 +23,47 @@ struct SmallAllocator
 	typedef	std::ptrdiff_t difference_type;
 	typedef	std::true_type propagate_on_container_move_assignment;
 	typedef std::true_type is_always_equal;
+	template< class U > struct rebind { typedef SmallAllocator<U> other; };
 
 	SmallAllocator() {};
+	SmallAllocator(const SmallAllocator& other) {}
+	template< class U >
+	SmallAllocator(const SmallAllocator<U>& other) {}
 	~SmallAllocator() {};
 
 	pointer allocate(size_type n)
 	{
-		MemoryManager::byte_used += n;
-		return static_cast<pointer>(MemoryManager::small_allocator.Allocate(n));
+		const size_t bytesToAllocate = n * sizeof(T);
+		MemoryManager::byte_used += bytesToAllocate;
+		return static_cast<pointer>(MemoryManager::small_allocator.Allocate(bytesToAllocate));
 	}
 	
-	void deallocate(T* p)
+	void deallocate(T* p, size_t n)
 	{
-		const size_t size = sizeof(T);
+		const size_t size = n * sizeof(T);
 		MemoryManager::small_allocator.Deallocate(p, size);
 
 		MemoryManager::byte_used -= size;
 	}
 
 	template <typename U>
-	friend bool operator==(const SmallAllocator<U>& lhs, const SmallAllocator<U>& rhs)
-	{
-		return true;
-	}
+	friend bool operator==(const SmallAllocator<U>& lhs, const SmallAllocator<U>& rhs);
 
 	template <typename U>
-	friend bool operator!=(const SmallAllocator<U>& lhs, const SmallAllocator<U>& rhs)
-	{
-		return !(lhs == rhs);
-	}
+	friend bool operator!=(const SmallAllocator<U>& lhs, const SmallAllocator<U>& rhs);
 };
+
+template <typename U>
+bool operator==(const SmallAllocator<U>& lhs, const SmallAllocator<U>& rhs)
+{
+	return true;
+}
+
+template <typename U>
+bool operator!=(const SmallAllocator<U>& lhs, const SmallAllocator<U>& rhs)
+{
+	return !(lhs == rhs);
+}
 
 void* MM_NEW(std::size_t count) noexcept;
 void MM_DELETE(void* ptr, std::size_t count) noexcept;
